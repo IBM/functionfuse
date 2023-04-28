@@ -1,6 +1,10 @@
 from ...baseworkflow import BaseWorkflow
 
 
+def _test_print_node(node):
+    return "print" not in node.backend_info
+
+
 class LocalWorkflow(BaseWorkflow):
 
     def __init__(self, *nodes, workflow_name):
@@ -10,13 +14,18 @@ class LocalWorkflow(BaseWorkflow):
     def set_storage(self, object_storage):
         self.object_storage = object_storage
 
+    def log_nodes(self, query):
+        nodes = self.find_nodes(query)
+        for i in nodes:
+            i.backend_info["print"] = True
+
     def run(self):
 
         if self.object_storage:
             self.object_storage.new_workflow(self.workflow_name)
 
         for name, exec_node in self.graph_traversal():
-            if self.object_storage:
+            if self.object_storage and _test_print_node(exec_node):
                 try:
                     result = self.object_storage.read_task(self.workflow_name, name)
                     print(f"{name} is read from the file.")
@@ -44,7 +53,7 @@ class LocalWorkflow(BaseWorkflow):
             exec_node.result = result
             exec_node.free_memory()
 
-            if self.object_storage:
+            if self.object_storage and _test_print_node(exec_node):
                 self.object_storage.save(self.workflow_name, name, result)
 
         if len(self.leaves) == 1:

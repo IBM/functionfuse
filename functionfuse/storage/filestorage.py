@@ -31,6 +31,7 @@ class FileStorage:
         self.path = path
         os.makedirs(path, exist_ok=True)
 
+
     def save(self, workflow_name, filename, obj):
         if not os.path.exists(os.path.join(self.path, workflow_name)):
             raise FileNotFoundError(f"Path {self.path} is not found")
@@ -38,15 +39,19 @@ class FileStorage:
         with open(path, "wb") as f:
             f.write(safepickle(obj))
 
+
     def _test_path(self):
         if not os.path.exists(self.path):
             raise FileNotFoundError(f"Path {self.path} is not found")
 
+
     def file_exists(self, workflow_name, filename):
         return os.path.exists(os.path.join(self.path, workflow_name, filename))
 
+
     def list_tasks(self, workflow_name, pattern):
         return [os.path.basename(i) for i in sorted(glob.glob(os.path.join(self.path, workflow_name, pattern)))]
+
 
     def read_task(self, workflow_name, task_name):
         path = os.path.join(self.path, workflow_name, task_name)
@@ -54,17 +59,29 @@ class FileStorage:
             raise FileNotFoundError(f"Path {path} is not found")
         with open(path, "rb") as f:
             return safeunpickle(f.read())
-        
-    def remove_task(self, workflow_name, task_name):
+
+
+    def _remove_task(self, workflow_name, task_name):
         path = os.path.join(self.path, workflow_name, task_name)
         if not os.path.exists(path):
             raise FileNotFoundError(f"Path {path} is not found")
         os.remove(path)
 
+
+    def remove_task(self, workflow_name, task_name = None, pattern = None):
+        if pattern:
+            tasks = self.list_tasks(workflow_name, pattern)
+            for i in tasks:
+                self._remove_task(i)
+        else:
+            self._remove_task(workflow_name, task_name)
+
+
     def remove_workflow(self, workflow_name):
         path = os.path.join(self.path, workflow_name)
         shutil.rmtree(path, ignore_errors=True)
         
+
     def new_workflow(self, workflow_name):
         workflow_path = os.path.join(self.path, workflow_name)
         if not os.path.exists(workflow_path):
