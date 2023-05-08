@@ -3,9 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#Github Pages
+docs
+docsrc/build
+
 # C extensions
 *.so
-
 **/workflow_storage
 
 # Distribution / packaging
