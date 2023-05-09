@@ -7,12 +7,13 @@ Welcome to Function Fuse's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
-   background/introduction
    usage/installation
-   api
+   background/introduction
+   usage/backends
+   api/api
 
 Indices and tables
 ==================
