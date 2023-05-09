@@ -6,12 +6,24 @@ def _test_print_node(node):
 
 
 class LocalWorkflow(BaseWorkflow):
+    """
+    A Backend to run workflows locally. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.  
 
+    :param nodes: A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.
+    :param workflow_name: A name of the workflow that is used by storage classes.
+    
+    """
     def __init__(self, *nodes, workflow_name):
         super(LocalWorkflow, self).__init__(*nodes, workflow_name = workflow_name)
         self.object_storage = None
 
     def set_storage(self, object_storage):
+        """
+        Set storage for the workflow.
+
+        :param object_storage: Storage object.
+
+        """
         self.object_storage = object_storage
 
     def log_nodes(self, query):
@@ -20,7 +32,11 @@ class LocalWorkflow(BaseWorkflow):
             i.backend_info["print"] = True
 
     def run(self):
+        """
+        Start execution of the workflow
 
+        :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.
+        """
         if self.object_storage:
             self.object_storage.new_workflow(self.workflow_name)
 

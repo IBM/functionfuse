@@ -3,6 +3,14 @@ import copy, os, re
 
 
 def workflow(func):
+    """
+    The decorator to create a node of the DAG
+
+    :param func: A function that is placed in the DAG node.
+    :type func: function
+    :return: a DAG node.
+
+    """
     return NodeContainer(func)
 
 

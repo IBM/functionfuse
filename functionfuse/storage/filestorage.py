@@ -24,7 +24,9 @@ def safeunpickle(pstr):
 
 
 class FileStorage:
-
+    """
+    Local file storage. Pickle is used to save results of the graph nodes.
+    """
     invalid_exception = InvalidPickle
 
     def __init__(self, path):
@@ -50,10 +52,26 @@ class FileStorage:
 
 
     def list_tasks(self, workflow_name, pattern):
+        """
+        List saved results of all saved nodes using glob pattern for workflow.
+
+        :param workflow_name: A name of the workflow to list saved results.
+        :type workflow_name: str
+        :param pattern: A glob pattern to filter out names of saved results. 
+
+        """
         return [os.path.basename(i) for i in sorted(glob.glob(os.path.join(self.path, workflow_name, pattern)))]
 
 
     def read_task(self, workflow_name, task_name):
+        """
+        Read saved result of node execution from workflow storage.
+
+        :param workflow_name: A name of the workflow to read saved results.
+        :type workflow_name: str
+        :param task_name: A task name to load results for. 
+
+        """
         path = os.path.join(self.path, workflow_name, task_name)
         if not os.path.exists(path):
             raise FileNotFoundError(f"Path {path} is not found")
@@ -69,6 +87,16 @@ class FileStorage:
 
 
     def remove_task(self, workflow_name, task_name = None, pattern = None):
+        """
+        Remove results of selected nodes from the storage.
+
+        :param workflow_name: A name of the workflow to remove node results.
+        :type workflow_name: str
+        :param task_name: A name of the node to remove. The parameter is ignored if pattern is defined
+        :type workflow_name: str
+        :param pattern: A glob pattern of node names to be removed.
+
+        """
         if pattern:
             tasks = self.list_tasks(workflow_name, pattern)
             for i in tasks:
@@ -78,6 +106,13 @@ class FileStorage:
 
 
     def remove_workflow(self, workflow_name):
+        """
+        Remove workflow from the storage.
+
+        :param workflow_name: A name of the workflow to remove from the storage.
+        :type workflow_name: str
+        
+        """
         path = os.path.join(self.path, workflow_name)
         shutil.rmtree(path, ignore_errors=True)
         
