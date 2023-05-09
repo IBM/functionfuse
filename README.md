@@ -1,7 +1,3 @@
-# Functionfuse, a frontend for different workflow packages
+# Function Fuse, a frontend for workflow packages
 
-## Installation
-
-```bash
-pip install -e .
-```
+Please see documentation at https://pages.github.ibm.com/vgurev/functionfuse/
