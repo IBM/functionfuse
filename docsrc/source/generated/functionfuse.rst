@@ -1,0 +1,23 @@
+﻿functionfuse
+============
+
+.. automodule:: functionfuse
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

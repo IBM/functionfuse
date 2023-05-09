@@ -10,7 +10,9 @@ Welcome to Function Fuse's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   background/introduction
+   usage/installation
+   api
 
 Indices and tables
 ==================
