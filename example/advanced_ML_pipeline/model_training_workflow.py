@@ -1,4 +1,4 @@
-# This workflow is created to replicate an example from sklearn https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html 
+# This Workflow Is Created To Replicate An Example From Sklearn https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
 
 from functionfuse import workflow
 from functionfuse.backends.builtin.localback import LocalWorkflow

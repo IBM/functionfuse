@@ -48,7 +48,11 @@ class BaseWorkflow:
                         node.reset_ready_parents()
             roots = new_roots
 
-    def find_nodes(self, pattern):
+    def find_nodes(self, pattern = None):
+        
+        if pattern is None:
+            return [node for _, node in self.graph_traversal()]
+        
         pattern = re.compile(pattern) 
         res = []
         for name, node in self.graph_traversal():
