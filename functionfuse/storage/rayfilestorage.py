@@ -105,12 +105,14 @@ class FileStorageActor:
 
 
     def save(self, workflow_name, filename, obj):
-        obj = ray.get(obj)
+
         if not os.path.exists(os.path.join(self.path, workflow_name)):
             raise FileNotFoundError(f"Path {self.path} is not found")
         path = os.path.join(self.path, workflow_name, filename)
-        with open(path, "wb") as f:
-            f.write(safepickle(obj))
+        if not self.file_exists(workflow_name, filename):
+            obj = ray.get(obj[0])
+            with open(path, "wb") as f:
+                f.write(safepickle(obj))
 
 
     def _test_path(self):

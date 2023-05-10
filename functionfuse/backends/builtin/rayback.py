@@ -27,9 +27,6 @@ def exec_func(
             kargs[key] = ray.get(kargs[key])[val_index]
 
     result = func(*args, **kargs)
-    if object_storage:
-        object_storage.save.remote(workflow_name, node_name, result)
-
     return result
 
 
@@ -61,8 +58,11 @@ class RayWorkflow(BaseWorkflow):
     """
     def __init__(self, *nodes, workflow_name, ray_init_args = {}):
         super(RayWorkflow, self).__init__(*nodes, workflow_name = workflow_name)
-        self.ray_init_args = ray_init_args
+
+        ray.shutdown()
+        ray.init(**ray_init_args)
         self.object_storage = None
+
 
     def set_storage(self, object_storage):
         """
@@ -72,6 +72,7 @@ class RayWorkflow(BaseWorkflow):
 
         """
         self.object_storage = object_storage.remote_actor
+        self.object_storage.new_workflow.remote(self.workflow_name)
     
     def run(self, return_results = False):
         """
@@ -79,8 +80,6 @@ class RayWorkflow(BaseWorkflow):
 
         :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.
         """
-        ray.shutdown()
-        ray.init(**self.ray_init_args)
         
         for name, exec_node in self.graph_traversal():
 
@@ -107,14 +106,21 @@ class RayWorkflow(BaseWorkflow):
             remote_args = {}
             if "remote_args" in backend_info:
                 remote_args = backend_info["remote_args"]
-                
-            result = exec_func.options(remote_args).remote(
+            
+            result = exec_func.options(**remote_args).remote(
                 plugin_func, arg_index, karg_keys, args, kargs, exec_node.func, 
                 self.workflow_name, name, self.object_storage)
+            
+            save_objects = []
+            if self.object_storage:
+                save_objects.append(self.object_storage.save.remote(self.workflow_name, name, (result,)))
+
             exec_node.result = result
             exec_node.free_memory()
 
-     
+        if save_objects:
+            ray.wait(save_objects, num_returns=len(save_objects), fetch_local=False)
+
         if return_results:
             if len(self.leaves) == 1:
                 return ray.get(self.leaves[0].result)
