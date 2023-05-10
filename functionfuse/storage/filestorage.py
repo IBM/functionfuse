@@ -107,11 +107,11 @@ class FileStorage:
 
     def remove_workflow(self, workflow_name):
         """
-        Remove workflow from the storage.
+        Remove the workflow from the storage.
 
         :param workflow_name: A name of the workflow to remove from the storage.
         :type workflow_name: str
-        
+
         """
         path = os.path.join(self.path, workflow_name)
         shutil.rmtree(path, ignore_errors=True)
