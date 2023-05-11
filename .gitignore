@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 #Github Pages
-docs
 docsrc/build
 
 # C extensions

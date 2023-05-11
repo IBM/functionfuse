@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction and quick start &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../examples/examples.html" />
+    <link rel="prev" title="Installation" href="../usage/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage/installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction and quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-another-workflow-package">Why another workflow package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-frontend">The frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#backends">Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-analysis-and-visualization">Model analysis and visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#queries">Queries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Introduction and quick start</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/background/introduction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction-and-quick-start">
+<h1>Introduction and quick start<a class="headerlink" href="#introduction-and-quick-start" title="Permalink to this heading"></a></h1>
+<p>The package <em>Function Fuse</em> is designed to build
+programming workflows in the form of direct acyclic
+graphs (DAG). The nodes of the DAG are functions defined by a user.
+The programming model of <em>Function Fuse</em> is inspired by <a class="reference external" href="https://github.com/project-codeflare/codeflare">CodeFlare</a>, which is now a part of Ray.io (<a class="reference external" href="https://docs.ray.io/en/latest/workflows/index.html">Ray Workflows</a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is strongly recommended to become familiar with Ray Workflows to accelerate the learning curve for <em>Function Fuse</em>.</p>
+</div>
+<section id="why-another-workflow-package">
+<h2>Why another workflow package<a class="headerlink" href="#why-another-workflow-package" title="Permalink to this heading"></a></h2>
+<p>There are hundreds of workflow packages out there (see <a class="reference external" href="https://github.com/meirwah/awesome-workflow-engines">this repo</a> for instance for a list).
+Our goal is to create the simplest workflow package that could be used by research scientists and machine learning engineers without a heavy background in software engineering.
+To make workflow simple, we follow next concepts:</p>
+<ul class="simple">
+<li><p>Split workflow engines into frontend-backend layers.</p></li>
+<li><p>The frontend layer: workflow is defined with a single Python decorator and capability to set DAG node names (the code is developed by research scientists).</p></li>
+<li><p>Backend layers: query nodes by their names, edit the pipeline, assign resources to nodes, etc. (developed and deployed by SWE).</p></li>
+</ul>
+<p>Benefits:</p>
+<ul class="simple">
+<li><p>Simple for development (separation of research-SWE code).</p></li>
+<li><p>Extreme flexibility. The same workflow could be extended to multiple backends.</p></li>
+<li><p>Pipeline editing: dynamic insertion of the nodes, node collapsing, etc. by backends.</p></li>
+<li><p>Plugins: intialization of environment before execution of DAG nodes by backends such as initialization of random number generator in parallel execution.</p></li>
+<li><p>Cloud engine backends.</p></li>
+</ul>
+</section>
+<section id="the-frontend">
+<h2>The frontend<a class="headerlink" href="#the-frontend" title="Permalink to this heading"></a></h2>
+<p>Only two directives are implemented in the frontend:</p>
+<ul class="simple">
+<li><p>&#64;workflow decorator for user functions.</p></li>
+<li><p>set_name function that assigns a name to a node of the DAG.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse</span> <span class="kn">import</span> <span class="n">workflow</span>
+
+<span class="nd">@workflow</span>
+<span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="nd">@workflow</span>
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+
+<span class="n">a_plus_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;node1&quot;</span><span class="p">)</span>
+<span class="n">a_plus_two_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a_plus_b</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;node2&quot;</span><span class="p">)</span>
+<span class="n">result_of_mult</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="n">a_plus_b</span><span class="p">,</span> <span class="n">a_plus_two_b</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;node3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above code defines a graph with 3 nodes: <strong>node1</strong>, <strong>node2</strong>, <strong>node3</strong>:</p>
+<div class="graphviz"><img src="../_images/graphviz-5ecec088adf68a91ffcf76a87483568aff55214d.png" alt="digraph {
+   &quot;node1&quot; -&gt; &quot;node2&quot; -&gt; &quot;node3&quot;;
+   &quot;node1&quot; -&gt; &quot;node3&quot;
+}" class="graphviz" /></div>
+<p>The variables a_plus_b, a_plus_two_b, and result_of_mult contain references to the nodes. To run the DAG, we need one of the backends.</p>
+</section>
+<section id="backends">
+<h2>Backends<a class="headerlink" href="#backends" title="Permalink to this heading"></a></h2>
+<p>Backends take as an input one or several nodes of the graph and run the workflow.
+There are two types of backends, built-in and addons.
+Two built-in backends to Function Fuse package are designed to run workflow in-serial and in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>, these are <a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a> and <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>
+For addons, I currently implemented only one backend - CodeFlare, also with name Ray Workflow.
+Backends classes typically take workflow name to use in the data storage class. Here is an example of backend setup and run for the above workflow.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.localback</span> <span class="kn">import</span> <span class="n">LocalWorkflow</span>
+<span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
+
+<span class="n">local_workflow</span> <span class="o">=</span> <span class="n">LocalWorkflow</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;operations&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;storage&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="model-analysis-and-visualization">
+<h2>Model analysis and visualization<a class="headerlink" href="#model-analysis-and-visualization" title="Permalink to this heading"></a></h2>
+<p>The workflows are used to prepare data and to train ML models. Further analysis and visualization are performed in Jupyter Notebooks.
+We read results of node execution from the storage, run model on testing data and create pictures.
+To read the data, we create the same storage object in a notebook:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
+
+<span class="n">the_workflow_name</span> <span class="o">=</span> <span class="s2">&quot;classifier&quot;</span>
+<span class="n">storage_path</span> <span class="o">=</span> <span class="s2">&quot;storage&quot;</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">storage_path</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To list existing saved node results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">all_tasks</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">list_tasks</span><span class="p">(</span><span class="n">workflow_name</span><span class="o">=</span><span class="n">the_workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All graph node names: &quot;</span><span class="p">,</span> <span class="n">all_tasks</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>list_tasks returns the list of node names. To read specific saved node results (task):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nodel_result</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">read_task</span><span class="p">(</span><span class="n">workflow_name</span><span class="o">=</span><span class="n">the_workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="o">=</span><span class="s2">&quot;node2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this heading"></a></h2>
+<p>CodeFlare and other workflow packages assign different attributes to nodes of DAGs.
+For instance, CodeFlare set Ray resources for execution of functions remotely.
+However, the frontend does not support such functionality. Instead, I propose to set attributes in the backend.
+In the backend, we query nodes by their names, assign different attributes and perform operations on nodes.
+An example is setting resources for <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a> backend:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ray_workflow</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;^model$&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_remote_args</span><span class="p">({</span><span class="s2">&quot;num_cpus&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_model&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>Here, we query nodes using RegExp pattern and assing resources to all nodes that match the pattern.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../usage/installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples/examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

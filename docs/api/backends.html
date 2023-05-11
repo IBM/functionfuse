@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backends &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Frontend" href="frontend.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/introduction.html">Introduction and quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">Frontend</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#built-in">Built-in</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#local-workflow">Local Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ray-workflow">Ray Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API</a></li>
+      <li class="breadcrumb-item active">Backends</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/backends.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="backends">
+<h1>Backends<a class="headerlink" href="#backends" title="Permalink to this heading"></a></h1>
+<section id="built-in">
+<h2>Built-in<a class="headerlink" href="#built-in" title="Permalink to this heading"></a></h2>
+<section id="local-workflow">
+<h3>Local Workflow<a class="headerlink" href="#local-workflow" title="Permalink to this heading"></a></h3>
+<p>The Local Workflow are implemented with a class and a function to create local storage (see below).
+During graph execution all node results are saved in the storage.
+In the second run, all saved nodes are not executed but their results are loaded from the storage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.localback.LocalWorkflow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.localback.</span></span><span class="sig-name descname"><span class="pre">LocalWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow" title="Permalink to this definition"></a></dt>
+<dd><p>A Backend to run workflows locally. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.</p></li>
+<li><p><strong>workflow_name</strong> – A name of the workflow that is used by storage classes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.localback.LocalWorkflow.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow.run" title="Permalink to this definition"></a></dt>
+<dd><p>Start execution of the workflow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of results for input nodes or a single result if a single node is used in initialization of the class object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.localback.LocalWorkflow.set_storage">
+<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage" title="Permalink to this definition"></a></dt>
+<dd><p>Set storage for the workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_storage</strong> – Storage object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functionfuse.storage.storage_factory">
+<span class="sig-prename descclassname"><span class="pre">functionfuse.storage.</span></span><span class="sig-name descname"><span class="pre">storage_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/storage_factory.html#storage_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.storage_factory" title="Permalink to this definition"></a></dt>
+<dd><p>Factory that creates a storage class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>opt</strong> – Dictionary with parameters of the storage class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Options for local storage is</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;path to folder for storage&quot;</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The name of the storage folder is path/workflow_name. This options returns object of the next class that is passed to <a class="reference internal" href="#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage" title="functionfuse.backends.builtin.localback.LocalWorkflow.set_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">functionfuse.backends.builtin.localback.LocalWorkflow.set_storage()</span></code></a>:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.storage.filestorage.</span></span><span class="sig-name descname"><span class="pre">FileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage" title="Permalink to this definition"></a></dt>
+<dd><p>Local file storage. Pickle is used to save results of the graph nodes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.list_tasks">
+<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.list_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.list_tasks" title="Permalink to this definition"></a></dt>
+<dd><p>List saved results of all saved nodes using glob pattern for workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to list saved results.</p></li>
+<li><p><strong>pattern</strong> – A glob pattern to filter out names of saved results.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.read_task">
+<span class="sig-name descname"><span class="pre">read_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.read_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.read_task" title="Permalink to this definition"></a></dt>
+<dd><p>Read saved result of node execution from workflow storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to read saved results.</p></li>
+<li><p><strong>task_name</strong> – A task name to load results for.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.remove_task">
+<span class="sig-name descname"><span class="pre">remove_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.remove_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.remove_task" title="Permalink to this definition"></a></dt>
+<dd><p>Remove results of selected nodes from the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to remove node results.</p></li>
+<li><p><strong>task_name</strong> – A name of the node to remove. The parameter is ignored if pattern is defined</p></li>
+<li><p><strong>pattern</strong> – A glob pattern of node names to be removed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.remove_workflow">
+<span class="sig-name descname"><span class="pre">remove_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.remove_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.remove_workflow" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the workflow from the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to remove from the storage.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">local_workflow</span> <span class="o">=</span> <span class="n">LocalWorkflow</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;classifier&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;storage&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="ray-workflow">
+<h3>Ray Workflow<a class="headerlink" href="#ray-workflow" title="Permalink to this heading"></a></h3>
+<p>Ray Workflow interface is similar to <a class="reference internal" href="#local-workflow">Local Workflow</a> with an addition of multiple methods to set Ray resources.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.rayback.</span></span><span class="sig-name descname"><span class="pre">RayWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_init_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow" title="Permalink to this definition"></a></dt>
+<dd><p>A Backend to run workflows on Ray engine. The storage for this class could be created by functionfuse.storage.storage_factory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.</p></li>
+<li><p><strong>workflow_name</strong> – A name of the workflow that is used by storage classes.</p></li>
+<li><p><strong>ray_init_args</strong> (<em>dict</em>) – A dictionary with parameters for Ray init</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.query" title="Permalink to this definition"></a></dt>
+<dd><p>Query nodes of the graph by regexp pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pattern</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – regexp pattern to match node names. If None returns all nodes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Query object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.run" title="Permalink to this definition"></a></dt>
+<dd><p>Start execution of the workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of results for input nodes or a single result if a single node is used in initialization of the class object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow.set_storage">
+<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.set_storage" title="Permalink to this definition"></a></dt>
+<dd><p>Set storage for the workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_storage</strong> – Storage object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.Query">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.rayback.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.Query" title="Permalink to this definition"></a></dt>
+<dd><p>The class allows to set attributes to sets of nodes. Contains list of nodes returned by query.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.Query.set_remote_args">
+<span class="sig-name descname"><span class="pre">set_remote_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#Query.set_remote_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.Query.set_remote_args" title="Permalink to this definition"></a></dt>
+<dd><p>Set arguments for ‘remote’ function in Ray calls. Used to assign resources to remote functions calls.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – Dictionary with arguments of a remote call</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ray_init_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_disk&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;_model&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">ray_storage_remote_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_disk&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">ray_workflow</span> <span class="o">=</span> <span class="n">RayWorkflow</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span> <span class="n">ray_init_args</span><span class="o">=</span><span class="n">ray_init_args</span><span class="p">)</span>
+
+<span class="c1"># Ray init is called in the RayWorkflow constructor!!! Storage should be created AFTER RayWorkflow is created.</span>
+<span class="n">storage_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;ray&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;remoteArgs&quot;</span><span class="p">:</span> <span class="n">ray_storage_remote_args</span><span class="p">,</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">storage_path</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">ray_workflow</span><span class="o">.</span><span class="n">set_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+<span class="n">ray_workflow</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;^model$&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_remote_args</span><span class="p">({</span><span class="s2">&quot;num_cpus&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_model&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}})</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">ray_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="frontend.html" class="btn btn-neutral float-left" title="Frontend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
