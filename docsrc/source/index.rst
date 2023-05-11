@@ -12,7 +12,7 @@ Welcome to Function Fuse's documentation!
 
    usage/installation
    background/introduction
-   usage/backends
+   examples/examples
    api/api
 
 Indices and tables
