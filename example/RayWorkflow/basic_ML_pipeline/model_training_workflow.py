@@ -67,7 +67,7 @@ storage_path = os.path.join(os.getcwd(), "storage")
 opt = {
     "kind": "ray",
     "options": {
-        "remoteArg": ray_storage_remote_args,
+        "remoteArgs": ray_storage_remote_args,
         "path": storage_path,
     }
 }
