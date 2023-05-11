@@ -30,9 +30,35 @@ class FileStorage:
     """
     invalid_exception = InvalidPickle
 
-    def __init__(self, actor):
-        self.actor = actor
+    def __init__(self, remote_args, path):
+        self.remote_args = remote_args
+        self.actor = FileStorageActor.options(**remote_args).remote(path)
 
+        @ray.remote(**remote_args)
+        def save_func(workflow_name, filename, obj):
+            if not os.path.exists(os.path.join(path, workflow_name)):
+                raise FileNotFoundError(f"Path {path} is not found")
+            save_path = os.path.join(path, workflow_name, filename)
+            if not os.path.exists(os.path.join(path, workflow_name, filename)):
+                obj = ray.get(obj[0])
+                with open(save_path, "wb") as f:
+                    f.write(safepickle(obj))
+
+        @ray.remote(**remote_args)
+        def read_task(workflow_name, task_name):
+            save_path = os.path.join(path, workflow_name, task_name)
+            if not os.path.exists(path):
+                raise FileNotFoundError(f"Path {path} is not found")
+            with open(save_path, "rb") as f:
+                return safeunpickle(f.read())
+        
+        @ray.remote(**remote_args)
+        def file_exists(workflow_name, filename):
+            return os.path.exists(os.path.join(path, workflow_name, filename))
+
+        self.async_save = save_func
+        self.async_file_exists = file_exists
+        self.async_read_task = read_task
 
     @property
     def remote_actor(self):
@@ -90,7 +116,8 @@ class FileStorage:
 
         """
         self.actor.remove_workflow(workflow_name)
-        
+
+
         
 @ray.remote
 class FileStorageActor:

@@ -6,6 +6,9 @@ from functionfuse.storage import storage_factory
 
 import os
 
+
+# Frontend
+
 @workflow
 def openml_dataset():
     from sklearn.datasets import fetch_openml
@@ -46,25 +49,32 @@ X, y = dataset[0], dataset[1]
 dataset_split = train_test_split(X, y, train_samples = 5000, test_size = 10000).set_name("dataset_split")
 model = train_model(dataset_split["X_train"], dataset_split["y_train"]).set_name("model")
 
+
+# Ray Backend
+
 ray_init_args = {
-    "resources": {"_disk": 1}
+    "resources": {"_disk": 1.0, "_model": 1}
 }
 
-local_workflow = RayWorkflow(dataset, workflow_name="classifier", ray_init_args=ray_init_args)
+ray_storage_remote_args = {
+    "resources": {"_disk": 0.001}
+}
 
-# Ray init is called in the constructor!!! Storage should be created AFTER RayWorkflow is created. 
+ray_workflow = RayWorkflow(dataset, workflow_name="classifier", ray_init_args=ray_init_args)
+
+# Ray init is called in the RayWorkflow constructor!!! Storage should be created AFTER RayWorkflow is created. 
 storage_path = os.path.join(os.getcwd(), "storage")
 opt = {
     "kind": "ray",
     "options": {
-        "rayInit": False,
-        "remoteArg": ray_init_args,
+        "remoteArg": ray_storage_remote_args,
         "path": storage_path,
     }
 }
 
 storage = storage_factory(opt)
-local_workflow.set_storage(storage)
+ray_workflow.set_storage(storage)
+ray_workflow.query(pattern="^model$").set_remote_args({"num_cpus": 1, "resources": {"_model": 1}})
 
-_ = local_workflow.run()
+_ = ray_workflow.run()
 
