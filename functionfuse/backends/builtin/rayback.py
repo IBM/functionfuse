@@ -6,10 +6,10 @@ import ray
 @ray.remote
 def exec_func(
     plugin_func, arg_index, karg_keys, args, kargs, func, 
-    workflow_name, node_name, object_storage):
+    node_name, read_object):
     
-    if object_storage and ray.get(object_storage.async_file_exists.remote(workflow_name, node_name)):
-        return object_storage.async_read_task.remote(workflow_name, node_name)
+    if read_object and ray.get(ray.remote(**read_object.remote_args)(read_object.file_exists).remote(node_name)):
+        return ray.remote(**read_object.remote_args)(read_object.read_task).remote(node_name) 
         
     if plugin_func is not None:
         plugin_func()
@@ -31,6 +31,10 @@ def exec_func(
 
 
 class Query:
+    """
+    The class allows to set attributes to sets of nodes. Contains list of nodes returned by query.
+    
+    """
 
     def __init__(self, nodes, workflow):
         self.workflow = workflow
@@ -41,6 +45,14 @@ class Query:
             i.backend_info["plugin"] = plugin
     
     def set_remote_args(self, args):
+        """
+        Set arguments for 'remote' function in Ray calls. Used to assign resources to remote functions calls.
+
+        :param args: Dictionary with arguments of a remote call
+        :type args: dict
+
+        """
+
         for i in self.nodes:
             i.backend_info["remote_args"] = args
         return self
@@ -62,7 +74,7 @@ class RayWorkflow(BaseWorkflow):
 
         ray.shutdown()
         ray.init(**ray_init_args)
-        self.object_storage = None
+        self.save_func = None
 
 
     def set_storage(self, object_storage):
@@ -72,8 +84,9 @@ class RayWorkflow(BaseWorkflow):
         :param object_storage: Storage object.
 
         """
-        self.object_storage = object_storage
-        ray.wait([self.object_storage.remote_actor.new_workflow.remote(self.workflow_name)], fetch_local=False)
+
+        new_workflow, self.read_object, self.save_func = object_storage.get_writer_funcs(self.workflow_name) 
+        ray.wait([new_workflow.remote()], fetch_local=False)
     
 
     def run(self, return_results = False):
@@ -111,11 +124,12 @@ class RayWorkflow(BaseWorkflow):
             
             result = exec_func.options(**remote_args).remote(
                 plugin_func, arg_index, karg_keys, args, kargs, exec_node.func, 
-                self.workflow_name, name, self.object_storage)
+                name, self.read_object)
             
             save_objects = []
-            if self.object_storage:
-                save_objects.append(self.object_storage.async_save.remote(self.workflow_name, name, (result,)))
+            if self.save_func:
+                # we pass result inside a tuple to avoid blocking call in case if file already exists
+                save_objects.append(self.save_func.remote(name, (result,))) 
 
             exec_node.result = result
             exec_node.free_memory()
@@ -147,6 +161,7 @@ class RayWorkflow(BaseWorkflow):
 
         :param pattern: regexp pattern to match node names. If None returns all nodes.
         :type pattern: Optional[str]
+        :return: Query object
 
         """
         return Query(self.find_nodes(pattern), self)

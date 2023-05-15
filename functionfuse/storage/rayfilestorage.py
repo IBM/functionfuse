@@ -5,6 +5,8 @@ import hashlib, glob
 import pickle, os, shutil
 import ray
 
+from collections import namedtuple
+
 _HASHLEN = 20
 
 class InvalidPickle(ValueError):
@@ -26,16 +28,57 @@ def safeunpickle(pstr):
 
 class FileStorage:
     """
-    Remote file storage on a ray cluster node. Pickle is used to save results of the graph nodes.
+    Remote file storage on a single designated Ray cluster node. 
+    Create a single node with unique Ray resource (e.g., _disk: 1) and route all function calls to this node with remoteArgs (see below) setting the same resource (e.g., _disk: 0.001).
+    Pickle is used to save results of the graph nodes.
+
+    To create file storage object use :py:func:`functionfuse.storage.storage_factory` with 
+    
+    .. code-block:: python
+        
+        opt = {
+            "kind": "ray",
+            "options": {
+                "rayInitArgs": {...},
+                "remoteArgs": {...},
+                "path": path,
+            }
+        }
+
+    :param rayInitArgs: Use this field only in the read mode. File storage calls Ray init with rayInitArgs parameters. Otherwise, Ray init is called in the workflow class.
+    :type rayInitArgs: dict, optional
+    :param remoteArgs: Dictionary with parameters for the remote function (see `ray.remote <https://docs.ray.io/en/latest/ray-core/api/doc/ray.remote.html>`_)
+    :type remoteArgs: dict
+    :param path: relative or absolute path to save folder. All results are saved in path/workflow_name folder.
+    
     """
     invalid_exception = InvalidPickle
 
-    def __init__(self, remote_args, path):
+    def __init__(self, opt):
+
+        remote_args = opt["remoteArgs"]
+        if "rayInitArgs" in opt:
+            ray.shutdown()
+            ray.init(**opt["rayInitArgs"])
+
+        path = opt["path"]
         self.remote_args = remote_args
-        self.actor = FileStorageActor.options(**remote_args).remote(path)
+        self.path = path
+        self._actor = None 
+
+
+    def get_writer_funcs(self, workflow_name):
+        save_func, read_task, file_exists, new_workflow = self.init_write_functions(workflow_name, self.path, self.remote_args)
+        ReadObectClass = namedtuple('ObectStorageClass', ['remote_args', 'file_exists', 'read_task'])
+        read_object = ReadObectClass(self.remote_args, file_exists, read_task)
+        save_object = ray.put(read_object)
+        return new_workflow, read_object, save_func
+
+
+    def init_write_functions(self, workflow_name, path, remote_args):
 
         @ray.remote(**remote_args)
-        def save_func(workflow_name, filename, obj):
+        def save_func(filename, obj):
             if not os.path.exists(os.path.join(path, workflow_name)):
                 raise FileNotFoundError(f"Path {path} is not found")
             save_path = os.path.join(path, workflow_name, filename)
@@ -44,28 +87,35 @@ class FileStorage:
                 with open(save_path, "wb") as f:
                     f.write(safepickle(obj))
 
-        @ray.remote(**remote_args)
-        def read_task(workflow_name, task_name):
+        def read_task(task_name):
             save_path = os.path.join(path, workflow_name, task_name)
             if not os.path.exists(path):
                 raise FileNotFoundError(f"Path {path} is not found")
+            print(f"Read task {task_name} from file.")
             with open(save_path, "rb") as f:
                 return safeunpickle(f.read())
         
-        @ray.remote(**remote_args)
-        def file_exists(workflow_name, filename):
+        def file_exists(filename):
             return os.path.exists(os.path.join(path, workflow_name, filename))
 
-        self.async_save = save_func
-        self.async_file_exists = file_exists
-        self.async_read_task = read_task
-
+        @ray.remote(**remote_args)
+        def new_workflow():
+            workflow_path = os.path.join(path, workflow_name)
+            if not os.path.exists(workflow_path):
+                os.makedirs(workflow_path)
+        
+        return save_func, read_task, file_exists, new_workflow
+        
+    
     @property
-    def remote_actor(self):
+    def actor(self):
         """
         Access to remote ray actor to avoid blocking calls.
         """
-        return self.actor
+        if not self._actor:
+            self._actor = FileStorageActor.options(**self.remote_args).remote(self.path)
+        
+        return self._actor
 
 
     def list_tasks(self, workflow_name, pattern):

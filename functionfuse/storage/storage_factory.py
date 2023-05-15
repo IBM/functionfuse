@@ -10,14 +10,8 @@ def storage_factory(opt):
         return FileStorage(opt["options"]["path"])    
     
     if opt["kind"] == "ray":
-        from .rayfilestorage import FileStorageActor, FileStorage
-        import ray
-        opt = opt["options"]
-        remote_args = opt["remoteArgs"]
-        if "rayInitArgs" in opt:
-            ray.shutdown()
-            ray.init(**opt["rayInitArgs"])
-        storage = FileStorage(remote_args, opt["path"])
+        from .rayfilestorage import FileStorage
+        storage = FileStorage(opt["options"]) 
         return storage
 
     
