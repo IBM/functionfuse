@@ -64,6 +64,8 @@ Ray Workflow interface is similar to `Local Workflow`_ with an addition of multi
 .. autoclass:: functionfuse.backends.builtin.rayback.Query
     :members: set_remote_args
 
+.. autoclass:: functionfuse.storage.rayfilestorage.FileStorage
+    :members: read_task, list_tasks, remove_task, remove_workflow
 
 Example:
 

@@ -299,6 +299,88 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.storage.rayfilestorage.</span></span><span class="sig-name descname"><span class="pre">FileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage" title="Permalink to this definition"></a></dt>
+<dd><p>Remote file storage on a single designated Ray cluster node. 
+Create a single node with unique Ray resource (e.g., _disk: 1) and route all function calls to this node with remoteArgs (see below) setting the same resource (e.g., _disk: 0.001).
+Pickle is used to save results of the graph nodes.</p>
+<p>To create file storage object use <a class="reference internal" href="#functionfuse.storage.storage_factory" title="functionfuse.storage.storage_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">functionfuse.storage.storage_factory()</span></code></a> with</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;ray&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;rayInitArgs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>
+        <span class="s2">&quot;remoteArgs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rayInitArgs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Use this field only in the read mode. File storage calls Ray init with rayInitArgs parameters. Otherwise, Ray init is called in the workflow class.</p></li>
+<li><p><strong>remoteArgs</strong> (<em>dict</em>) – Dictionary with parameters for the remote function (see <a class="reference external" href="https://docs.ray.io/en/latest/ray-core/api/doc/ray.remote.html">ray.remote</a>)</p></li>
+<li><p><strong>path</strong> – relative or absolute path to save folder. All results are saved in path/workflow_name folder.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.list_tasks">
+<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.list_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.list_tasks" title="Permalink to this definition"></a></dt>
+<dd><p>List saved results of all saved nodes using glob pattern for workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to list saved results.</p></li>
+<li><p><strong>pattern</strong> – A glob pattern to filter out names of saved results.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.read_task">
+<span class="sig-name descname"><span class="pre">read_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.read_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.read_task" title="Permalink to this definition"></a></dt>
+<dd><p>Read saved result of node execution from workflow storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to read saved results.</p></li>
+<li><p><strong>task_name</strong> – A task name to load results for.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.remove_task">
+<span class="sig-name descname"><span class="pre">remove_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.remove_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.remove_task" title="Permalink to this definition"></a></dt>
+<dd><p>Remove results of selected nodes from the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to remove node results.</p></li>
+<li><p><strong>task_name</strong> – A name of the node to remove. The parameter is ignored if pattern is defined</p></li>
+<li><p><strong>pattern</strong> – A glob pattern of node names to be removed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.remove_workflow">
+<span class="sig-name descname"><span class="pre">remove_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.remove_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.remove_workflow" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the workflow from the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>workflow_name</strong> (<em>str</em>) – A name of the workflow to remove from the storage.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ray_init_args</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_disk&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;_model&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>

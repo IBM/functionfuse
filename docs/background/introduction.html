@@ -151,7 +151,7 @@ To make workflow simple, we follow next concepts:</p>
 <p>Backends take as an input one or several nodes of the graph and run the workflow.
 There are two types of backends, built-in and addons.
 Two built-in backends to Function Fuse package are designed to run workflow in-serial and in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>, these are <a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a> and <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>
-For addons, I currently implemented only one backend - CodeFlare, also with name Ray Workflow.
+For addons, I currently implemented only one backend - CodeFlare, also with name Ray Workflow, and we are developing backend for <a class="reference external" href="https://www.kubeflow.org/">KubeFlow</a>.
 Backends classes typically take workflow name to use in the data storage class. Here is an example of backend setup and run for the above workflow.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.localback</span> <span class="kn">import</span> <span class="n">LocalWorkflow</span>
 <span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>

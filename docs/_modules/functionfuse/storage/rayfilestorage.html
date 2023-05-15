@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>functionfuse.storage.rayfilestorage &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/introduction.html">Introduction and quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">functionfuse.storage.rayfilestorage</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for functionfuse.storage.rayfilestorage</h1><div class="highlight"><pre>
+<span></span><span class="c1"># checksum is copied from </span>
+<span class="c1"># https://stackoverflow.com/questions/1653897/if-pickling-was-interrupted-will-unpickling-necessarily-always-fail-python</span>
+
+<span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">ray</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">_HASHLEN</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="k">class</span> <span class="nc">InvalidPickle</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">safepickle</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">s</span>
+
+<span class="k">def</span> <span class="nf">safeunpickle</span><span class="p">(</span><span class="n">pstr</span><span class="p">):</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">checksum</span> <span class="o">=</span> <span class="n">pstr</span><span class="p">[:</span><span class="o">-</span><span class="n">_HASHLEN</span><span class="p">],</span> <span class="n">pstr</span><span class="p">[</span><span class="o">-</span><span class="n">_HASHLEN</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span> <span class="o">!=</span> <span class="n">checksum</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidPickle</span><span class="p">(</span><span class="s2">&quot;Pickle hash does not match!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="FileStorage"><a class="viewcode-back" href="../../../api/backends.html#functionfuse.storage.rayfilestorage.FileStorage">[docs]</a><span class="k">class</span> <span class="nc">FileStorage</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remote file storage on a single designated Ray cluster node. </span>
+<span class="sd">    Create a single node with unique Ray resource (e.g., _disk: 1) and route all function calls to this node with remoteArgs (see below) setting the same resource (e.g., _disk: 0.001).</span>
+<span class="sd">    Pickle is used to save results of the graph nodes.</span>
+
+<span class="sd">    To create file storage object use :py:func:`functionfuse.storage.storage_factory` with </span>
+<span class="sd">    </span>
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">        opt = {</span>
+<span class="sd">            &quot;kind&quot;: &quot;ray&quot;,</span>
+<span class="sd">            &quot;options&quot;: {</span>
+<span class="sd">                &quot;rayInitArgs&quot;: {...},</span>
+<span class="sd">                &quot;remoteArgs&quot;: {...},</span>
+<span class="sd">                &quot;path&quot;: path,</span>
+<span class="sd">            }</span>
+<span class="sd">        }</span>
+
+<span class="sd">    :param rayInitArgs: Use this field only in the read mode. File storage calls Ray init with rayInitArgs parameters. Otherwise, Ray init is called in the workflow class.</span>
+<span class="sd">    :type rayInitArgs: dict, optional</span>
+<span class="sd">    :param remoteArgs: Dictionary with parameters for the remote function (see `ray.remote &lt;https://docs.ray.io/en/latest/ray-core/api/doc/ray.remote.html&gt;`_)</span>
+<span class="sd">    :type remoteArgs: dict</span>
+<span class="sd">    :param path: relative or absolute path to save folder. All results are saved in path/workflow_name folder.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">invalid_exception</span> <span class="o">=</span> <span class="n">InvalidPickle</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opt</span><span class="p">):</span>
+
+        <span class="n">remote_args</span> <span class="o">=</span> <span class="n">opt</span><span class="p">[</span><span class="s2">&quot;remoteArgs&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;rayInitArgs&quot;</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span>
+            <span class="n">ray</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+            <span class="n">ray</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="o">**</span><span class="n">opt</span><span class="p">[</span><span class="s2">&quot;rayInitArgs&quot;</span><span class="p">])</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">opt</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_args</span> <span class="o">=</span> <span class="n">remote_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_actor</span> <span class="o">=</span> <span class="kc">None</span> 
+
+
+    <span class="k">def</span> <span class="nf">get_writer_funcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">):</span>
+        <span class="n">save_func</span><span class="p">,</span> <span class="n">read_task</span><span class="p">,</span> <span class="n">file_exists</span><span class="p">,</span> <span class="n">new_workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_write_functions</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote_args</span><span class="p">)</span>
+        <span class="n">ReadObectClass</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;ObectStorageClass&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;remote_args&#39;</span><span class="p">,</span> <span class="s1">&#39;file_exists&#39;</span><span class="p">,</span> <span class="s1">&#39;read_task&#39;</span><span class="p">])</span>
+        <span class="n">read_object</span> <span class="o">=</span> <span class="n">ReadObectClass</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_args</span><span class="p">,</span> <span class="n">file_exists</span><span class="p">,</span> <span class="n">read_task</span><span class="p">)</span>
+        <span class="n">save_object</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">read_object</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_workflow</span><span class="p">,</span> <span class="n">read_object</span><span class="p">,</span> <span class="n">save_func</span>
+
+
+    <span class="k">def</span> <span class="nf">init_write_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">remote_args</span><span class="p">):</span>
+
+        <span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="o">**</span><span class="n">remote_args</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">save_func</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">)):</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">safepickle</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">read_task</span><span class="p">(</span><span class="n">task_name</span><span class="p">):</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Read task </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2"> from file.&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">safeunpickle</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        
+        <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+        <span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="o">**</span><span class="n">remote_args</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">new_workflow</span><span class="p">():</span>
+            <span class="n">workflow_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">workflow_path</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">workflow_path</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">save_func</span><span class="p">,</span> <span class="n">read_task</span><span class="p">,</span> <span class="n">file_exists</span><span class="p">,</span> <span class="n">new_workflow</span>
+        
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">actor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Access to remote ray actor to avoid blocking calls.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_actor</span> <span class="o">=</span> <span class="n">FileStorageActor</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_args</span><span class="p">)</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actor</span>
+
+
+<div class="viewcode-block" id="FileStorage.list_tasks"><a class="viewcode-back" href="../../../api/backends.html#functionfuse.storage.rayfilestorage.FileStorage.list_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">list_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List saved results of all saved nodes using glob pattern for workflow.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to list saved results.</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param pattern: A glob pattern to filter out names of saved results. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">list_tasks</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FileStorage.read_task"><a class="viewcode-back" href="../../../api/backends.html#functionfuse.storage.rayfilestorage.FileStorage.read_task">[docs]</a>    <span class="k">def</span> <span class="nf">read_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read saved result of node execution from workflow storage.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to read saved results.</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param task_name: A task name to load results for. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">read_task</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">))</span></div>
+    
+
+<div class="viewcode-block" id="FileStorage.remove_task"><a class="viewcode-back" href="../../../api/backends.html#functionfuse.storage.rayfilestorage.FileStorage.remove_task">[docs]</a>    <span class="k">def</span> <span class="nf">remove_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove results of selected nodes from the storage.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to remove node results.</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param task_name: A name of the node to remove. The parameter is ignored if pattern is defined</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param pattern: A glob pattern of node names to be removed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">remove_task</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileStorage.remove_workflow"><a class="viewcode-back" href="../../../api/backends.html#functionfuse.storage.rayfilestorage.FileStorage.remove_workflow">[docs]</a>    <span class="k">def</span> <span class="nf">remove_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the workflow from the storage.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to remove from the storage.</span>
+<span class="sd">        :type workflow_name: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">remove_workflow</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">)</span></div></div>
+
+
+        
+<span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span>
+<span class="k">class</span> <span class="nc">FileStorageActor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Local file storage. Pickle is used to save results of the graph nodes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">invalid_exception</span> <span class="o">=</span> <span class="n">InvalidPickle</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_exists</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">safepickle</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+
+    <span class="k">def</span> <span class="nf">_test_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+
+    <span class="k">def</span> <span class="nf">list_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List saved results of all saved nodes using glob pattern for workflow.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to list saved results.</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param pattern: A glob pattern to filter out names of saved results. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)))]</span>
+
+
+    <span class="k">def</span> <span class="nf">read_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read saved result of node execution from workflow storage.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to read saved results.</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param task_name: A task name to load results for. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">safeunpickle</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+
+    <span class="k">def</span> <span class="nf">_remove_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">remove_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove results of selected nodes from the storage.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to remove node results.</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param task_name: A name of the node to remove. The parameter is ignored if pattern is defined</span>
+<span class="sd">        :type workflow_name: str</span>
+<span class="sd">        :param pattern: A glob pattern of node names to be removed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="p">:</span>
+            <span class="n">tasks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_tasks</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_task</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_task</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">remove_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the workflow from the storage.</span>
+
+<span class="sd">        :param workflow_name: A name of the workflow to remove from the storage.</span>
+<span class="sd">        :type workflow_name: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+
+    <span class="k">def</span> <span class="nf">new_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">):</span>
+        <span class="n">workflow_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">workflow_path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">workflow_path</span><span class="p">)</span>
+        
+        
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
