@@ -78,7 +78,7 @@ Backends
 Backends take as an input one or several nodes of the graph and run the workflow. 
 There are two types of backends, built-in and addons. 
 Two built-in backends to Function Fuse package are designed to run workflow in-serial and in-parallel with `Ray <https://www.ray.io/>`_, these are :ref:`api/backends:Local Workflow` and :ref:`api/backends:Ray Workflow` 
-For addons, I currently implemented only one backend - CodeFlare, also with name Ray Workflow. 
+For addons, I currently implemented only one backend - CodeFlare, also with name Ray Workflow, and we are developing backend for `KubeFlow <https://www.kubeflow.org/>`_. 
 Backends classes typically take workflow name to use in the data storage class. Here is an example of backend setup and run for the above workflow.
 
 .. highlight:: python
