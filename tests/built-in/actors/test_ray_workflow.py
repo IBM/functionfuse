@@ -1,18 +1,20 @@
 from functionfuse import workflow
-from functionfuse.backends.builtin.localback import LocalWorkflow
-
+from functionfuse.backends.builtin.rayback import RayWorkflow
 
 @workflow
 class IncrementalSum:
     def __init__(self, start):
         self.start = start
+        print("constructor")
 
     def add(self, n):
         self.start += n
+        print("add")
         return self.start
     
 @workflow
 def minus(a, b):
+    print("minus")
     return a - b
 
 
@@ -27,8 +29,8 @@ def test1():
     six = incremental_sum.add(one)
     result = minus(six, 2)
 
-    local_workflow = LocalWorkflow(result, workflow_name = "first")
-    result = local_workflow.run()
+    ray_workflow = RayWorkflow(result, workflow_name = "first")
+    result = ray_workflow.run(return_results=True)
     print("Test1: ", result)
 
 
@@ -43,8 +45,8 @@ def test2():
     six = incremental_sum.add(one).set_name("five_plus_one")
     result = minus(six, 2).set_name("six_minus_two")
 
-    local_workflow = LocalWorkflow(result, workflow_name = "first")
-    result = local_workflow.run()
+    ray_workflow = RayWorkflow(result, workflow_name = "first")
+    result = ray_workflow.run(return_results=True)
     print("Test2: ", result)
 
 

@@ -1,6 +1,22 @@
 from ...baseworkflow import BaseWorkflow
-from ...workflow import _test_arg
+from ...workflow import _test_arg, _test_func_node, _test_constructor_node
 import ray
+
+
+def substitue_args(arg_index, karg_keys, args, kargs):
+    for index, val_index in arg_index:
+        if val_index is None:
+            args[index] = ray.get(args[index])
+        else:
+            args[index] = ray.get(args[index])[val_index]
+
+    for key, val_index in karg_keys:
+        if val_index is None:
+            kargs[key] = ray.get(kargs[key])
+        else:
+            kargs[key] = ray.get(kargs[key])[val_index]
+
+    return arg_index, karg_keys, args, kargs
 
 
 @ray.remote
@@ -14,18 +30,7 @@ def exec_func(
     if plugin_func is not None:
         plugin_func()
     
-    for index, val_index in arg_index:
-        if val_index is None:
-            args[index] = ray.get(args[index])
-        else:
-            args[index] = ray.get(args[index])[val_index]
-
-    for key, val_index in karg_keys:
-        if val_index is None:
-            kargs[key] = ray.get(kargs[key])
-        else:
-            kargs[key] = ray.get(kargs[key])[val_index]
-
+    arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
     result = func(*args, **kargs)
     return result
 
@@ -56,6 +61,18 @@ class Query:
         for i in self.nodes:
             i.backend_info["remote_args"] = args
         return self
+
+
+class Actor:
+
+    def __init__(self, class_spec, arg_index, karg_keys, args, kargs):
+        arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
+        self.actor_obj = class_spec(*args, **kargs)
+
+    def call_method(self, method_name, arg_index, karg_keys, args, kargs):
+        arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
+        func = getattr(self.actor_obj, method_name)
+        return func(*args, **kargs)
 
 
 
@@ -123,12 +140,23 @@ class RayWorkflow(BaseWorkflow):
             if "remote_args" in backend_info:
                 remote_args = backend_info["remote_args"]
             
-            result = exec_func.options(**remote_args).remote(
-                plugin_func, arg_index, karg_keys, args, kargs, exec_node.func, 
-                name, self.read_object)
+            func_node = _test_func_node(exec_node)
+
+            if func_node:
+                result = exec_func.options(**remote_args).remote(
+                    plugin_func, arg_index, karg_keys, args, kargs, exec_node.func, 
+                    name, self.read_object)
+            elif _test_constructor_node(exec_node):
+                actor = ray.remote(Actor).remote(exec_node.class_spec, arg_index, karg_keys, args, kargs)
+                for i in exec_node.method_calls:
+                    i.backend_info["_actor"] = actor
+                result = actor
+            else:
+                actor = exec_node.backend_info["_actor"]
+                result = actor.call_method.remote(exec_node.method_name, arg_index, karg_keys, args, kargs)
             
             save_objects = []
-            if self.save_func:
+            if self.save_func and func_node:
                 # we pass result inside a tuple to avoid blocking call in case if file already exists
                 save_objects.append(self.save_func.remote(name, (result,))) 
 

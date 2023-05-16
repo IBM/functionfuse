@@ -23,6 +23,10 @@ def workflow(func):
 def _test_func_node(node):
     return isinstance(node, Node)
 
+def _test_constructor_node(node):
+    return isinstance(node, ClassInitNode)
+
+
 def _test_arg(arg):
     if isinstance(arg, (Node, ClassInitNode, ClassCallNode)):
         return (arg, None)
@@ -90,6 +94,10 @@ class BaseNode:
         self.n_ready_parents = 0
         return self
     
+    @property
+    def backend_info(self):
+        return self._backend_info
+    
     def set_name(self, name):
         self.name = name
         return self
@@ -121,10 +129,6 @@ class Node(BaseNode):
     def __init__(self, name, func):
         super(Node, self).__init__(name)
         self.func = func
-
-    @property
-    def backend_info(self):
-        return self._backend_info
 
     def __getitem__(self, index):
         return NodeItem(self, index)
@@ -182,6 +186,7 @@ class ClassInitNode(BaseNode):
         super(ClassInitNode, self).__init__(name)
         self.class_spec = class_spec
         self.last_invoked_node = self
+        self.method_calls = []
 
     def _make_class_method(self, method_name):
         
@@ -195,6 +200,7 @@ class ClassInitNode(BaseNode):
             node.parents.append(self.last_invoked_node)
             self.last_invoked_node.children.append(node)
             self.last_invoked_node = node
+            self.method_calls.append(node)
             return node
         
         return _make_call_class_object
@@ -207,7 +213,8 @@ class ClassInitNode(BaseNode):
             setattr(call_object, i, self._make_class_method(i))
     
         def set_name(name):
-            return self.set_name(name)
+            self.set_name(name)
+            return call_object
         
         call_object.set_name = set_name
         return call_object
