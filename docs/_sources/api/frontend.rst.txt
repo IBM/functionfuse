@@ -49,4 +49,51 @@ The above code defines a graph with 3 nodes: **node1**, **node2**, **node3**:
       "node1" -> "node3"
    }
 
-The variables a_plus_b, a_plus_two_b, and result_of_mult contains references to the nodes. To run the DAG use one of the backends.
+The variables a_plus_b, a_plus_two_b, and result_of_mult contains references to the nodes. 
+
+To make stateful nodes, we apply @workflow decorator to classes. Nodes can be arguments of constructors and methods of decorated clasess:
+
+.. code-block:: python
+
+    from functionfuse import workflow
+
+    @workflow
+    class IncrementalSum:
+        def __init__(self, start):
+            self.start = start
+
+        def add(self, n):
+            self.start += n
+            return self.start
+    
+    @workflow
+    def minus(a, b):
+        return a - b
+
+
+    one = minus(4, 3).set_name("four_minus_three")
+    incremental_sum = IncrementalSum(start = one).set_name("IncrementalSum")
+    
+    two = minus(3, one).set_name("three_minus_one")
+    incremental_sum.add(two).set_name("one_plus_two")
+    incremental_sum.add(two).set_name("three_plus_two")
+    six = incremental_sum.add(one).set_name("five_plus_one")
+    result = minus(six, 2).set_name("six_minus_two")
+
+
+The above code defines a graph with 7 nodes: 
+
+.. graphviz::
+
+   digraph {
+      "four_minus_three" -> "IncrementalSum";
+      "four_minus_three" -> "five_plus_one";
+      "IncrementalSum" -> "one_plus_two" -> "three_plus_two" -> "five_plus_one" -> "six_minus_two";
+      "four_minus_three" -> "three_minus_one";
+      "three_minus_one" -> "one_plus_two";
+      "three_minus_one" -> "three_plus_two"
+   }
+
+Note that edges between methods of the same class instance are generated automatically to produce a chain of sequentially called methods.
+
+To run the DAG use one of the backends.

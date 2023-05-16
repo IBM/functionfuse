@@ -76,7 +76,7 @@
              
   <h1>Source code for functionfuse.backends.builtin.localback</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">...baseworkflow</span> <span class="kn">import</span> <span class="n">BaseWorkflow</span>
-
+<span class="kn">from</span> <span class="nn">...workflow</span> <span class="kn">import</span> <span class="n">_test_func_node</span>
 
 <span class="k">def</span> <span class="nf">_test_print_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
     <span class="k">return</span> <span class="s2">&quot;print&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">backend_info</span>
@@ -118,7 +118,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">new_workflow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">exec_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_traversal</span><span class="p">():</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="ow">and</span> <span class="n">_test_print_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">):</span>
+            <span class="n">func_node</span> <span class="o">=</span> <span class="n">_test_func_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="ow">and</span> <span class="n">func_node</span> <span class="ow">and</span> <span class="n">_test_print_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">read_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is read from the file.&quot;</span><span class="p">)</span>
@@ -146,7 +147,7 @@
             <span class="n">exec_node</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
             <span class="n">exec_node</span><span class="o">.</span><span class="n">free_memory</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="ow">and</span> <span class="n">_test_print_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="ow">and</span> <span class="n">func_node</span> <span class="ow">and</span> <span class="n">_test_print_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>

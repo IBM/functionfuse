@@ -144,13 +144,51 @@ To make workflow simple, we follow next concepts:</p>
    &quot;node1&quot; -&gt; &quot;node2&quot; -&gt; &quot;node3&quot;;
    &quot;node1&quot; -&gt; &quot;node3&quot;
 }" class="graphviz" /></div>
-<p>The variables a_plus_b, a_plus_two_b, and result_of_mult contain references to the nodes. To run the DAG, we need one of the backends.</p>
+<p>The variables a_plus_b, a_plus_two_b, and result_of_mult contain references to the nodes.</p>
+<p>To make stateful nodes, we apply &#64;workflow decorator to classes. Nodes can be arguments of constructors and methods of decorated clasess:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse</span> <span class="kn">import</span> <span class="n">workflow</span>
+
+<span class="nd">@workflow</span>
+<span class="k">class</span> <span class="nc">IncrementalSum</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
+
+<span class="nd">@workflow</span>
+<span class="k">def</span> <span class="nf">minus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+
+<span class="n">one</span> <span class="o">=</span> <span class="n">minus</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;four_minus_three&quot;</span><span class="p">)</span>
+<span class="n">incremental_sum</span> <span class="o">=</span> <span class="n">IncrementalSum</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="n">one</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;IncrementalSum&quot;</span><span class="p">)</span>
+
+<span class="n">two</span> <span class="o">=</span> <span class="n">minus</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">one</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;three_minus_one&quot;</span><span class="p">)</span>
+<span class="n">incremental_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">two</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;one_plus_two&quot;</span><span class="p">)</span>
+<span class="n">incremental_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">two</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;three_plus_two&quot;</span><span class="p">)</span>
+<span class="n">six</span> <span class="o">=</span> <span class="n">incremental_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">one</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;five_plus_one&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">minus</span><span class="p">(</span><span class="n">six</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;six_minus_two&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above code defines a graph with 7 nodes:</p>
+<div class="graphviz"><img src="../_images/graphviz-874ec13328b9cd01bd230bbfbfc7fdb6259a5cf1.png" alt="digraph {
+   &quot;four_minus_three&quot; -&gt; &quot;IncrementalSum&quot;;
+   &quot;four_minus_three&quot; -&gt; &quot;five_plus_one&quot;;
+   &quot;IncrementalSum&quot; -&gt; &quot;one_plus_two&quot; -&gt; &quot;three_plus_two&quot; -&gt; &quot;five_plus_one&quot; -&gt; &quot;six_minus_two&quot;;
+   &quot;four_minus_three&quot; -&gt; &quot;three_minus_one&quot;;
+   &quot;three_minus_one&quot; -&gt; &quot;one_plus_two&quot;;
+   &quot;three_minus_one&quot; -&gt; &quot;three_plus_two&quot;
+}" class="graphviz" /></div>
+<p>Note that edges between methods of the same class instance are generated automatically to produce a chain of sequentially called methods.</p>
+<p>To run DAGs, we need one of the backends.</p>
 </section>
 <section id="backends">
 <h2>Backends<a class="headerlink" href="#backends" title="Permalink to this heading"></a></h2>
 <p>Backends take as an input one or several nodes of the graph and run the workflow.
 There are two types of backends, built-in and addons.
-Two built-in backends to Function Fuse package are designed to run workflow in-serial and in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>, these are <a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a> and <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>
+Two built-in backends to Function Fuse package are designed to run workflow in-serial and in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>, these are <a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a> and <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>.
 For addons, I currently implemented only one backend - CodeFlare, also with name Ray Workflow, and we are developing backend for <a class="reference external" href="https://www.kubeflow.org/">KubeFlow</a>.
 Backends classes typically take workflow name to use in the data storage class. Here is an example of backend setup and run for the above workflow.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.localback</span> <span class="kn">import</span> <span class="n">LocalWorkflow</span>
