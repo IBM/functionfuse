@@ -31,7 +31,7 @@ def test1():
     #       m
 
     ray_workflow = RayWorkflow(m, workflow_name = "first")
-    result = ray_workflow.run()
+    result = ray_workflow.run(return_results = True)
     print("Test1: ", result)
     assert(result == -1)
 
@@ -65,7 +65,7 @@ def test2():
 
 
     ray_workflow = RayWorkflow(m, workflow_name = "second")
-    result = ray_workflow.run()
+    result = ray_workflow.run(return_results = True)
     print("Test2: ", result)
     assert(result == -1)
 
@@ -127,8 +127,8 @@ def test3():
 
     ray_workflow = RayWorkflow(m, workflow_name = "first")
     ray_workflow.set_plugin(pattern=r"^.*sum.*$", plugin=plugin)
-    result = ray_workflow.run()
-    print("Test1: ", result)
+    result = ray_workflow.run(return_results = True)
+    print("Test2: ", result)
     assert(result == -1)
 
 

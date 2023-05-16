@@ -75,6 +75,7 @@ class RayWorkflow(BaseWorkflow):
         ray.shutdown()
         ray.init(**ray_init_args)
         self.save_func = None
+        self.read_object = None
 
 
     def set_storage(self, object_storage):
@@ -92,7 +93,7 @@ class RayWorkflow(BaseWorkflow):
     def run(self, return_results = False):
         """
         Start execution of the workflow.
-
+        :param return_results: A flag if results for input nodes are returned
         :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.
         """
         

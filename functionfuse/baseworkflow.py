@@ -35,13 +35,10 @@ class BaseWorkflow:
 
     def graph_traversal(self):
         roots = self.roots
-        file_index = 0
-
         while roots:
             new_roots = []
             for i in roots:
-                yield i.get_name(file_index), i
-                file_index += 1
+                yield i.get_name(), i
                 for node in i.children:
                     if node.parents_ready():
                         new_roots.append(node)

@@ -1,5 +1,5 @@
 from ...baseworkflow import BaseWorkflow
-
+from ...workflow import _test_func_node
 
 def _test_print_node(node):
     return "print" not in node.backend_info
@@ -41,7 +41,8 @@ class LocalWorkflow(BaseWorkflow):
             self.object_storage.new_workflow(self.workflow_name)
 
         for name, exec_node in self.graph_traversal():
-            if self.object_storage and _test_print_node(exec_node):
+            func_node = _test_func_node(exec_node)
+            if self.object_storage and func_node and _test_print_node(exec_node):
                 try:
                     result = self.object_storage.read_task(self.workflow_name, name)
                     print(f"{name} is read from the file.")
@@ -69,7 +70,7 @@ class LocalWorkflow(BaseWorkflow):
             exec_node.result = result
             exec_node.free_memory()
 
-            if self.object_storage and _test_print_node(exec_node):
+            if self.object_storage and func_node and _test_print_node(exec_node):
                 self.object_storage.save(self.workflow_name, name, result)
 
         if len(self.leaves) == 1:
