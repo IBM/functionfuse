@@ -1,7 +1,7 @@
 from ...baseworkflow import BaseWorkflow
 from ...workflow import _test_arg, _test_func_node, _test_constructor_node
 import ray
-
+from time import sleep
 
 def substitue_args(arg_index, karg_keys, args, kargs):
     for index, val_index in arg_index:
@@ -107,13 +107,16 @@ class RayWorkflow(BaseWorkflow):
         ray.wait([new_workflow.remote()], fetch_local=False)
     
 
-    def run(self, return_results = False):
+    def run(self, return_results = False, max_pending_tasks=0):
         """
         Start execution of the workflow.
         :param return_results: A flag if results for input nodes are returned
         :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.
         """
         
+        if max_pending_tasks:
+            all_results_refs = []
+
         for name, exec_node in self.graph_traversal():
 
             args = list(exec_node.args)
@@ -139,6 +142,10 @@ class RayWorkflow(BaseWorkflow):
             remote_args = {}
             if "remote_args" in backend_info:
                 remote_args = backend_info["remote_args"]
+
+            if max_pending_tasks:
+                while len(all_results_refs) > max_pending_tasks:
+                    _, all_results_refs = ray.wait(all_results_refs, fetch_local=False)
             
             func_node = _test_func_node(exec_node)
 
@@ -154,6 +161,9 @@ class RayWorkflow(BaseWorkflow):
             else:
                 actor = exec_node.backend_info["_actor"]
                 result = actor.call_method.remote(exec_node.method_name, arg_index, karg_keys, args, kargs)
+
+            if max_pending_tasks:
+                all_results_refs.append(result)
             
             save_objects = []
             if self.save_func and func_node:
