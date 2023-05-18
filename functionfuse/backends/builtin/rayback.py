@@ -24,7 +24,7 @@ def exec_func(
     node_name, read_object):
     
     if read_object and ray.get(ray.remote(**read_object.remote_args)(read_object.file_exists).remote(node_name)):
-        return ray.remote(**read_object.remote_args)(read_object.read_task).remote(node_name) 
+        return ray.get(ray.remote(**read_object.remote_args)(read_object.read_task).remote(node_name))
         
     if plugin_func is not None:
         plugin_func()
@@ -184,7 +184,7 @@ class RayWorkflow(BaseWorkflow):
                 if nodearg[1] == None:
                     result.append(ray.get(nodearg[0].result))
                 else:
-                    result.append(ray.get(nodearg[0].result)[nodearg[1]])                    
+                    result.append(ray.get(nodearg[0].result)[nodearg[1]])
             return result
         else:
             result = []
