@@ -1,7 +1,6 @@
 from ...baseworkflow import BaseWorkflow
 from ...workflow import _test_arg, _test_func_node, _test_constructor_node
 import ray
-from time import sleep
 
 def substitue_args(arg_index, karg_keys, args, kargs):
     for index, val_index in arg_index:
