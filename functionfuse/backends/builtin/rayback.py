@@ -22,7 +22,7 @@ def substitue_args(arg_index, karg_keys, args, kargs):
 def exec_func(
     plugin_func, arg_index, karg_keys, args, kargs, func, 
     node_name, read_object):
-    
+
     if read_object and ray.get(ray.remote(**read_object.remote_args)(read_object.file_exists).remote(node_name)):
         return ray.get(ray.remote(**read_object.remote_args)(read_object.read_task).remote(node_name))
         
@@ -88,8 +88,9 @@ class RayWorkflow(BaseWorkflow):
     def __init__(self, *nodes, workflow_name, ray_init_args = {}):
         super(RayWorkflow, self).__init__(*nodes, workflow_name = workflow_name)
 
-        ray.shutdown()
-        ray.init(**ray_init_args)
+        # ray.shutdown()
+        if not ray.is_initialized():
+            ray.init(**ray_init_args)
         self.save_func = None
         self.read_object = None
 
