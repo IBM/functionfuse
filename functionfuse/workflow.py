@@ -34,7 +34,10 @@ def _test_arg(arg):
         return (arg.node, arg.index)
     return None
 
-   
+def _add_element(l: list, node):
+    if node not in l:
+        l.append(node)
+
 
 class NodeContainer:
 
@@ -79,15 +82,15 @@ class BaseNode:
             node_arg = _test_arg(i)
             if node_arg:
                 parent = node_arg[0]
-                parents.append(parent)
-                parent.children.append(self)
+                _add_element(parents, parent)
+                _add_element(parent.children, self)
                 self.arg_index.append((index, node_arg))
         for key, value in kargs.items():
             node_arg = _test_arg(value)
             if node_arg:
                 parent = node_arg[0]
-                parents.append(parent)
-                parent.children.append(self)
+                _add_element(parents, parent)
+                _add_element(parent.children, self)
                 self.karg_keys.append((key, node_arg))
         
         self.parents = parents
