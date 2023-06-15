@@ -3,6 +3,7 @@
 
 import hashlib, glob
 import pickle, os, shutil
+import io, copyreg
 
 _HASHLEN = 20
 
@@ -10,10 +11,25 @@ class InvalidPickle(ValueError):
     pass
 
 
-def safepickle(obj):
-    s = pickle.dumps(obj)
+def init_serializers(serializer_classes, path, node_name):
+    serializers = [i(path, node_name) for i in serializer_classes]
+    return serializers
+
+def safepickle(obj, serializers):
+    if serializers:
+        stream = io.BytesIO()
+        p = pickle.Pickler(stream)
+        p.dispatch_table = copyreg.dispatch_table.copy()
+        for i in serializers:
+            p.dispatch_table[i.serializer_class] = i.reduce
+        p.dump(obj)
+        stream.seek(0)
+        s = stream.read()
+    else:
+        s = pickle.dumps(obj)
     s += hashlib.sha1(s).digest()
     return s
+
 
 def safeunpickle(pstr):
     data, checksum = pstr[:-_HASHLEN], pstr[-_HASHLEN:]
@@ -22,24 +38,36 @@ def safeunpickle(pstr):
     return pickle.loads(data)
 
 
-
 class FileStorage:
     """
     Local file storage. Pickle is used to save results of the graph nodes.
     """
     invalid_exception = InvalidPickle
+    bigdata = "bigdata"
+
 
     def __init__(self, path):
         self.path = path
         os.makedirs(path, exist_ok=True)
+        self.serializers = []
 
+    def add_serializer(self, serializer_class):
+        self.serializers.append(serializer_class)
 
     def save(self, workflow_name, filename, obj):
-        if not os.path.exists(os.path.join(self.path, workflow_name)):
+        folder = os.path.join(self.path, workflow_name)
+        if not os.path.exists(folder):
             raise FileNotFoundError(f"Path {self.path} is not found")
+        
+        serializers = None
+        if self.serializers:
+            bigdata_folder = os.path.join(folder, self.bigdata)
+            os.makedirs(bigdata_folder, exist_ok=True)
+            serializers = [i(bigdata_folder, filename) for i in self.serializers]
+        
         path = os.path.join(self.path, workflow_name, filename)
         with open(path, "wb") as f:
-            f.write(safepickle(obj))
+            f.write(safepickle(obj, serializers))
 
 
     def _test_path(self):
@@ -60,7 +88,8 @@ class FileStorage:
         :param pattern: A glob pattern to filter out names of saved results. 
 
         """
-        return [os.path.basename(i) for i in sorted(glob.glob(os.path.join(self.path, workflow_name, pattern)))]
+        files = glob.glob(os.path.join(self.path, workflow_name, pattern))
+        return [os.path.basename(i) for i in sorted(files) if os.path.isfile(i)]
 
 
     def read_task(self, workflow_name, task_name):
@@ -73,6 +102,7 @@ class FileStorage:
 
         """
         path = os.path.join(self.path, workflow_name, task_name)
+        
         if not os.path.exists(path):
             raise FileNotFoundError(f"Path {path} is not found")
         with open(path, "rb") as f:
@@ -80,10 +110,22 @@ class FileStorage:
 
 
     def _remove_task(self, workflow_name, task_name):
-        path = os.path.join(self.path, workflow_name, task_name)
+
+        folder = os.path.join(self.path, workflow_name)
+        path = os.path.join(folder, task_name)
+
         if not os.path.exists(path):
             raise FileNotFoundError(f"Path {path} is not found")
+        
         os.remove(path)
+
+        bigdata_folder = os.path.join(folder, self.bigdata)
+        if os.path.exists(bigdata_folder):        
+            prefixed = [filename for filename in os.listdir(bigdata_folder) if filename.startswith(task_name)]
+            for i in prefixed:
+                os.remove(os.path.join(bigdata_folder, i))
+
+
 
 
     def remove_task(self, workflow_name, task_name = None, pattern = None):
