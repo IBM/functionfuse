@@ -72,6 +72,8 @@ class LocalWorkflow(BaseWorkflow):
 
             if self.object_storage and func_node and _test_print_node(exec_node):
                 self.object_storage.save(self.workflow_name, name, result)
+                if self.object_storage.always_read:
+                    exec_node.result = self.object_storage.read_task(self.workflow_name, name)
 
         if len(self.leaves) == 1:
             return self.leaves[0].result

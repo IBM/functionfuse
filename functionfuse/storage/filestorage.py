@@ -50,6 +50,15 @@ class FileStorage:
         self.path = path
         os.makedirs(path, exist_ok=True)
         self.serializers = []
+        self._always_read = False
+
+    @property
+    def always_read(self):
+        return self._always_read
+    
+    @always_read.setter
+    def always_read(self, value):
+        self._always_read = value
 
     def add_serializer(self, serializer_class):
         self.serializers.append(serializer_class)

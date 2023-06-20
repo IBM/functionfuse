@@ -10,7 +10,6 @@ def _write(obj : Array, filename : str):
     obj.to_hdf5(filename, DATAPATH, chunks = True)
 
 
-
 class HDFSerializer:
 
     serializer_class = Array
@@ -31,7 +30,10 @@ class HDFSerializer:
     @classmethod
     def call(cls, filename):
         f = h5py.File(filename)
-        return da.from_array(f[DATAPATH], chunks="auto")
+        save_object = f[DATAPATH]
+        return da.from_array(save_object, chunks=save_object.chunks)
+
+
 
     
 
