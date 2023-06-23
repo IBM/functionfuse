@@ -13,5 +13,12 @@ def storage_factory(opt):
         from .rayfilestorage import FileStorage
         storage = FileStorage(opt["options"]) 
         return storage
+    
+    if opt["kind"] == "S3":
+        from .s3storage import S3FileStorage
+        path = opt["options"]["path"]
+        s3fs_pars = opt["options"]["s3fs"]
+        return S3FileStorage(path, s3fs_pars)
+
 
     

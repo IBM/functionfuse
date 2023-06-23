@@ -1,23 +1,30 @@
-import glob
-import os, shutil
+import posixpath, s3fs
 
 from .base import StorageWithSerializers
-from ..serializers import FILE_PROTOCOL
+from ..serializers import S3_PROTOCOL
 
 class FileProtocol:
 
-    def __init__(self, path):
+    def __init__(self, path, s3):
         self.path = path
+        self.s3 = s3
 
     def open(self, filename, mode):
-        return open(os.path.join(self.path, filename), mode)
+        return self.s3.open(posixpath.join(self.path, filename), mode)
     
     def remove(self, filename):
-        os.remove(os.path.join(self.path, filename))
+        self.s3.rm_file(posixpath.join(self.path, filename))
         
 
 
-class FileStorage(StorageWithSerializers):
+def rmtree(s3, path):
+    files = s3.glob(posixpath.join(path, "*"))
+    for i in files:
+        s3.rm(i)
+
+
+
+class S3FileStorage(StorageWithSerializers):
     """
     Local file storage. Pickle is used to save results of the graph nodes.
     """
@@ -25,18 +32,27 @@ class FileStorage(StorageWithSerializers):
     bigdata = "bigdata"
 
 
-    def __init__(self, path):
-        super(FileStorage, self).__init__()
+    def __init__(self, path, s3fs_pars):
+        super(S3FileStorage, self).__init__()
+        self.s3fs_pars = s3fs_pars
         self.path = path
-        os.makedirs(path, exist_ok=True)
         self._always_read = False
 
-    def get_bigdata_path(self, workflow):
-        return os.path.join(self.path, workflow, self.bigdata)
 
-    def get_protocols(self, path):
+    def get_s3(self):
+        s3 = s3fs.S3FileSystem(**self.s3fs_pars)
+        return s3
+
+
+    def get_bigdata_path(self, workflow):
+        return posixpath.join(self.path, workflow, self.bigdata)
+
+    def get_protocols(self, path, s3):
         protocols = {
-            FILE_PROTOCOL: FileProtocol(path)
+            S3_PROTOCOL: {
+                "client" : s3,
+                "folder" : path
+            }
         }
         return protocols
 
@@ -49,28 +65,23 @@ class FileStorage(StorageWithSerializers):
         self._always_read = value
 
     def save(self, workflow_name, filename, obj):
-        folder = os.path.join(self.path, workflow_name)
-        if not os.path.exists(folder):
-            raise FileNotFoundError(f"Path {self.path} is not found")
+
+        s3 = self.get_s3()
+        path = posixpath.join(self.path, workflow_name, filename)
+        protocols = self.get_protocols(self.get_bigdata_path(workflow_name), s3) if self.persistent_serializers else None
         
-        if self.have_serializers():
-            bigdata_folder = os.path.join(folder, self.bigdata)
-            os.makedirs(bigdata_folder, exist_ok=True)
-        
-        path = os.path.join(self.path, workflow_name, filename)
-        protocols = self.get_protocols(self.get_bigdata_path(workflow_name)) if self.persistent_serializers else None
-        
-        with open(path, "wb") as f:
+        with s3.open(path, "wb") as f:
             f.write(self.pickle(obj, protocols)) 
 
 
     def _test_path(self):
-        if not os.path.exists(self.path):
+        if not posixpath.exists(self.path):
             raise FileNotFoundError(f"Path {self.path} is not found")
 
 
     def file_exists(self, workflow_name, filename):
-        return os.path.exists(os.path.join(self.path, workflow_name, filename))
+        s3 = self.get_s3()
+        return s3.exists(posixpath.join(self.path, workflow_name, filename))
 
 
     def list_tasks(self, workflow_name, pattern):
@@ -82,8 +93,9 @@ class FileStorage(StorageWithSerializers):
         :param pattern: A glob pattern to filter out names of saved results. 
 
         """
-        files = glob.glob(os.path.join(self.path, workflow_name, pattern))
-        return [os.path.basename(i) for i in sorted(files) if os.path.isfile(i)]
+        s3 = self.get_s3()
+        files = s3.glob(posixpath.join(self.path, workflow_name, pattern))
+        return [posixpath.basename(i) for i in sorted(files) if s3.isfile(i)]
 
 
     def read_task(self, workflow_name, task_name):
@@ -95,29 +107,32 @@ class FileStorage(StorageWithSerializers):
         :param task_name: A task name to load results for. 
 
         """
-        path = os.path.join(self.path, workflow_name, task_name)
+        s3 = self.get_s3()
+        path = posixpath.join(self.path, workflow_name, task_name)
         
-        if not os.path.exists(path):
+        if not s3.exists(path):
             raise FileNotFoundError(f"Path {path} is not found")
-        protocols = self.get_protocols(self.get_bigdata_path(workflow_name)) if self.persistent_serializers else None
-        with open(path, "rb") as f:
+        protocols = self.get_protocols(self.get_bigdata_path(workflow_name), s3) if self.persistent_serializers else None
+        with s3.open(path, "rb") as f:
             return self.unpickle(f.read(), protocols)
 
 
     def _remove_task(self, workflow_name, task_name):
 
-        folder = os.path.join(self.path, workflow_name)
-        path = os.path.join(folder, task_name)
+        s3 = self.get_s3()
 
-        if not os.path.exists(path):
+        folder = posixpath.join(self.path, workflow_name)
+        path = posixpath.join(folder, task_name)
+
+        if not s3.exists(path):
             raise FileNotFoundError(f"Path {path} is not found")
         
         if self.persistent_serializers:
-            protocols = self.get_protocols(self.get_bigdata_path(workflow_name)) 
-            with open(path, "rb") as f:
+            protocols = self.get_protocols(self.get_bigdata_path(workflow_name), s3) 
+            with s3.open(path, "rb") as f:
                 self.remove_persistent_storage(f.read(), protocols)
 
-        os.remove(path)
+        s3.rm_file(path)
 
 
 
@@ -149,13 +164,15 @@ class FileStorage(StorageWithSerializers):
         :type workflow_name: str
 
         """
-        path = os.path.join(self.path, workflow_name)
-        shutil.rmtree(path, ignore_errors=True)
+        s3 = self.get_s3()
+        path = posixpath.join(self.path, workflow_name)
+        rmtree(path)
         
 
     def new_workflow(self, workflow_name):
-        workflow_path = os.path.join(self.path, workflow_name)
-        if not os.path.exists(workflow_path):
-            os.makedirs(workflow_path)
-        
+        """
+        S3 does not have folders, we don't need to create a directory 
+        to save workflow data
+        """
+        pass
         

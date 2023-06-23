@@ -1,10 +1,11 @@
+import yaml
 import dask.array as da
 import numpy as np
 
 from functionfuse import workflow
 from functionfuse.backends.builtin.localback import LocalWorkflow
 from functionfuse.storage import storage_factory
-from functionfuse.serializers.localback.daskarray import HDFSerializer 
+from functionfuse.serializers.daskarray import DaskArraySerializer
 
 
 def _test_storage(storage):
@@ -27,27 +28,49 @@ def _test_storage(storage):
     array = create_dask_array().set_name("dask_array")
     print_node = print_array(array).set_name("print")
     
-
+    
     try:
         storage.remove_task(workflow_name = "storage_test", task_name = "print")
     except:
         pass
+
+
+    try:
+        storage.remove_task(workflow_name = "storage_test", task_name = "dask_array")
+    except:
+        pass
+    
+
 
     local_workflow = LocalWorkflow(print_node, workflow_name = "storage_test")
     local_workflow.set_storage(storage)
     _ = local_workflow.run()
     
 
+'''
+# example of yaml file
+s3fs:
+  key: "access_key"
+  secret: "secret_key"
+  endpoint_url: "endpoint url"
+
+path: "path to storage"
+'''
+
+
 def test_storage():
+
+    with open("s3credentials.yaml", mode = "r") as file:
+        options = yaml.safe_load(file)
+        
     storage_opt = {
-        "kind": "file",
-        "options": {
-            "path": "storage"
-        }
+        "kind": "S3",
+        "options": options 
     }
     
     storage = storage_factory(storage_opt)
-    storage.add_serializer(HDFSerializer)
+    storage.always_read = True
+    storage.register_persistent_serializers(DaskArraySerializer)
     print("First run ...")    
     _test_storage(storage)
     print("Second run ... ")

@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 **/workflow_storage
-
+*.yaml
 # Distribution / packaging
 .Python
 build/
