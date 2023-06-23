@@ -2,7 +2,7 @@ from ...baseworkflow import BaseWorkflow
 from ...workflow import _test_arg, _test_func_node, _test_constructor_node
 import ray
 
-def substitue_args(arg_index, karg_keys, args, kargs):
+def substitute_args(arg_index, karg_keys, args, kargs):
     for index, val_index in arg_index:
         if val_index is None:
             args[index] = ray.get(args[index])
@@ -29,7 +29,7 @@ def exec_func(
     if plugin_func is not None:
         plugin_func()
     
-    arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
+    arg_index, karg_keys, args, kargs = substitute_args(arg_index, karg_keys, args, kargs)
     result = func(*args, **kargs)
     return result
 

@@ -45,12 +45,11 @@ class NodeContainer:
 
     def __init__(self, func):
         self.func = func
-        self.func_name = f"{getattr(self.func, '__qualname__', None)}"
     
     def __call__(self, *args, **kargs):
-        index = NodeContainer.index[self.func_name]
-        name = f"{self.func_name}_{index:04d}"
-        NodeContainer.index[self.func_name] += 1
+        index = NodeContainer.index[self.func]
+        name = f"{getattr(self.func, '__qualname__', None)}_{index:04d}"
+        NodeContainer.index[self.func] += 1
         node = Node(name, self.func)
         return node(*args, **kargs)
 
