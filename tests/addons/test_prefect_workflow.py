@@ -258,7 +258,7 @@ def test_concurrent_task_runner():
     task outputs into default prefect storage location
     '''
     from prefect.task_runners import ConcurrentTaskRunner
-    prefect_flow_options = {'task_runner': ConcurrentTaskRunner}
+    prefect_flow_options = {'task_runner': ConcurrentTaskRunner()}
     test1(prefect_flow_options=prefect_flow_options)
     test2(prefect_flow_options=prefect_flow_options)
 

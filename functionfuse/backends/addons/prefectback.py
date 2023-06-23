@@ -128,11 +128,12 @@ class PrefectWorkflow(BaseWorkflow):
         Separating this from run allows deploy() option within Prefect server
         """
         prefect_flow_options = {"name": self.workflow_name,
-                                "task_runner": task_runners.SequentialTaskRunner}
+                                "task_runner": task_runners.SequentialTaskRunner()}
         prefect_flow_options.update(self.prefect_flow_options)
 
         @flow(**prefect_flow_options)
         def prefect_flow():
+            save_objects = []
             for name, exec_node in self.graph_traversal():
                 func_node = _test_func_node(exec_node)
                 if self.object_storage and func_node and _test_print_node(exec_node):
@@ -168,17 +169,15 @@ class PrefectWorkflow(BaseWorkflow):
                 exec_node.result = result
                 exec_node.free_memory()
 
-                save_objects = []
                 if self.object_storage and func_node and _test_print_node(exec_node):
                     save_objects.append((name, result))
-                    # self.object_storage.save(self.workflow_name, name, result.result())
                     if self.object_storage.always_read:
                         exec_node.result = self.object_storage.read_task(self.workflow_name, name)
 
             for so in save_objects:
                 if isinstance(so[1], PrefectFuture):
                     to_save = so[1].result()
-                elif isinstance(so[1], list):
+                elif isinstance(so[1], tuple) or isinstance(so[1], list):
                     to_save = []
                     for i in so[1]:
                         if isinstance(i, PrefectFuture):
