@@ -98,3 +98,21 @@ Example:
 
     _ = ray_workflow.run()
 
+Add-ons
+*********
+
+Prefect Workflow
+-----------------
+
+The Prefect Workflow interface is similar to the `Ray Workflow`_, providing 
+options to query nodes to set Prefect Task specific options for each node, as 
+well as ability to pass Prefect Flow options when creating the Prefect Flow from
+the workflow graph. The Prefect Flow can also be independently generated outside
+of the run function, stored as PrefectWorkflow.flow, which could be used with 
+Prefect Deployment options (not yet implemented).
+
+.. autoclass:: functionfuse.backends.addons.prefectback.PrefectWorkflow
+    :members: run, query, generate_flow, set_prefect_flow_options, set_storage
+
+.. autoclass:: functionfuse.backends.addons.prefectback.Query
+    :members: set_task_args

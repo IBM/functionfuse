@@ -12,8 +12,12 @@ Welcome to Function Fuse's documentation!
 
    usage/installation
    background/introduction
+   backends/backends
+   storage/storage
+   serializers/serializers
    examples/examples
    api/api
+   deployment/deployment
 
 Indices and tables
 ==================
