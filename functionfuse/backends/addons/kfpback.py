@@ -1,6 +1,8 @@
 from ...baseworkflow import BaseWorkflow
 from ...workflow import _test_func_node
 
+from collections import OrderedDict
+
 import kfp
 import kfp.dsl as dsl
 from kfp.components import create_component_from_func, InputBinaryFile, OutputBinaryFile
@@ -14,6 +16,8 @@ def generate_function(args: dict) -> callable:
 
     def exec_func(output_file: OutputBinaryFile(bytes),
                     calling_file: str,
+                    args_sub_indices: dict,
+                    kargs_sub_indices: dict,
                     *args,
                     **kargs):
         import os, pickle, io, sys
@@ -21,22 +25,55 @@ def generate_function(args: dict) -> callable:
         HERE = os.path.dirname(os.path.abspath(calling_file))
         sys.path.insert(0, HERE)
 
+        print(args)
+        print(kargs)
+
+        args = list(args)
+        ffargs_keys = []
+        for key, val in kargs.items():
+            if key.startswith("ffarg"):
+                ffargs_keys.append(key)
+                args.append(val)
+        
+        [kargs.pop(k) for k in ffargs_keys]
+
+        print(args)
+        print(kargs)
+
+        print(args_sub_indices)
+        print(kargs_sub_indices)
+
         ffargs = []
-        for arg in args:
-            if type(arg) == io.BufferedReader:
-                ffargs.append(pickle.load(arg))
+        for i, arg in enumerate(args):
+            if str(i) in args_sub_indices.keys():
+                if type(arg) == io.BufferedReader:
+                    ffargs.append(pickle.load(arg)[args_sub_indices[str(i)]])
+                else:
+                    ffargs.append(arg[args_sub_indices[str(i)]])
             else:
-                ffargs.append(arg)
+                if type(arg) == io.BufferedReader:
+                    ffargs.append(pickle.load(arg))
+                else:
+                    ffargs.append(arg)
 
         ffkargs = {}
         for key, val in kargs.items():
-            if type(val) == io.BufferedReader:
-                ffkargs[key] = pickle.load(val)
+            if key in kargs_sub_indices.keys():
+                if type(val) == io.BufferedReader:
+                    ffkargs[key] = pickle.load(val)[kargs_sub_indices[key]]
+                else:
+                    ffkargs[key] = val[kargs_sub_indices[key]]
             else:
-                ffkargs[key] = val
+                if type(val) == io.BufferedReader:
+                    ffkargs[key] = pickle.load(val)
+                else:
+                    ffkargs[key] = val
 
         os.ffargs = ffargs
         os.ffkargs = ffkargs
+
+        print(ffargs)
+        print(ffkargs)
 
         print(os.listdir())
         print(os.getcwd())
@@ -48,10 +85,13 @@ def generate_function(args: dict) -> callable:
 
         # Get result from os module
         result = os.ffresult
+        print(result)
         pickle.dump(result, output_file)
 
     args.update({'output_file': OutputBinaryFile(bytes),
-                    'calling_file': str})
+                 'calling_file': str,
+                 'args_sub_indices': dict,
+                 'kargs_sub_indices': dict})
     
     params = [inspect.Parameter(param,
                                     inspect.Parameter.POSITIONAL_OR_KEYWORD,
@@ -179,24 +219,34 @@ class KFPWorkflow(BaseWorkflow):
                 args_types = [type(arg) for arg in args]
 
                 kargs = exec_node.kargs.copy()
-                kargs_types = {}
-                for key, val in kargs.items():
-                    kargs_types.update({key: type(val)})
+                kargs_types = OrderedDict()
 
                 for index, _ in exec_node.arg_index:
                     args_types[index] = InputBinaryFile(bytes)
+
+                for i, type_ in enumerate(args_types):
+                    kargs_types.__setitem__(f"ffarg{i}", type_)
+
+                for key, val in kargs.items():
+                    kargs_types.__setitem__(key, type(val))
 
                 for key, _ in exec_node.karg_keys:
                     kargs_types[key] = InputBinaryFile(bytes)
 
                 exec_func = generate_function(kargs_types)
-
-                print(name)
+                # exec_func.__name__ = name
+                # exec_func.__qualname__ = name
+                # globals()[name] = globals()["exec_func"]
+                # print(name)
+                # print(exec_func.__name__)
+                # print(exec_func.__qualname__)
 
                 exec_node.set_backend_info('exec_func', exec_func)
                 print(exec_func.__signature__)
+                packages_to_install = ['kfp==1.8.21', 'kubernetes']
                 exec_op = create_component_from_func(exec_func,
-                                                     base_image=image_name)
+                                                     base_image=image_name,
+                                                     packages_to_install=packages_to_install)
                 exec_node.set_backend_info('op', exec_op)
 
             @dsl.pipeline(name=self.workflow_name)
@@ -209,21 +259,24 @@ class KFPWorkflow(BaseWorkflow):
                 for name, exec_node in self.graph_traversal():
                     args = list(exec_node.args)
                     kargs = exec_node.kargs.copy()
+                    args_sub_indices = {}
+                    kargs_sub_indices = {}
                     for index, (node, val_index) in exec_node.arg_index:
-                        if val_index is None:
-                            args[index] = node.result.output
-                        else:
-                            args[index] = node.result[val_index].output
-
+                        args[index] = node.result.output
+                        if val_index is not None:
+                            args_sub_indices.__setitem__(index, val_index)
+                            
                     for key, (node, val_index) in exec_node.karg_keys:
-                        if val_index is None:
-                            kargs[key] = node.result.output
-                        else:
-                            kargs[key] = node.result[val_index].output
+                        kargs[key] = node.result.output
+                        if val_index is not None:
+                            kargs_sub_indices.__setitem__(key, val_index)
 
                     import pickle
                     exec_node.result = exec_node.backend_info['op'](
                         calling_file=calling_file_trim,
+                        args_sub_indices=args_sub_indices,
+                        kargs_sub_indices=kargs_sub_indices,
+                        *args,
                         **kargs
                         ).add_env_variable(V1EnvVar(name="FFFUNCTION",
                                                     value=name))

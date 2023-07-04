@@ -176,7 +176,16 @@ def test1(host="http://localhost:3000"):
 #     (options, args) = parser.parse_args()
 #     test1_kfp(host=options.kfpserver)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+
+registry_credentials = {"server": "docker-na.artifactory.swg-devops.com/res-hcls-mcm-brain-docker-local",
+                        "username": "thrumbel@us.ibm.com",
+                        "password": ""}
+baseimage = "docker-na.artifactory.swg-devops.com/res-hcls-mcm-brain-docker-local/particles-py3.10:1.5"
+
+TEST = 'test2'
+
+if TEST == 'test1':
     @workflow
     def sum(a, b):
         return a + b
@@ -187,9 +196,15 @@ if __name__ == "__main__":
 
     a, b = 1, 1
 
-    s1 = sum(a=a, b=b)
-    s2 = sum(a=s1, b=b)
-    m = minus(a=s1, b=s2)
+    # Testing kargs
+    # s1 = sum(a=a, b=b)
+    # s2 = sum(a=s1, b=b)
+    # m = minus(a=s1, b=s2)
+
+    # Testing args
+    s1 = sum(a, b)
+    s2 = sum(s1, b)
+    m = minus(s1, s2)
 
     #      s1
     #    /  |
@@ -197,9 +212,41 @@ if __name__ == "__main__":
     #     \ |
     #       m
 
-    registry_credentials = {"server": "docker-na.artifactory.swg-devops.com/res-hcls-mcm-brain-docker-local",
-                            "username": "thrumbel@us.ibm.com",
-                            "password": ""}
     kfp_workflow = KFPWorkflow(m, workflow_name = "kfp_test_first",
-                               registry_credentials=registry_credentials)
+                            baseimage=baseimage,
+                            registry_credentials=registry_credentials)
     kfp_workflow.run()
+
+elif TEST == 'test2':
+
+    # Testing multiple return values:
+    @workflow
+    def sum(a, b):
+        return (a + b, b)
+
+    @workflow
+    def minus(a, b):
+        return a - b
+
+    a, b = 1, 1
+
+    # Testing kargs
+    # s1 = sum(a=a, b=b)
+    # s2 = sum(a=s1, b=b)
+    # m = minus(a=s1, b=s2)
+
+    # Testing args
+    s1 = sum(a, b)
+    s2 = sum(s1[0], b)
+    m = minus(s1[0], s2[0])
+
+    #      s1
+    #    /  |
+    #   s2  |
+    #     \ |
+    #       m
+
+    kfp_workflow2 = KFPWorkflow(m, workflow_name = "kfp_test_second",
+                            baseimage=baseimage,
+                            registry_credentials=registry_credentials)
+    kfp_workflow2.run()
