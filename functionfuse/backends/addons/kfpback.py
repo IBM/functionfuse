@@ -5,6 +5,8 @@ import kfp
 import kfp.dsl as dsl
 from kfp.components import create_component_from_func, InputBinaryFile, OutputBinaryFile
 
+from kubernetes.client.models import V1EnvVar
+from kubernetes.client import V1LocalObjectReference
 
 def generate_function(args: dict) -> callable:
 
@@ -14,7 +16,10 @@ def generate_function(args: dict) -> callable:
                     calling_file: str,
                     *args,
                     **kargs):
-        import os, pickle, io
+        import os, pickle, io, sys
+
+        HERE = os.path.dirname(os.path.abspath(calling_file))
+        sys.path.insert(0, HERE)
 
         ffargs = []
         for arg in args:
@@ -32,6 +37,10 @@ def generate_function(args: dict) -> callable:
 
         os.ffargs = ffargs
         os.ffkargs = ffkargs
+
+        print(os.listdir())
+        print(os.getcwd())
+        print(os.getenv("FFFUNCTION"))
 
         # Run the function by importing the file with workflow.run original call
         from importlib import import_module
@@ -127,11 +136,14 @@ class KFPWorkflow(BaseWorkflow):
             calling_file_trim = calling_file.split('/')[-1].split('.')[0]
             print(f"KFP Workflow Run -- calling_file_trim: {calling_file_trim}")
 
+            print(os.listdir())
+
             # Create image from base + calling folder
             with open("Dockerfile", "w") as f:
                 f.write(f"FROM {self.baseimage}\n")
-                f.write("WORKDIR /ffrun")
-                f.write(f"ADD {calling_folder} /ffrun/\n")
+                f.write("WORKDIR /ffrun\n")
+                # f.write(f"ADD {calling_folder} /ffrun/\n")
+                f.write(f"ADD . /ffrun/\n")
 
             if "server" in self.registry_credentials:
                 image_name = f"{self.registry_credentials['server']}/{self.workflow_name}"
@@ -183,11 +195,17 @@ class KFPWorkflow(BaseWorkflow):
 
                 exec_node.set_backend_info('exec_func', exec_func)
                 print(exec_func.__signature__)
-                exec_op = create_component_from_func(exec_func)
+                exec_op = create_component_from_func(exec_func,
+                                                     base_image=image_name)
                 exec_node.set_backend_info('op', exec_op)
 
             @dsl.pipeline(name=self.workflow_name)
             def workflow_pipeline():
+                
+                dsl.get_pipeline_conf().set_image_pull_secrets(
+                    [V1LocalObjectReference(name="regcred")]
+                    )
+                
                 for name, exec_node in self.graph_traversal():
                     args = list(exec_node.args)
                     kargs = exec_node.kargs.copy()
@@ -207,7 +225,8 @@ class KFPWorkflow(BaseWorkflow):
                     exec_node.result = exec_node.backend_info['op'](
                         calling_file=calling_file_trim,
                         **kargs
-                        )
+                        ).add_env_variable(V1EnvVar(name="FFFUNCTION",
+                                                    value=name))
                     
                     # exec_node.free_memory()
 
