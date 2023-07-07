@@ -19,6 +19,7 @@ Welcome to Function Fuse's documentation!
    examples/examples
    api/api
    deployment/deployment
+   futuredirections/futuredirections
 
 Indices and tables
 ==================

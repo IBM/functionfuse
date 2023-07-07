@@ -9,7 +9,7 @@ Node's main function run as a Node in the Ray Workflow DAG (see the
 
 .. note::
     The Ray Workflow backend is completely separate from the 
-    :ref:`backends/backends/Ray Backend`. The Ray Backend uses Ray remote task 
+    :ref:`backends/builtins/ray:RayWorkflow`. The Ray Backend uses Ray remote task 
     calls directly within FunctionFuse Workflow Node execution. In contrast, 
     the Ray Workflow backend uses ``.bind()`` on each FunctionFuse Node during 
     graph traversal Ray to define a Ray Workflow DAG, and calls ``.run()`` at 
