@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kubeflow Pipelines Workflow &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ray Workflow Workflow" href="rayworkflow.html" />
+    <link rel="prev" title="Prefect Workflow" href="prefect.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/introduction.html">Introduction and quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../background/introduction.html#why-another-workflow-package">Why another workflow package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/introduction.html#the-frontend">The frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/introduction.html#backends">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../background/introduction.html#graph-visualization">Graph visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/introduction.html#queries">Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/introduction.html#serializers">Serializers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/background.html">Background Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../background/bigdata.html">Big Data Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../backends.html">Backends</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../backends.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backends.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../backends.html#queries">Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../backends.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../backends.html#workflows">Workflows</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../builtins/local.html">LocalWorkflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../builtins/ray.html">RayWorkflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../builtins/ray.html#ray-cluster-options">Ray cluster options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../builtins/ray.html#ray-remote-task-options">Ray remote task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../builtins/ray.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../builtins/ray.html#storage">Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="prefect.html">Prefect Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="prefect.html#prefect-flow-options">Prefect Flow options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="prefect.html#prefect-task-options">Prefect Task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="prefect.html#storage">Storage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="prefect.html#prefect-server">Prefect Server</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Kubeflow Pipelines Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#run-sequence">Run Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-generated-function">The generated function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kubernetes-interactions">Kubernetes interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kfp-dashboard">KFP Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/example1.html">Basic ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example1.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example1.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/example2.html">Advanced ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example2.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example2.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/example3.html">Basic ML example (Ray Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example3.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example3.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/example4.html">Basic ML example (Prefect Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example4.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example4.html#Prefect-Server">Prefect Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/frontend.html">Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/frontend.html#functionfuse.workflow"><code class="docutils literal notranslate"><span class="pre">workflow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/frontend.html#set_name"><code class="docutils literal notranslate"><span class="pre">set_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/backends.html">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/backends.html#built-in">Built-in</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/backends.html#local-workflow">Local Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/backends.html#ray-workflow">Ray Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/backends.html#add-ons">Add-ons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/backends.html#prefect-workflow">Prefect Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/backends.html#kfp-workflow">KFP Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/deployment.html">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../deployment/ibm_research_cloud.html">IBM Research Cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deployment/ibm_research_cloud.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deployment/ibm_research_cloud.html#s3-storage-node-tutorial">S3 Storage Node Tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../backends.html">Backends</a></li>
+      <li class="breadcrumb-item active">Kubeflow Pipelines Workflow</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/backends/addons/kfp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kubeflow-pipelines-workflow">
+<h1>Kubeflow Pipelines Workflow<a class="headerlink" href="#kubeflow-pipelines-workflow" title="Permalink to this heading"></a></h1>
+<p>The <a class="reference internal" href="../../api/backends.html#kfp-workflow"><span class="std std-ref">KFP Workflow</span></a> is a backend for configuring a
+<em>FunctionFuse</em> workflow graph as a <em>Kubeflow Pipeline</em>. In this implementation
+the code and requirements for the <em>FunctionFuse</em> graph are packaged in a
+container. The container is used within Kubernetes when the <code class="docutils literal notranslate"><span class="pre">KFPWorkflow</span></code> is
+<code class="docutils literal notranslate"><span class="pre">.run()</span></code>. The DAG gets created within KFP with identical container and code
+for each Node, but on graph traversal the specific Node’s execution functions
+are referened by an environment variable matching the Node name. The intention
+is to prevent complex code being written into yaml files. Instead identical
+simpler code is written to the yaml file for each KFP component, and then the
+main code is packaged inside the container. When a component is run, an
+environment variable is used to indicate the precise function to call.</p>
+<p>See the
+<a class="reference external" href="https://www.kubeflow.org/docs/components/pipelines/v2/">Kubeflow Pipelines documentation</a>
+for more details on how to use KFP in general.</p>
+<p>After declaring a frontend-defined workflow, e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse</span> <span class="kn">import</span> <span class="n">workflow</span>
+
+<span class="nd">@workflow</span>
+<span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+
+<span class="n">a_plus_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;node1&quot;</span><span class="p">)</span>
+<span class="n">a_plus_two_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a_plus_b</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;node2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>a <code class="docutils literal notranslate"><span class="pre">KFPWorkflow</span></code> can be instantiated, and the <code class="docutils literal notranslate"><span class="pre">run()</span></code> function will go
+through a series of steps to convert the <em>FunctionFuse</em> DAG to a compatible
+format for KFP, and immediately initiate a KFP Run.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.addons.kfpback</span> <span class="kn">import</span> <span class="n">KFPWorkflow</span>
+
+<span class="n">kfp_workflow</span> <span class="o">=</span> <span class="n">KFPWorkflow</span><span class="p">(</span><span class="n">a_plus_two_b</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;sums&quot;</span><span class="p">)</span>
+<span class="n">kfp_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="run-sequence">
+<h2>Run Sequence<a class="headerlink" href="#run-sequence" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">KFPWorkflow.run()</span></code> triggers a sequence of operations:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Build a container by copying the folder that python was executed in
+to a folder <code class="docutils literal notranslate"><span class="pre">/ffrun/</span></code> on the baseimage</p></li>
+<li><p>Push that container to a specified docker registry (see below for
+setting registry options)</p></li>
+<li><p>A KFP component preparation stage then traverses the graph and for
+each Node:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>gathers <code class="docutils literal notranslate"><span class="pre">type</span></code> of all inputs</p></li>
+<li><p>for inputs that are Node results, replace the type with the KFP
+<code class="docutils literal notranslate"><span class="pre">InputBinaryFile(bytes)</span></code></p></li>
+<li><p>a new function is created (see the Note below on what that
+function does), and the signature of that function is then assigned
+to ensure that arguments are named with types provided</p></li>
+<li><p>a KFP component is created using <code class="docutils literal notranslate"><span class="pre">create_component_from_func()</span></code>
+– note that this means that types for the KFP <code class="docutils literal notranslate"><span class="pre">component_spec</span></code>
+actually are defined by the inputs passed to a Node at runtime</p></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">&#64;kfp.dsl.pipeline()</span></code> is created by traversing the graph again,
+this time calling each Node’s KFP component. An environment variable
+called <code class="docutils literal notranslate"><span class="pre">FFFUNCTION</span></code> is set in the container for each component to
+indicate which Node is being run.</p></li>
+<li><p>Connect to the KFP Client and call <code class="docutils literal notranslate"><span class="pre">client.create_run_from_pipeline_func()</span></code>
+with the create pipeline function to start a run</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="the-generated-function">
+<h2>The generated function<a class="headerlink" href="#the-generated-function" title="Permalink to this heading"></a></h2>
+<p>During KFP component creation, a new function called <code class="docutils literal notranslate"><span class="pre">exec_func</span></code> is
+created for each Node, and the KFP component is created from the new
+<code class="docutils literal notranslate"><span class="pre">exec_func</span></code>. Each KFP component is run standalone in a container, so to
+get access to global information, and to run arbitrary functions with any
+signatures (to maintain the simplicity of the <em>FunctionFuse</em> frontend), we
+call the entire code again from scratch within <code class="docutils literal notranslate"><span class="pre">exec_func</span></code>. An environment
+variable <code class="docutils literal notranslate"><span class="pre">FFFUNCTION</span></code> is used to divert the processing to run function of
+a Node with name matching the contents of <code class="docutils literal notranslate"><span class="pre">FFFUNCTION</span></code>. The general flow
+of <code class="docutils literal notranslate"><span class="pre">exec_func</span></code> is as follows:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Load data from <code class="docutils literal notranslate"><span class="pre">InputBinaryFile</span></code> sources, and extract indexed
+results to pass as the arguments to the <code class="docutils literal notranslate"><span class="pre">Node.func</span></code>.</p></li>
+<li><p>Arguments are then set as attributes of the <code class="docutils literal notranslate"><span class="pre">os</span></code> module in the
+<code class="docutils literal notranslate"><span class="pre">os.ffargs</span></code> and <code class="docutils literal notranslate"><span class="pre">os.ffkargs</span></code> variables.</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">import</span></code> on the original file that was used to set up the
+workflow. This, of course, calls <code class="docutils literal notranslate"><span class="pre">KFPWorkflow.run()</span></code> again, but
+this time the presence of the <code class="docutils literal notranslate"><span class="pre">FFFUNCTION</span></code> environment variable
+diverts to code flow before creating the KFP components, and instead
+traverses the graph to find the Node whose name matches <code class="docutils literal notranslate"><span class="pre">FFFUNCION</span></code>.</p></li>
+<li><p>The arguments are retrieved by importing <code class="docutils literal notranslate"><span class="pre">os</span></code> and the <code class="docutils literal notranslate"><span class="pre">Node.func</span></code>
+is called. Returned values are assinged to <code class="docutils literal notranslate"><span class="pre">os.ffresult</span></code>.</p></li>
+<li><p>Back in <code class="docutils literal notranslate"><span class="pre">exec_func</span></code>, os.ffresult is pickled to an
+<code class="docutils literal notranslate"><span class="pre">OutputBinaryFile</span></code>. This can then be retrieved by subsequent KFP
+components.</p></li>
+</ol>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Due to the use of <code class="docutils literal notranslate"><span class="pre">import</span></code> on the original file that starts the workflow,
+the workflow run must be triggered in that file without the use of a
+<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">&quot;__main__&quot;</span></code> statement.</p>
+<p>All code that is not installed on the container (or specified for KFP to
+install using <code class="docutils literal notranslate"><span class="pre">packages_to_install</span></code>) must be in the folder that the
+original python script is executed from.</p>
+</div>
+</section>
+<section id="kubernetes-interactions">
+<h2>Kubernetes interactions<a class="headerlink" href="#kubernetes-interactions" title="Permalink to this heading"></a></h2>
+<p>Before calling <code class="docutils literal notranslate"><span class="pre">kfp_workflow.run()</span></code>, additional settings may be required.</p>
+<p>The created container will be pushed to a container registry that the KFP Host
+Kuberenetes cluster has access to. If this is a private registry, information
+for a docker login command should be provided:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># baseimage defaults to python. This image contains requirements, but is in a private registry:</span>
+<span class="n">baseimage</span> <span class="o">=</span> <span class="s2">&quot;docker-na.artifactory.swg-devops.com/res-hcls-mcm-brain-docker-local/particles-py3.10:1.5&quot;</span>
+
+<span class="c1"># Provide credential used by docker login:</span>
+<span class="n">registry_credentials</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;docker-na.artifactory.swg-devops.com/res-hcls-mcm-brain-docker-local&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;user@us.ibm.com&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxxx&quot;</span><span class="p">}</span>
+
+<span class="n">kfp_workflow</span><span class="o">.</span><span class="n">set_baseimage</span><span class="p">(</span><span class="n">baseimage</span><span class="p">)</span>
+<span class="n">kfp_workflow</span><span class="o">.</span><span class="n">set_registry_credentials</span><span class="p">(</span><span class="n">registry_credentials</span><span class="p">)</span>
+<span class="n">kfp_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The Kubernetes cluster should also have access to this registry via an
+<code class="docutils literal notranslate"><span class="pre">ImagePullSecret</span></code> in the <code class="docutils literal notranslate"><span class="pre">kubeflow</span></code> namespace. This can be created using
+kubectl (this should probably use a service account rather than a user’s
+personal login to the registry):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">create</span> <span class="n">secret</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubeflow</span> <span class="n">docker</span><span class="o">-</span><span class="n">registry</span> <span class="n">regcred</span> \
+        <span class="o">--</span><span class="n">docker</span><span class="o">-</span><span class="n">server</span><span class="o">=</span><span class="n">docker</span><span class="o">-</span><span class="n">na</span><span class="o">.</span><span class="n">artifactory</span><span class="o">.</span><span class="n">swg</span><span class="o">-</span><span class="n">devops</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">res</span><span class="o">-</span><span class="n">hcls</span><span class="o">-</span><span class="n">mcm</span><span class="o">-</span><span class="n">brain</span><span class="o">-</span><span class="n">docker</span><span class="o">-</span><span class="n">local</span> \
+        <span class="o">--</span><span class="n">docker</span><span class="o">-</span><span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="nd">@us</span><span class="o">.</span><span class="n">ibm</span><span class="o">.</span><span class="n">com</span> \
+        <span class="o">--</span><span class="n">docker</span><span class="o">-</span><span class="n">password</span><span class="o">=</span><span class="n">xxxxx</span>
+</pre></div>
+</div>
+<p>The default address for the KFP host is <code class="docutils literal notranslate"><span class="pre">&quot;http://localhost:3000&quot;</span></code>. To use a different
+address set:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">kfp_host</span> <span class="o">=</span> <span class="s2">&quot;http://&lt;address&gt;:&lt;port&gt;&quot;</span>
+
+<span class="n">kfp_workflow</span><span class="o">.</span><span class="n">set_kfp_host</span><span class="p">(</span><span class="n">kfp_host</span><span class="p">)</span>
+<span class="n">kfp_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="kfp-dashboard">
+<h2>KFP Dashboard<a class="headerlink" href="#kfp-dashboard" title="Permalink to this heading"></a></h2>
+<p>Workflow runs logged in the KFP system:</p>
+<img alt="List of Pipeline Runs" src="../../_images/KFPDashboardRuns.png" />
+<p>An individual Run shows information about the components run, locations of
+inputs and outputs, logs, and results:</p>
+<img alt="Pipeline Run Result" src="../../_images/KFPDashboardRunResult.png" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="prefect.html" class="btn btn-neutral float-left" title="Prefect Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rayworkflow.html" class="btn btn-neutral float-right" title="Ray Workflow Workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

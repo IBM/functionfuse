@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>functionfuse.backends.addons.kfpback &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/introduction.html">Introduction and quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#why-another-workflow-package">Why another workflow package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#the-frontend">The frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#backends">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../background/introduction.html#graph-visualization">Graph visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#queries">Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#serializers">Serializers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/background.html">Background Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/bigdata.html">Big Data Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/backends.html">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/backends.html#queries">Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/backends.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#workflows">Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/builtins/local.html">LocalWorkflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/builtins/ray.html">RayWorkflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#ray-cluster-options">Ray cluster options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#ray-remote-task-options">Ray remote task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#storage">Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/prefect.html">Prefect Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#prefect-flow-options">Prefect Flow options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#prefect-task-options">Prefect Task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#storage">Storage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#prefect-server">Prefect Server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/kfp.html">Kubeflow Pipelines Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#run-sequence">Run Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#the-generated-function">The generated function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#kubernetes-interactions">Kubernetes interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#kfp-dashboard">KFP Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example1.html">Basic ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example1.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example1.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example2.html">Advanced ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example2.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example2.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example3.html">Basic ML example (Ray Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example3.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example3.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example4.html">Basic ML example (Prefect Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#Prefect-Server">Prefect Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/frontend.html">Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/frontend.html#functionfuse.workflow"><code class="docutils literal notranslate"><span class="pre">workflow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/frontend.html#set_name"><code class="docutils literal notranslate"><span class="pre">set_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/backends.html">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/backends.html#built-in">Built-in</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#local-workflow">Local Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#ray-workflow">Ray Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/backends.html#add-ons">Add-ons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#prefect-workflow">Prefect Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#kfp-workflow">KFP Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment/deployment.html">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../deployment/ibm_research_cloud.html">IBM Research Cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../deployment/ibm_research_cloud.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../deployment/ibm_research_cloud.html#s3-storage-node-tutorial">S3 Storage Node Tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">functionfuse.backends.addons.kfpback</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for functionfuse.backends.addons.kfpback</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">...baseworkflow</span> <span class="kn">import</span> <span class="n">BaseWorkflow</span>
+<span class="kn">from</span> <span class="nn">...workflow</span> <span class="kn">import</span> <span class="n">_test_func_node</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span> <span class="nn">kfp</span>
+<span class="kn">import</span> <span class="nn">kfp.dsl</span> <span class="k">as</span> <span class="nn">dsl</span>
+<span class="kn">from</span> <span class="nn">kfp.components</span> <span class="kn">import</span> <span class="n">create_component_from_func</span><span class="p">,</span> <span class="n">InputBinaryFile</span><span class="p">,</span> <span class="n">OutputBinaryFile</span>
+
+<span class="kn">from</span> <span class="nn">kubernetes.client.models</span> <span class="kn">import</span> <span class="n">V1EnvVar</span>
+<span class="kn">from</span> <span class="nn">kubernetes.client</span> <span class="kn">import</span> <span class="n">V1LocalObjectReference</span>
+
+<span class="k">def</span> <span class="nf">generate_function</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+
+    <span class="kn">import</span> <span class="nn">inspect</span>
+
+    <span class="k">def</span> <span class="nf">exec_func</span><span class="p">(</span><span class="n">output_file</span><span class="p">:</span> <span class="n">OutputBinaryFile</span><span class="p">(</span><span class="nb">bytes</span><span class="p">),</span>
+                  <span class="n">calling_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                  <span class="n">args_sub_indices</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                  <span class="n">kargs_sub_indices</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                  <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">sys</span>
+
+        <span class="n">HERE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">calling_file</span><span class="p">))</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">HERE</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">ffargs_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ffarg&quot;</span><span class="p">):</span>
+                <span class="n">ffargs_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        
+        <span class="p">[</span><span class="n">kargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ffargs_keys</span><span class="p">]</span>
+
+        <span class="n">ffargs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">in</span> <span class="n">args_sub_indices</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="n">io</span><span class="o">.</span><span class="n">BufferedReader</span><span class="p">:</span>
+                    <span class="n">ffargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">arg</span><span class="p">)[</span><span class="n">args_sub_indices</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ffargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">args_sub_indices</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="n">io</span><span class="o">.</span><span class="n">BufferedReader</span><span class="p">:</span>
+                    <span class="n">ffargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ffargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+        <span class="n">ffkargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kargs_sub_indices</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">io</span><span class="o">.</span><span class="n">BufferedReader</span><span class="p">:</span>
+                    <span class="n">ffkargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="n">kargs_sub_indices</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ffkargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="n">kargs_sub_indices</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">io</span><span class="o">.</span><span class="n">BufferedReader</span><span class="p">:</span>
+                    <span class="n">ffkargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ffkargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">ffargs</span> <span class="o">=</span> <span class="n">ffargs</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">ffkargs</span> <span class="o">=</span> <span class="n">ffkargs</span>
+
+        <span class="c1"># Run the function by importing the file with workflow.run original call</span>
+        <span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
+        <span class="n">import_module</span><span class="p">(</span><span class="n">calling_file</span><span class="p">)</span>
+
+        <span class="c1"># Get result from os module</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">ffresult</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+
+    <span class="n">args</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;output_file&#39;</span><span class="p">:</span> <span class="n">OutputBinaryFile</span><span class="p">(</span><span class="nb">bytes</span><span class="p">),</span>
+                 <span class="s1">&#39;calling_file&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="s1">&#39;args_sub_indices&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                 <span class="s1">&#39;kargs_sub_indices&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">})</span>
+    
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">param</span><span class="p">,</span>
+                                    <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">,</span>
+                                    <span class="n">annotation</span><span class="o">=</span><span class="n">type_</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">type_</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+    
+    <span class="n">exec_func</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Signature</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">exec_func</span><span class="o">.</span><span class="vm">__annotations__</span> <span class="o">=</span> <span class="n">args</span>
+
+    <span class="k">return</span> <span class="n">exec_func</span>
+    
+
+<div class="viewcode-block" id="KFPWorkflow"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.kfpback.KFPWorkflow">[docs]</a><span class="k">class</span> <span class="nc">KFPWorkflow</span><span class="p">(</span><span class="n">BaseWorkflow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Backend to run workflows on Kubeflow Pipelines. </span>
+
+<span class="sd">    :param nodes: A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.</span>
+<span class="sd">    :param workflow_name: A name of the workflow that is used by storage classes.</span>
+<span class="sd">    :param baseimage: The container image to use as the base that the KFP component execution image will be built on top of.</span>
+<span class="sd">    :param registry_credentials: A dictionary of credential information for accessing a private container registry, if necessary.</span>
+<span class="sd">                                 </span>
+<span class="sd">    Available fields: </span>
+<span class="sd">        </span>
+<span class="sd">    server: address to the registry server</span>
+<span class="sd">        </span>
+<span class="sd">    username: as would be used for docker login</span>
+<span class="sd">    </span>
+<span class="sd">    password: as would be used for docker login</span>
+<span class="sd">    :param kfp_host: address to the Kubeflow Pipelines host API, to connect the KFP Client</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">nodes</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">,</span>
+                 <span class="n">baseimage</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+                 <span class="n">registry_credentials</span><span class="o">=</span><span class="p">{},</span>
+                 <span class="n">kfp_host</span><span class="o">=</span><span class="s2">&quot;http://localhost:3000&quot;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KFPWorkflow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">nodes</span><span class="p">,</span> <span class="n">workflow_name</span> <span class="o">=</span> <span class="n">workflow_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseimage</span> <span class="o">=</span> <span class="n">baseimage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span> <span class="o">=</span> <span class="n">registry_credentials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kfp_host</span> <span class="o">=</span> <span class="n">kfp_host</span>
+
+<div class="viewcode-block" id="KFPWorkflow.set_registry_credentials"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.kfpback.KFPWorkflow.set_registry_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">set_registry_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registry_credentials</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set credentials to access a private container registry.</span>
+
+<span class="sd">        :param registry_credentials: A dictionary of credential information for accessing a private container registry, if necessary.</span>
+<span class="sd">                                 </span>
+<span class="sd">        Available fields: </span>
+<span class="sd">            </span>
+<span class="sd">        server: address to the registry server</span>
+<span class="sd">            </span>
+<span class="sd">        username: as would be used for docker login</span>
+<span class="sd">        </span>
+<span class="sd">        password: as would be used for docker login</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span> <span class="o">=</span> <span class="n">registry_credentials</span></div>
+
+<div class="viewcode-block" id="KFPWorkflow.set_baseimage"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.kfpback.KFPWorkflow.set_baseimage">[docs]</a>    <span class="k">def</span> <span class="nf">set_baseimage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baseimage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set container image used as the base for the execution image.</span>
+<span class="sd">        The execution image will be built by placing the current directory on to the base image.</span>
+<span class="sd">        The base image should therefore contain a python environment with any necessary prerequisites for the current code that aren&#39;t passed to KFP using &#39;packages_to_install&#39; or other methods.</span>
+
+<span class="sd">        :param baseimage: Container image that can be pulled with docker pull.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseimage</span> <span class="o">=</span> <span class="n">baseimage</span></div>
+
+<div class="viewcode-block" id="KFPWorkflow.set_kfp_host"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.kfpback.KFPWorkflow.set_kfp_host">[docs]</a>    <span class="k">def</span> <span class="nf">set_kfp_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kfp_host</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set address to KFP Host.</span>
+
+<span class="sd">        :param kfp_host: Address of KFP Host.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kfp_host</span> <span class="o">=</span> <span class="n">kfp_host</span></div>
+
+    <span class="k">def</span> <span class="nf">set_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set storage for the workflow.</span>
+
+<span class="sd">        :param object_storage: Storage object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="o">=</span> <span class="n">object_storage</span>
+
+    <span class="k">def</span> <span class="nf">log_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_nodes</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s2">&quot;print&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="KFPWorkflow.run"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.kfpback.KFPWorkflow.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start execution of the workflow</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check environment to see if we should call a function, or build the </span>
+        <span class="c1"># pipeline:</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+        <span class="n">fffunction</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;FFFUNCTION&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fffunction</span><span class="p">:</span>
+            <span class="n">ffargs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">ffargs</span>
+            <span class="n">ffkargs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">ffkargs</span>
+            <span class="c1"># Execute function matching environment variable:</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">exec_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_traversal</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">fffunction</span><span class="p">:</span>
+                    <span class="c1"># this is the node to run</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">ffargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ffkargs</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">ffresult</span> <span class="o">=</span> <span class="n">result</span>
+                    <span class="k">return</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="kn">import</span> <span class="nn">inspect</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">subprocess</span>
+            <span class="n">calling_file</span> <span class="o">=</span> <span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># print(f&quot;KFP Workflow Run -- calling_file: {calling_file}&quot;)</span>
+            <span class="n">calling_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">calling_file</span><span class="p">)</span>
+            <span class="c1"># print(f&quot;KFP Workflow Run -- calling_folder: {calling_folder}&quot;)</span>
+            <span class="n">calling_file_trim</span> <span class="o">=</span> <span class="n">calling_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># print(f&quot;KFP Workflow Run -- calling_file_trim: {calling_file_trim}&quot;)</span>
+
+            <span class="c1"># Create image from base + calling folder</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;Dockerfile&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FROM </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">baseimage</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;WORKDIR /ffrun</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="c1"># f.write(f&quot;ADD {calling_folder} /ffrun/\n&quot;)</span>
+                <span class="c1"># Calling folder might be outside scope of docker build, so for now resort to cwd</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ADD . /ffrun/</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="s2">&quot;server&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="p">:</span>
+                <span class="n">image_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">image_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">build_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;docker&quot;</span><span class="p">,</span> <span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">]</span>
+            <span class="n">build_process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">build_cmd</span><span class="p">)</span>
+            <span class="n">build_process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+            <span class="c1"># Login to docker registry</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="p">:</span>
+                <span class="n">username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;username&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="n">password</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;password&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="n">login_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;docker&quot;</span><span class="p">,</span> <span class="s2">&quot;login&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">username</span><span class="p">:</span>
+                    <span class="n">login_cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;--username&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">])</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">username</span> <span class="ow">and</span> <span class="n">password</span><span class="p">):</span>
+                    <span class="n">login_cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;--password&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">])</span>
+                <span class="n">login_cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">registry_credentials</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]])</span>
+                <span class="n">login_process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">login_cmd</span><span class="p">)</span>
+                <span class="n">login_process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+            
+            <span class="c1"># push new image for retrieval by KFP</span>
+            <span class="n">push_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;docker&quot;</span><span class="p">,</span> <span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+            <span class="n">push_process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">push_cmd</span><span class="p">)</span>
+            <span class="n">push_process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+
+            <span class="c1"># Traverse the graph, creating ops from functions</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">exec_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_traversal</span><span class="p">():</span>
+                <span class="c1"># Check arguments and set node outputs present in arguments to OutputBinaryFiles</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">exec_node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+                <span class="n">args_types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+
+                <span class="n">kargs</span> <span class="o">=</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">kargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">kargs_types</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">arg_index</span><span class="p">:</span>
+                    <span class="n">args_types</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">InputBinaryFile</span><span class="p">(</span><span class="nb">bytes</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">type_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args_types</span><span class="p">):</span>
+                    <span class="n">kargs_types</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ffarg</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">kargs_types</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">karg_keys</span><span class="p">:</span>
+                    <span class="n">kargs_types</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">InputBinaryFile</span><span class="p">(</span><span class="nb">bytes</span><span class="p">)</span>
+
+                <span class="n">exec_func</span> <span class="o">=</span> <span class="n">generate_function</span><span class="p">(</span><span class="n">kargs_types</span><span class="p">)</span>
+                <span class="c1"># Can change name of execution function to the name of the Node, </span>
+                <span class="c1"># but that might not work if a Node name that can&#39;t be used as </span>
+                <span class="c1"># a python function name is set</span>
+                <span class="c1"># exec_func.__name__ = name</span>
+                <span class="c1"># exec_func.__qualname__ = name</span>
+
+                <span class="n">exec_node</span><span class="o">.</span><span class="n">set_backend_info</span><span class="p">(</span><span class="s1">&#39;exec_func&#39;</span><span class="p">,</span> <span class="n">exec_func</span><span class="p">)</span>
+                <span class="n">packages_to_install</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kfp==1.8.21&#39;</span><span class="p">,</span> <span class="s1">&#39;kubernetes&#39;</span><span class="p">]</span>
+                <span class="n">exec_op</span> <span class="o">=</span> <span class="n">create_component_from_func</span><span class="p">(</span><span class="n">exec_func</span><span class="p">,</span>
+                                                     <span class="n">base_image</span><span class="o">=</span><span class="n">image_name</span><span class="p">,</span>
+                                                     <span class="n">packages_to_install</span><span class="o">=</span><span class="n">packages_to_install</span><span class="p">)</span>
+                <span class="n">exec_op</span><span class="o">.</span><span class="n">component_spec</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+                <span class="c1"># exec_string = exec_op.component_spec.implementation.container.command[-1]</span>
+                <span class="c1"># exec_string = exec_string.replace(&#39;exec_func&#39;, name)</span>
+                <span class="c1"># exec_op.component_spec.implementation.container.command[-1] = exec_string</span>
+                <span class="n">exec_node</span><span class="o">.</span><span class="n">set_backend_info</span><span class="p">(</span><span class="s1">&#39;op&#39;</span><span class="p">,</span> <span class="n">exec_op</span><span class="p">)</span>
+
+            <span class="nd">@dsl</span><span class="o">.</span><span class="n">pipeline</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">workflow_pipeline</span><span class="p">():</span>
+                
+                <span class="n">dsl</span><span class="o">.</span><span class="n">get_pipeline_conf</span><span class="p">()</span><span class="o">.</span><span class="n">set_image_pull_secrets</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">V1LocalObjectReference</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;regcred&quot;</span><span class="p">)]</span>
+                    <span class="p">)</span>
+                
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">exec_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_traversal</span><span class="p">():</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">exec_node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+                    <span class="n">kargs</span> <span class="o">=</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">kargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="n">args_sub_indices</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">kargs_sub_indices</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">val_index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">arg_index</span><span class="p">:</span>
+                        <span class="n">args</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">output</span>
+                        <span class="k">if</span> <span class="n">val_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">args_sub_indices</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">val_index</span><span class="p">)</span>
+                            
+                    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">val_index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">karg_keys</span><span class="p">:</span>
+                        <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">output</span>
+                        <span class="k">if</span> <span class="n">val_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">kargs_sub_indices</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val_index</span><span class="p">)</span>
+
+                    <span class="nb">print</span><span class="p">(</span><span class="n">exec_node</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s1">&#39;op&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">component_spec</span><span class="p">)</span>
+
+                    <span class="n">exec_node</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s1">&#39;op&#39;</span><span class="p">](</span>
+                        <span class="n">calling_file</span><span class="o">=</span><span class="n">calling_file_trim</span><span class="p">,</span>
+                        <span class="n">args_sub_indices</span><span class="o">=</span><span class="n">args_sub_indices</span><span class="p">,</span>
+                        <span class="n">kargs_sub_indices</span><span class="o">=</span><span class="n">kargs_sub_indices</span><span class="p">,</span>
+                        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kargs</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">add_env_variable</span><span class="p">(</span><span class="n">V1EnvVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;FFFUNCTION&quot;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+                    
+                <span class="c1"># Need a different way of returning results</span>
+                <span class="c1"># if len(self.leaves) == 1:</span>
+                <span class="c1">#     return self.leaves[0].result</span>
+            
+                <span class="c1"># result = [i.result for i in self.leaves]</span>
+                <span class="c1"># return result</span>
+
+        <span class="n">client</span> <span class="o">=</span> <span class="n">kfp</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kfp_host</span><span class="p">)</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">create_run_from_pipeline_func</span><span class="p">(</span><span class="n">workflow_pipeline</span><span class="p">,</span>
+                                             <span class="n">arguments</span><span class="o">=</span><span class="p">{})</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

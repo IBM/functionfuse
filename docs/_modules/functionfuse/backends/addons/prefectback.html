@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>functionfuse.backends.addons.prefectback &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/introduction.html">Introduction and quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#why-another-workflow-package">Why another workflow package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#the-frontend">The frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#backends">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../background/introduction.html#graph-visualization">Graph visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#queries">Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#serializers">Serializers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/background.html">Background Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/bigdata.html">Big Data Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/backends.html">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/backends.html#queries">Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/backends.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#workflows">Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/builtins/local.html">LocalWorkflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/builtins/ray.html">RayWorkflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#ray-cluster-options">Ray cluster options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#ray-remote-task-options">Ray remote task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/builtins/ray.html#storage">Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/prefect.html">Prefect Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#prefect-flow-options">Prefect Flow options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#prefect-task-options">Prefect Task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#storage">Storage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/prefect.html#prefect-server">Prefect Server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/kfp.html">Kubeflow Pipelines Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#run-sequence">Run Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#the-generated-function">The generated function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#kubernetes-interactions">Kubernetes interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/addons/kfp.html#kfp-dashboard">KFP Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example1.html">Basic ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example1.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example1.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example2.html">Advanced ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example2.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example2.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example3.html">Basic ML example (Ray Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example3.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example3.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/example4.html">Basic ML example (Prefect Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#Prefect-Server">Prefect Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/frontend.html">Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/frontend.html#functionfuse.workflow"><code class="docutils literal notranslate"><span class="pre">workflow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/frontend.html#set_name"><code class="docutils literal notranslate"><span class="pre">set_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/backends.html">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/backends.html#built-in">Built-in</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#local-workflow">Local Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#ray-workflow">Ray Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/backends.html#add-ons">Add-ons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#prefect-workflow">Prefect Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/backends.html#kfp-workflow">KFP Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment/deployment.html">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../deployment/ibm_research_cloud.html">IBM Research Cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../deployment/ibm_research_cloud.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../deployment/ibm_research_cloud.html#s3-storage-node-tutorial">S3 Storage Node Tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">functionfuse.backends.addons.prefectback</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for functionfuse.backends.addons.prefectback</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">...baseworkflow</span> <span class="kn">import</span> <span class="n">BaseWorkflow</span>
+<span class="kn">from</span> <span class="nn">...workflow</span> <span class="kn">import</span> <span class="n">_test_arg</span><span class="p">,</span> <span class="n">_test_func_node</span>
+<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">task</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task_runners</span>
+<span class="kn">from</span> <span class="nn">prefect.futures</span> <span class="kn">import</span> <span class="n">PrefectFuture</span>
+
+<span class="k">def</span> <span class="nf">substitute_args</span><span class="p">(</span><span class="n">arg_index</span><span class="p">,</span> <span class="n">karg_keys</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kargs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">val_index</span> <span class="ow">in</span> <span class="n">arg_index</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">val_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()[</span><span class="n">val_index</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val_index</span> <span class="ow">in</span> <span class="n">karg_keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">val_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()[</span><span class="n">val_index</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">arg_index</span><span class="p">,</span> <span class="n">karg_keys</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kargs</span>
+
+<span class="k">def</span> <span class="nf">exec_func</span><span class="p">(</span><span class="n">task_args</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">arg_index</span><span class="p">,</span> <span class="n">karg_keys</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kargs</span><span class="p">):</span>
+    
+    <span class="c1"># if plugin_func is not None:</span>
+    <span class="c1">#     plugin_func()</span>
+
+    <span class="n">arg_index</span><span class="p">,</span> <span class="n">karg_keys</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kargs</span> <span class="o">=</span> <span class="n">substitute_args</span><span class="p">(</span><span class="n">arg_index</span><span class="p">,</span> <span class="n">karg_keys</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kargs</span><span class="p">)</span>
+
+    <span class="n">func</span> <span class="o">=</span> <span class="n">task</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">task_args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_test_print_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;print&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">backend_info</span>
+
+
+<div class="viewcode-block" id="Query"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.Query">[docs]</a><span class="k">class</span> <span class="nc">Query</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The class allows to set attributes to sets of nodes. Contains list of nodes returned by query.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">workflow</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">workflow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span>
+
+    <span class="c1"># def set_plugin(self, plugin):</span>
+    <span class="c1">#     for i in self.nodes:</span>
+    <span class="c1">#         i.backend_info[&quot;plugin&quot;] = plugin</span>
+    
+<div class="viewcode-block" id="Query.set_task_args"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.Query.set_task_args">[docs]</a>    <span class="k">def</span> <span class="nf">set_task_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set arguments for task definition in Prefect. </span>
+
+<span class="sd">        :param args: Dictionary with arguments of a prefect.task call</span>
+<span class="sd">        :type args: dict</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s2">&quot;task_args&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<div class="viewcode-block" id="PrefectWorkflow"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.PrefectWorkflow">[docs]</a><span class="k">class</span> <span class="nc">PrefectWorkflow</span><span class="p">(</span><span class="n">BaseWorkflow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Backend to run workflows through Prefect. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.  </span>
+
+<span class="sd">    :param nodes: A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.</span>
+<span class="sd">    :param workflow_name: A name of the workflow that is used by storage classes.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">nodes</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PrefectWorkflow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">nodes</span><span class="p">,</span> <span class="n">workflow_name</span> <span class="o">=</span> <span class="n">workflow_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefect_flow_options</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow</span> <span class="o">=</span> <span class="kc">None</span>
+    
+<div class="viewcode-block" id="PrefectWorkflow.set_storage"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.PrefectWorkflow.set_storage">[docs]</a>    <span class="k">def</span> <span class="nf">set_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set storage for the workflow.</span>
+
+<span class="sd">        :param object_storage: Storage object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="o">=</span> <span class="n">object_storage</span></div>
+
+    <span class="k">def</span> <span class="nf">log_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_nodes</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s2">&quot;print&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_nodes</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s2">&quot;plugin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin</span>
+
+    <span class="k">def</span> <span class="nf">set_prefect_flow_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefect_flow_options</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefect_flow_options</span> <span class="o">=</span> <span class="n">prefect_flow_options</span>
+
+<div class="viewcode-block" id="PrefectWorkflow.run"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.PrefectWorkflow.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start execution of the workflow</span>
+
+<span class="sd">        :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">new_workflow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generate_flow</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PrefectWorkflow.query"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.PrefectWorkflow.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query nodes of the graph by regexp pattern.</span>
+
+<span class="sd">        :param pattern: regexp pattern to match node names. If None returns all nodes.</span>
+<span class="sd">        :type pattern: Optional[str]</span>
+<span class="sd">        :return: Query object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_nodes</span><span class="p">(</span><span class="n">pattern</span><span class="p">),</span> <span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PrefectWorkflow.generate_flow"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.addons.prefectback.PrefectWorkflow.generate_flow">[docs]</a>    <span class="k">def</span> <span class="nf">generate_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the flow from the nodes in the graph.</span>
+<span class="sd">        Separating this from run allows deploy() option within Prefect server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prefect_flow_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">,</span>
+                                <span class="s2">&quot;task_runner&quot;</span><span class="p">:</span> <span class="n">task_runners</span><span class="o">.</span><span class="n">SequentialTaskRunner</span><span class="p">()}</span>
+        <span class="n">prefect_flow_options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefect_flow_options</span><span class="p">)</span>
+
+        <span class="nd">@flow</span><span class="p">(</span><span class="o">**</span><span class="n">prefect_flow_options</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">prefect_flow</span><span class="p">():</span>
+            <span class="n">save_objects</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">exec_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_traversal</span><span class="p">():</span>
+                <span class="n">func_node</span> <span class="o">=</span> <span class="n">_test_func_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="ow">and</span> <span class="n">func_node</span> <span class="ow">and</span> <span class="n">_test_print_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">read_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is read from the file.&quot;</span><span class="p">)</span>
+                        <span class="n">exec_node</span><span class="o">.</span><span class="n">free_memory</span><span class="p">()</span>
+                        <span class="n">exec_node</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
+                        <span class="k">continue</span>
+                    <span class="k">except</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">invalid_exception</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">):</span>
+                        <span class="k">pass</span>
+
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">exec_node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+                <span class="n">kargs</span> <span class="o">=</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">kargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">arg_index</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">val_index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">arg_index</span><span class="p">:</span>
+                    <span class="n">args</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">result</span>
+                    <span class="n">arg_index</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">val_index</span><span class="p">))</span>
+
+                <span class="n">karg_keys</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">val_index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">karg_keys</span><span class="p">:</span>
+                    <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">result</span>
+                    <span class="n">karg_keys</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">val_index</span><span class="p">))</span>
+
+                <span class="n">backend_info</span> <span class="o">=</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">backend_info</span>
+
+                <span class="n">task_args</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">if</span> <span class="s2">&quot;task_args&quot;</span> <span class="ow">in</span> <span class="n">backend_info</span><span class="p">:</span>
+                    <span class="n">task_args</span> <span class="o">=</span> <span class="n">backend_info</span><span class="p">[</span><span class="s2">&quot;task_args&quot;</span><span class="p">]</span>
+
+                <span class="n">result</span> <span class="o">=</span> <span class="n">exec_func</span><span class="p">(</span><span class="n">task_args</span><span class="p">,</span> <span class="n">exec_node</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> 
+                                   <span class="n">arg_index</span><span class="p">,</span> <span class="n">karg_keys</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kargs</span><span class="p">)</span>
+                <span class="n">exec_node</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="n">exec_node</span><span class="o">.</span><span class="n">free_memory</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="ow">and</span> <span class="n">func_node</span> <span class="ow">and</span> <span class="n">_test_print_node</span><span class="p">(</span><span class="n">exec_node</span><span class="p">):</span>
+                    <span class="n">save_objects</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">result</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">always_read</span><span class="p">:</span>
+                        <span class="n">exec_node</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">read_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">so</span> <span class="ow">in</span> <span class="n">save_objects</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">so</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">PrefectFuture</span><span class="p">):</span>
+                    <span class="n">to_save</span> <span class="o">=</span> <span class="n">so</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">so</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">so</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">to_save</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">so</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">PrefectFuture</span><span class="p">):</span>
+                            <span class="n">to_save</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">to_save</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">to_save</span> <span class="o">=</span> <span class="n">so</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    
+                <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_name</span><span class="p">,</span> <span class="n">so</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">to_save</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">nodearg</span> <span class="o">=</span> <span class="n">_test_arg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">PrefectFuture</span><span class="p">):</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">PrefectFuture</span><span class="p">):</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">return</span> <span class="n">result</span>
+            
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">:</span>
+                <span class="n">nodearg</span> <span class="o">=</span> <span class="n">_test_arg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">PrefectFuture</span><span class="p">):</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">PrefectFuture</span><span class="p">):</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="n">nodearg</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow</span> <span class="o">=</span> <span class="n">prefect_flow</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

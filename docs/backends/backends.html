@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backends &mdash; Function Fuse 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LocalWorkflow" href="builtins/local.html" />
+    <link rel="prev" title="Integration with existing workflow packages" href="../background/existingworkflows.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Function Fuse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/introduction.html">Introduction and quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#why-another-workflow-package">Why another workflow package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#the-frontend">The frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#backends">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../background/introduction.html#graph-visualization">Graph visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#queries">Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#serializers">Serializers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/background.html">Background Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../background/bigdata.html">Big Data Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#queries">Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#workflows">Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="builtins/local.html">LocalWorkflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="builtins/ray.html">RayWorkflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="builtins/ray.html#ray-cluster-options">Ray cluster options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="builtins/ray.html#ray-remote-task-options">Ray remote task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="builtins/ray.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="builtins/ray.html#storage">Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="addons/prefect.html">Prefect Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="addons/prefect.html#prefect-flow-options">Prefect Flow options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="addons/prefect.html#prefect-task-options">Prefect Task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="addons/prefect.html#storage">Storage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="addons/prefect.html#prefect-server">Prefect Server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="addons/kfp.html">Kubeflow Pipelines Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="addons/kfp.html#run-sequence">Run Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="addons/kfp.html#the-generated-function">The generated function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="addons/kfp.html#kubernetes-interactions">Kubernetes interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="addons/kfp.html#kfp-dashboard">KFP Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example1.html">Basic ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example2.html">Advanced ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example2.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example2.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example3.html">Basic ML example (Ray Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example3.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example3.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example4.html">Basic ML example (Prefect Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Prefect-Server">Prefect Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/frontend.html">Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/frontend.html#functionfuse.workflow"><code class="docutils literal notranslate"><span class="pre">workflow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/frontend.html#set_name"><code class="docutils literal notranslate"><span class="pre">set_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/backends.html">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/backends.html#built-in">Built-in</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#local-workflow">Local Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#ray-workflow">Ray Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/backends.html#add-ons">Add-ons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#prefect-workflow">Prefect Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#kfp-workflow">KFP Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/deployment.html">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deployment/ibm_research_cloud.html">IBM Research Cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deployment/ibm_research_cloud.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deployment/ibm_research_cloud.html#s3-storage-node-tutorial">S3 Storage Node Tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../futuredirections/futuredirections.html">Future Directions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Function Fuse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Backends</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/backends/backends.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="backends">
+<h1>Backends<a class="headerlink" href="#backends" title="Permalink to this heading"></a></h1>
+<p><em>Function Fuse</em> Backends specify how the DAG created in <a class="reference internal" href="../background/introduction.html#the-frontend"><span class="std std-ref">The frontend</span></a>
+is executed. The DAG is defined by
+<a class="reference external" href="https://github.ibm.com/vgurev/functionfuse/blob/0edcd9523f71a23cabb4e6b4ed5f6d7ab22937a7/functionfuse/workflow.py#L130">Nodes</a>
+(functions decorated with <code class="docutils literal notranslate"><span class="pre">&#64;workflow</span></code>) that reference each other’s
+outputs as inputs. Workflow backends then operate on these Nodes to
+execute the graph of functions on configured infrastructure.</p>
+<section id="basic-workflow-functionality">
+<h2>Basic Workflow Functionality<a class="headerlink" href="#basic-workflow-functionality" title="Permalink to this heading"></a></h2>
+<p>The <em>BaseWorkflow</em> class is the parent class for all backends, and provides
+functions for backends to rely on:</p>
+<p><code class="docutils literal notranslate"><span class="pre">_find_roots()</span></code> – called when initializing a backend, given a set of <em>leaf</em>
+nodes (i.e. output nodes of a DAG), <code class="docutils literal notranslate"><span class="pre">_find_roots</span></code> follows the chain of
+node inputs to find <em>root</em> nodes (i.e. input nodes to a DAG that do not have
+another node as an input).</p>
+<p><code class="docutils literal notranslate"><span class="pre">graph_traversal()</span></code> – traverses the DAG of nodes from the <em>root</em> nodes
+identified by <code class="docutils literal notranslate"><span class="pre">_find_roots()</span></code>, yielding each node in turn. This function is
+the basis for executing each node using a backend.</p>
+<p><code class="docutils literal notranslate"><span class="pre">find_nodes(pattern)</span></code> – traverses the DAG and returns a list of nodes with names
+matching the pattern provided.</p>
+</section>
+<section id="workflow-interface">
+<h2>Workflow Interface<a class="headerlink" href="#workflow-interface" title="Permalink to this heading"></a></h2>
+<p>Backends can perform any operations on the nodes yielded by
+<code class="docutils literal notranslate"><span class="pre">BaseWorkflow.graph_traversal()</span></code>. Typically, an interface should implement
+at least two primary functions:</p>
+<p><code class="docutils literal notranslate"><span class="pre">set_storage()</span></code> – set a <a class="reference internal" href="../storage/storage.html#storage"><span class="std std-ref">Storage</span></a> class within the
+Workflow instance to be referenced during workflow execution</p>
+<p><code class="docutils literal notranslate"><span class="pre">run()</span></code> – call <code class="docutils literal notranslate"><span class="pre">graph_traversal()</span></code> and perform an operation on each node
+in the DAG, usually executing the node’s <code class="docutils literal notranslate"><span class="pre">func()</span></code></p>
+<section id="queries">
+<h3>Queries<a class="headerlink" href="#queries" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Query()</span></code> – a backend may define a <code class="docutils literal notranslate"><span class="pre">Query</span></code> class that handles backend-specific
+assignment of information to the <code class="docutils literal notranslate"><span class="pre">.backend_info</span></code> field of individual Nodes.
+Typical implementation is that a <code class="docutils literal notranslate"><span class="pre">Workflow.query(&quot;pattern&quot;)</span></code> function is defined
+that uses <code class="docutils literal notranslate"><span class="pre">BaseWorkflow.find_nodes()</span></code> to find a list of Nodes with names
+matching the pattern, which are assigned to a new <code class="docutils literal notranslate"><span class="pre">Query</span></code> object. Methods
+of the <code class="docutils literal notranslate"><span class="pre">Query</span></code> class can then set specific items within the <code class="docutils literal notranslate"><span class="pre">.backend_info</span></code>
+field of the Nodes assigned to that <code class="docutils literal notranslate"><span class="pre">Query</span></code> object.</p>
+</section>
+<section id="plugins">
+<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://github.ibm.com/vgurev/functionfuse/blob/main/functionfuse/backends/plugins/baseplugins.py">Plugins</a>
+are additional functions that are executed for each node during DAG
+execution, prior to the node’s main function call. Typical use includes state
+initialization on a remote machine (<code class="docutils literal notranslate"><span class="pre">InitializerPlugin</span></code>) and maintenance of
+random state across machines (<code class="docutils literal notranslate"><span class="pre">RandomStatePlugin</span></code>). We also implement
+<code class="docutils literal notranslate"><span class="pre">PluginCollection</span></code> as a wrapper for multiple plugins.</p>
+<p>Plugins implement two functions: <code class="docutils literal notranslate"><span class="pre">local_initialize()</span></code> and <code class="docutils literal notranslate"><span class="pre">remote_initialize()</span></code>
+that a backend can call at the appropriate time. For example, during graph
+traversal the RayWorkflow calls <code class="docutils literal notranslate"><span class="pre">plugin.local_initialize()</span></code> in the main
+process, then passes <code class="docutils literal notranslate"><span class="pre">plugin.remote_initialize()</span></code> as the plugin function to
+call as part of the remote function. The intention is that <code class="docutils literal notranslate"><span class="pre">local_initialize</span></code>
+can access information in the main process and help synchronize state, and that
+information can be available to <code class="docutils literal notranslate"><span class="pre">remote_initialize</span></code> if required.</p>
+</section>
+</section>
+<section id="workflows">
+<h2>Workflows<a class="headerlink" href="#workflows" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Builtins:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="builtins/local.html">LocalWorkflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="builtins/ray.html">RayWorkflow</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Addons:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="addons/prefect.html">Prefect Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addons/kfp.html">Kubeflow Pipelines Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../background/existingworkflows.html" class="btn btn-neutral float-left" title="Integration with existing workflow packages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="builtins/local.html" class="btn btn-neutral float-right" title="LocalWorkflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

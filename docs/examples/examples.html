@@ -13,17 +13,17 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Basic ML example" href="example1.html" />
-    <link rel="prev" title="Introduction and quick start" href="../background/introduction.html" /> 
+    <link rel="prev" title="DaskArraySerializer" href="../serializers/daskarray.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,14 +48,134 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage/installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../background/introduction.html">Introduction and quick start</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example1.html">Basic ML example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example2.html">Advanced ML example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example3.html">Basic ML example (Ray Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/introduction.html">Introduction and quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#why-another-workflow-package">Why another workflow package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#the-frontend">The frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#backends">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../background/introduction.html#graph-visualization">Graph visualization</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#queries">Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#serializers">Serializers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/background.html">Background Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../background/bigdata.html">Big Data Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../backends/backends.html">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../backends/backends.html#queries">Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/backends.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#workflows">Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../backends/builtins/local.html">LocalWorkflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/builtins/ray.html">RayWorkflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../backends/builtins/ray.html#ray-cluster-options">Ray cluster options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/builtins/ray.html#ray-remote-task-options">Ray remote task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/builtins/ray.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/builtins/ray.html#storage">Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/addons/prefect.html">Prefect Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/prefect.html#prefect-flow-options">Prefect Flow options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/prefect.html#prefect-task-options">Prefect Task options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/prefect.html#storage">Storage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/prefect.html#prefect-server">Prefect Server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/addons/kfp.html">Kubeflow Pipelines Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/kfp.html#run-sequence">Run Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/kfp.html#the-generated-function">The generated function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/kfp.html#kubernetes-interactions">Kubernetes interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/addons/kfp.html#kfp-dashboard">KFP Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example1.html">Basic ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="example1.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example1.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="example2.html">Advanced ML example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="example2.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example2.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="example3.html">Basic ML example (Ray Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="example3.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example3.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="example4.html">Basic ML example (Prefect Workflow)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="example4.html#The-workflow">The workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example4.html#Prefect-Server">Prefect Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/frontend.html">Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/frontend.html#functionfuse.workflow"><code class="docutils literal notranslate"><span class="pre">workflow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/frontend.html#set_name"><code class="docutils literal notranslate"><span class="pre">set_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/backends.html">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/backends.html#built-in">Built-in</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#local-workflow">Local Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#ray-workflow">Ray Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/backends.html#add-ons">Add-ons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#prefect-workflow">Prefect Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/backends.html#kfp-workflow">KFP Workflow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/deployment.html">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deployment/ibm_research_cloud.html">IBM Research Cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deployment/ibm_research_cloud.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deployment/ibm_research_cloud.html#s3-storage-node-tutorial">S3 Storage Node Tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -101,6 +221,12 @@
 <li class="toctree-l2"><a class="reference internal" href="example3.html#Model-Prediction">Model Prediction</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="example4.html">Basic ML example (Prefect Workflow)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example4.html#The-workflow">The workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example4.html#Prefect-Server">Prefect Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -109,7 +235,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../background/introduction.html" class="btn btn-neutral float-left" title="Introduction and quick start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../serializers/daskarray.html" class="btn btn-neutral float-left" title="DaskArraySerializer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="example1.html" class="btn btn-neutral float-right" title="Basic ML example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
