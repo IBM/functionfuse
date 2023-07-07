@@ -1,5 +1,5 @@
-PrefectWorkflow
-################
+Prefect Workflow
+#################
 
 The :ref:`api/backends:Prefect Workflow` is a backend for configuring a 
 *FunctionFuse* workflow graph as a *Prefect* Flow, with each *FunctionFuse*
@@ -137,6 +137,11 @@ The `Prefect Server <https://docs.prefect.io/2.10.17/host/>`_ can be started
 to access the logs created by Prefect Flows and Tasks, and provide a UI and 
 access to other Prefect options. To start the simple local server use:
 
-.. code-block::  console
+.. code-block::  sh
+    
     $ prefect server start
 
+Example of run logged in Prefect Server:
+
+.. image:: /images/PrefectBasicRun.png
+    :alt: Prefect Flow Run

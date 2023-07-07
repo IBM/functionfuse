@@ -7,11 +7,12 @@ Welcome to Function Fuse's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
    :caption: Contents:
 
    usage/installation
    background/introduction
+   background/background
    backends/backends
    storage/storage
    serializers/serializers

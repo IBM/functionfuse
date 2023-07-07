@@ -116,3 +116,14 @@ Prefect Deployment options (not yet implemented).
 
 .. autoclass:: functionfuse.backends.addons.prefectback.Query
     :members: set_task_args
+
+KFP Workflow
+-------------
+
+The KFP Workflow interface is currently in an alpha state. The main extensions 
+over the LocalWorkflow interface are the requirement to pass information around 
+where to push a container image that can be pulled by the Kubernetes cluster. 
+
+
+.. autoclass:: functionfuse.backends.addons.kfpback.KFPWorkflow
+    :members: run, set_registry_credentials, set_baseimage, set_kfp_host
