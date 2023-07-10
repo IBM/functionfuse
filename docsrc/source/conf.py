@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Function Fuse'
-copyright = '2023, Viatcheslav Gurev'
-author = 'Viatcheslav Gurev'
+copyright = '2023, Viatcheslav Gurev, Tim Rumbell'
+author = 'Viatcheslav Gurev, Tim Rumbell'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
@@ -66,6 +66,17 @@ html_theme_options = {
     'navigation_depth': 4,
     'includehidden': True,
     'titles_only': False
+}
+
+html_context = {
+    # 'source_url_prefix': "",
+    "display_github": False,
+    "github_host": "github.ibm.com",
+    "github_user": "vgurev",
+    "github_repo": 'functionfuse',
+    "github_version": "docs-config-prefect",
+    "conf_py_path": "functionfuse/docsrc/",
+    "source_suffix": '.rst',
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

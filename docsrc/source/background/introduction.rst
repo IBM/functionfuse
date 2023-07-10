@@ -139,8 +139,8 @@ entirely in the Function Fuse package, whereas addons leverage other existing
 packages that might help manage or run workflows.
 
 Two built-in backends to Function Fuse package are designed to run workflow 
-in-serial locally, or in-parallel with `Ray <https://www.ray.io/>`_, these are 
-:ref:`api/backends:Local Workflow` and :ref:`api/backends:Ray Workflow`. 
+in-serial locally (:ref:`api/backends:Local Workflow`), or in-parallel with `Ray <https://www.ray.io/>`_ 
+(:ref:`api/backends:Ray Workflow`). 
 
 There are currently 3 addon backends. :ref:`api/backends:KFP Workflow` uses the 
 `KubeflowPipelines <https://www.kubeflow.org/docs/components/pipelines/v1/sdk/python-function-components/>`_ 
@@ -163,7 +163,7 @@ Here is an example of backend setup and run for the above workflow.
     from functionfuse.backends.builtin.localback import LocalWorkflow
     from functionfuse.storage import storage_factory
 
-    local_workflow = LocalWorkflow(node1, workflow_name="operations")
+    local_workflow = LocalWorkflow(result_of_mult, workflow_name="operations")
     opt = {
         "kind": "file",
         "options": {
@@ -175,8 +175,9 @@ Here is an example of backend setup and run for the above workflow.
     _ = local_workflow.run()
 
 Addon backends can provide access to any features of existing packages, such as 
-systems for tracking previous workflows and runs, and interactive dashboards
-such as Kubeflow (left) and Prefect (right):
+systems for tracking previous workflows and runs, and interactive dashboards - 
+the images below show the same frontend run in the dashboards for Kubeflow 
+(left) and Prefect (right):
 
 .. image:: /images/KFPDashboardRunResult.png
     :alt: KFPWorkflow Dashboard
@@ -198,8 +199,14 @@ implemented one example of a backend for visualizing the Nodes in a DAG:
 
     from functionfuse.backends.builtin.graphback import GraphWorkflow
 
-    graph_workflow = GraphWorkflow("node3", workflow_name="plot_graph")
+    graph_workflow = GraphWorkflow(result_of_mult, 
+                                   workflow_name="plot_graph", 
+                                   doc_path='.')
     graph_workflow.run()
+
+.. image:: /images/GraphWorkflow.png
+    :alt: Graph Workflow example
+    :width: 100
 
 Storage and Analysis
 *********************************
