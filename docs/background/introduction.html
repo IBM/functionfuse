@@ -66,12 +66,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../backends/backends.html">Backends</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#workflow-interface">Workflow Interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../backends/backends.html#queries">Queries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../backends/backends.html#plugins">Plugins</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#workflows">Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../backends/builtins/local.html">LocalWorkflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../backends/builtins/ray.html">RayWorkflow</a><ul>
@@ -96,6 +90,17 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../backends/addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../backends/backends.html#for-backend-developers">For Backend Developers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../backends/developers.html">Backend Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/developers.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../backends/developers.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../backends/developers.html#queries">Queries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/developers.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../backends/developers.html#storage">Storage</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -176,6 +181,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../futuredirections/futuredirections.html">Future Directions</a></li>
 </ul>
 
         </div>
@@ -319,8 +325,8 @@ to produce a chain of sequentially called methods.</p>
 entirely in the Function Fuse package, whereas addons leverage other existing
 packages that might help manage or run workflows.</p>
 <p>Two built-in backends to Function Fuse package are designed to run workflow
-in-serial locally, or in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>, these are
-<a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a> and <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>.</p>
+in-serial locally (<a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a>), or in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>
+(<a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>).</p>
 <p>There are currently 3 addon backends. <a class="reference internal" href="../api/backends.html#kfp-workflow"><span class="std std-ref">KFP Workflow</span></a> uses the
 <a class="reference external" href="https://www.kubeflow.org/docs/components/pipelines/v1/sdk/python-function-components/">KubeflowPipelines</a>
 SDK to deploy a Function Fuse DAG to run Nodes in containers on a
@@ -337,7 +343,7 @@ Here is an example of backend setup and run for the above workflow.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.localback</span> <span class="kn">import</span> <span class="n">LocalWorkflow</span>
 <span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
 
-<span class="n">local_workflow</span> <span class="o">=</span> <span class="n">LocalWorkflow</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;operations&quot;</span><span class="p">)</span>
+<span class="n">local_workflow</span> <span class="o">=</span> <span class="n">LocalWorkflow</span><span class="p">(</span><span class="n">result_of_mult</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;operations&quot;</span><span class="p">)</span>
 <span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
     <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -350,8 +356,9 @@ Here is an example of backend setup and run for the above workflow.</p>
 </pre></div>
 </div>
 <p>Addon backends can provide access to any features of existing packages, such as
-systems for tracking previous workflows and runs, and interactive dashboards
-such as Kubeflow (left) and Prefect (right):</p>
+systems for tracking previous workflows and runs, and interactive dashboards -
+the images below show the same frontend run in the dashboards for Kubeflow
+(left) and Prefect (right):</p>
 <a class="reference internal image-reference" href="../_images/KFPDashboardRunResult.png"><img alt="KFPWorkflow Dashboard" src="../_images/KFPDashboardRunResult.png" style="width: 450px;" /></a>
 <a class="reference internal image-reference" href="../_images/PrefectBasicRun.png"><img alt="PrefectWorkflow Dashboard" src="../_images/PrefectBasicRun.png" style="width: 450px;" /></a>
 <section id="graph-visualization">
@@ -360,10 +367,13 @@ such as Kubeflow (left) and Prefect (right):</p>
 implemented one example of a backend for visualizing the Nodes in a DAG:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.graphback</span> <span class="kn">import</span> <span class="n">GraphWorkflow</span>
 
-<span class="n">graph_workflow</span> <span class="o">=</span> <span class="n">GraphWorkflow</span><span class="p">(</span><span class="s2">&quot;node3&quot;</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;plot_graph&quot;</span><span class="p">)</span>
+<span class="n">graph_workflow</span> <span class="o">=</span> <span class="n">GraphWorkflow</span><span class="p">(</span><span class="n">result_of_mult</span><span class="p">,</span>
+                               <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;plot_graph&quot;</span><span class="p">,</span>
+                               <span class="n">doc_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="n">graph_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
+<a class="reference internal image-reference" href="../_images/GraphWorkflow.png"><img alt="Graph Workflow example" src="../_images/GraphWorkflow.png" style="width: 100px;" /></a>
 </section>
 </section>
 <section id="storage-and-analysis">
@@ -434,7 +444,7 @@ facilitates access to large arrays using distributed files such as HDF5 or Zarr.
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+    <p>&#169; Copyright 2023, Viatcheslav Gurev, Tim Rumbell.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

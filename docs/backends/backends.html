@@ -66,12 +66,6 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Backends</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#basic-workflow-functionality">Basic Workflow Functionality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#workflow-interface">Workflow Interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#queries">Queries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#plugins">Plugins</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#workflows">Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="builtins/local.html">LocalWorkflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="builtins/ray.html">RayWorkflow</a><ul>
@@ -96,6 +90,17 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="addons/rayworkflow.html">Ray Workflow Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#for-backend-developers">For Backend Developers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developers.html">Backend Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developers.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developers.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="developers.html#queries">Queries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="developers.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="developers.html#storage">Storage</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -211,56 +216,11 @@ is executed. The DAG is defined by
 (functions decorated with <code class="docutils literal notranslate"><span class="pre">&#64;workflow</span></code>) that reference each other’s
 outputs as inputs. Workflow backends then operate on these Nodes to
 execute the graph of functions on configured infrastructure.</p>
-<section id="basic-workflow-functionality">
-<h2>Basic Workflow Functionality<a class="headerlink" href="#basic-workflow-functionality" title="Permalink to this heading"></a></h2>
-<p>The <em>BaseWorkflow</em> class is the parent class for all backends, and provides
-functions for backends to rely on:</p>
-<p><code class="docutils literal notranslate"><span class="pre">_find_roots()</span></code> – called when initializing a backend, given a set of <em>leaf</em>
-nodes (i.e. output nodes of a DAG), <code class="docutils literal notranslate"><span class="pre">_find_roots</span></code> follows the chain of
-node inputs to find <em>root</em> nodes (i.e. input nodes to a DAG that do not have
-another node as an input).</p>
-<p><code class="docutils literal notranslate"><span class="pre">graph_traversal()</span></code> – traverses the DAG of nodes from the <em>root</em> nodes
-identified by <code class="docutils literal notranslate"><span class="pre">_find_roots()</span></code>, yielding each node in turn. This function is
-the basis for executing each node using a backend.</p>
-<p><code class="docutils literal notranslate"><span class="pre">find_nodes(pattern)</span></code> – traverses the DAG and returns a list of nodes with names
-matching the pattern provided.</p>
-</section>
-<section id="workflow-interface">
-<h2>Workflow Interface<a class="headerlink" href="#workflow-interface" title="Permalink to this heading"></a></h2>
-<p>Backends can perform any operations on the nodes yielded by
-<code class="docutils literal notranslate"><span class="pre">BaseWorkflow.graph_traversal()</span></code>. Typically, an interface should implement
-at least two primary functions:</p>
-<p><code class="docutils literal notranslate"><span class="pre">set_storage()</span></code> – set a <a class="reference internal" href="../storage/storage.html#storage"><span class="std std-ref">Storage</span></a> class within the
-Workflow instance to be referenced during workflow execution</p>
-<p><code class="docutils literal notranslate"><span class="pre">run()</span></code> – call <code class="docutils literal notranslate"><span class="pre">graph_traversal()</span></code> and perform an operation on each node
-in the DAG, usually executing the node’s <code class="docutils literal notranslate"><span class="pre">func()</span></code></p>
-<section id="queries">
-<h3>Queries<a class="headerlink" href="#queries" title="Permalink to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">Query()</span></code> – a backend may define a <code class="docutils literal notranslate"><span class="pre">Query</span></code> class that handles backend-specific
-assignment of information to the <code class="docutils literal notranslate"><span class="pre">.backend_info</span></code> field of individual Nodes.
-Typical implementation is that a <code class="docutils literal notranslate"><span class="pre">Workflow.query(&quot;pattern&quot;)</span></code> function is defined
-that uses <code class="docutils literal notranslate"><span class="pre">BaseWorkflow.find_nodes()</span></code> to find a list of Nodes with names
-matching the pattern, which are assigned to a new <code class="docutils literal notranslate"><span class="pre">Query</span></code> object. Methods
-of the <code class="docutils literal notranslate"><span class="pre">Query</span></code> class can then set specific items within the <code class="docutils literal notranslate"><span class="pre">.backend_info</span></code>
-field of the Nodes assigned to that <code class="docutils literal notranslate"><span class="pre">Query</span></code> object.</p>
-</section>
-<section id="plugins">
-<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading"></a></h3>
-<p><a class="reference external" href="https://github.ibm.com/vgurev/functionfuse/blob/main/functionfuse/backends/plugins/baseplugins.py">Plugins</a>
-are additional functions that are executed for each node during DAG
-execution, prior to the node’s main function call. Typical use includes state
-initialization on a remote machine (<code class="docutils literal notranslate"><span class="pre">InitializerPlugin</span></code>) and maintenance of
-random state across machines (<code class="docutils literal notranslate"><span class="pre">RandomStatePlugin</span></code>). We also implement
-<code class="docutils literal notranslate"><span class="pre">PluginCollection</span></code> as a wrapper for multiple plugins.</p>
-<p>Plugins implement two functions: <code class="docutils literal notranslate"><span class="pre">local_initialize()</span></code> and <code class="docutils literal notranslate"><span class="pre">remote_initialize()</span></code>
-that a backend can call at the appropriate time. For example, during graph
-traversal the RayWorkflow calls <code class="docutils literal notranslate"><span class="pre">plugin.local_initialize()</span></code> in the main
-process, then passes <code class="docutils literal notranslate"><span class="pre">plugin.remote_initialize()</span></code> as the plugin function to
-call as part of the remote function. The intention is that <code class="docutils literal notranslate"><span class="pre">local_initialize</span></code>
-can access information in the main process and help synchronize state, and that
-information can be available to <code class="docutils literal notranslate"><span class="pre">remote_initialize</span></code> if required.</p>
-</section>
-</section>
+<p>In <a class="reference internal" href="#workflows"><span class="std std-ref">Workflows</span></a> we provide users of Function Fuse backends with information
+about the features of currently implemented “builtin” and “addon” backends.</p>
+<p>In <a class="reference internal" href="#for-backend-developers"><span class="std std-ref">For Backend Developers</span></a>, we provide developers
+basic information about how backends are executing the DAG specified by the
+frontend, as a starting point for implementation of new backends.</p>
 <section id="workflows">
 <h2>Workflows<a class="headerlink" href="#workflows" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
@@ -279,6 +239,16 @@ information can be available to <code class="docutils literal notranslate"><span
 </ul>
 </div>
 </section>
+<section id="for-backend-developers">
+<h2>For Backend Developers<a class="headerlink" href="#for-backend-developers" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Backend Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html#workflow-interface">Workflow Interface</a></li>
+</ul>
+</div>
+</section>
 </section>
 
 
@@ -292,7 +262,7 @@ information can be available to <code class="docutils literal notranslate"><span
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+    <p>&#169; Copyright 2023, Viatcheslav Gurev, Tim Rumbell.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
