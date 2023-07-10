@@ -272,6 +272,15 @@ information can be available to <code class="docutils literal notranslate"><span
 </section>
 <section id="storage">
 <h2>Storage<a class="headerlink" href="#storage" title="Permalink to this heading"></a></h2>
+<p>Backends that interface with <a class="reference internal" href="../storage/storage.html#storage"><span class="std std-ref">Storage</span></a> should provide the
+option to add the Storage class to a Workflow instance using the
+<code class="docutils literal notranslate"><span class="pre">set_storage()</span></code> function. The backend can make use of functions in the
+Storage class for checking and searching storage, such as <code class="docutils literal notranslate"><span class="pre">list_tasks()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">file_exists()</span></code>. The standard function for saving a node is <code class="docutils literal notranslate"><span class="pre">save()</span></code>, and
+for loading results from a stored node is <code class="docutils literal notranslate"><span class="pre">read_task()</span></code>. See LocalWorkflow
+and RayWorkflow backend source code for examples of using file storage locally
+compared with file storage on a remote machine accessed in a setting using
+futures for asynchronous computation.</p>
 </section>
 </section>
 

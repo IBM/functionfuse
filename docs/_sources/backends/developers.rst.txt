@@ -75,3 +75,12 @@ information can be available to ``remote_initialize`` if required.
 Storage
 --------
 
+Backends that interface with :ref:`storage/storage:Storage` should provide the 
+option to add the Storage class to a Workflow instance using the 
+``set_storage()`` function. The backend can make use of functions in the 
+Storage class for checking and searching storage, such as ``list_tasks()`` and
+``file_exists()``. The standard function for saving a node is ``save()``, and 
+for loading results from a stored node is ``read_task()``. See LocalWorkflow 
+and RayWorkflow backend source code for examples of using file storage locally
+compared with file storage on a remote machine accessed in a setting using 
+futures for asynchronous computation.
