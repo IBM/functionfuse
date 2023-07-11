@@ -59,13 +59,18 @@ exclude_patterns = []
 #
 html_theme = "sphinx_rtd_theme"
 
+html_logo = "images/FunctionFuseRobotLogo.jpg"
+
 html_theme_options = {
     # Toc options
     'collapse_navigation': False,
     'sticky_navigation': True,
     'navigation_depth': 4,
     'includehidden': True,
-    'titles_only': False
+    'titles_only': False,
+    # Logo options
+    'logo_only': True,
+    'display_version': True
 }
 
 html_context = {
