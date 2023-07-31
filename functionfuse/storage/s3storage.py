@@ -30,12 +30,13 @@ class S3FileStorage(StorageWithSerializers):
     """
 
     bigdata = "bigdata"
+    prefix = "s3:/"
 
 
     def __init__(self, path, s3fs_pars):
         super(S3FileStorage, self).__init__()
         self.s3fs_pars = s3fs_pars
-        self.path = path
+        self.path = S3FileStorage.prefix + path
         self._always_read = False
 
 
@@ -94,7 +95,8 @@ class S3FileStorage(StorageWithSerializers):
 
         """
         s3 = self.get_s3()
-        files = s3.glob(posixpath.join(self.path, workflow_name, pattern))
+        path = posixpath.join(self.path, workflow_name, pattern)
+        files = s3.glob(path)
         return [posixpath.basename(i) for i in sorted(files) if s3.isfile(i)]
 
 
