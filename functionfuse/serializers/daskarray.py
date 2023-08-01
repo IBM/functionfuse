@@ -68,6 +68,6 @@ class DaskArraySerializer:
             s3 = protocols[S3_PROTOCOL]
             client = s3["client"]
             file = posixpath.join(s3["folder"], cls.datapath, filename)
-            s3.rm(file, recursive = True)
+            client.rm(file, recursive = True)
 
         return None
