@@ -42,12 +42,12 @@ class PersistentPickler(pickle.Pickler):
 
     def __init__(self, stream, serializers, protocols):
         super(PersistentPickler, self).__init__(stream)
-        self.serializes = serializers
+        self.serializers = serializers
         self.protocols = protocols
 
     def persistent_id(self, obj):
         
-        serializer = self.serializes.get(type(obj), None)
+        serializer = self.serializers.get(type(obj), None)
         if serializer:
             return serializer.pickle(obj, self.protocols)
         else:
