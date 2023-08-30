@@ -259,7 +259,7 @@ class KFPWorkflow(BaseWorkflow):
                 # exec_func.__qualname__ = name
 
                 exec_node.set_backend_info('exec_func', exec_func)
-                packages_to_install = ['kfp==1.8.21', 'kubernetes']
+                packages_to_install = ['kfp==1.8.22', 'kubernetes']
                 exec_op = create_component_from_func(exec_func,
                                                      base_image=image_name,
                                                      packages_to_install=packages_to_install)
