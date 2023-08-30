@@ -2,8 +2,7 @@ from ...baseworkflow import BaseWorkflow
 from ...workflow import _test_arg, _test_func_node, _test_constructor_node
 import ray
 
-
-def substitue_args(arg_index, karg_keys, args, kargs):
+def substitute_args(arg_index, karg_keys, args, kargs):
     for index, val_index in arg_index:
         if val_index is None:
             args[index] = ray.get(args[index])
@@ -23,14 +22,14 @@ def substitue_args(arg_index, karg_keys, args, kargs):
 def exec_func(
     plugin_func, arg_index, karg_keys, args, kargs, func, 
     node_name, read_object):
-    
+
     if read_object and ray.get(ray.remote(**read_object.remote_args)(read_object.file_exists).remote(node_name)):
-        return ray.remote(**read_object.remote_args)(read_object.read_task).remote(node_name) 
+        return ray.get(ray.remote(**read_object.remote_args)(read_object.read_task).remote(node_name))
         
     if plugin_func is not None:
         plugin_func()
     
-    arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
+    arg_index, karg_keys, args, kargs = substitute_args(arg_index, karg_keys, args, kargs)
     result = func(*args, **kargs)
     return result
 
@@ -89,8 +88,9 @@ class RayWorkflow(BaseWorkflow):
     def __init__(self, *nodes, workflow_name, ray_init_args = {}):
         super(RayWorkflow, self).__init__(*nodes, workflow_name = workflow_name)
 
-        ray.shutdown()
-        ray.init(**ray_init_args)
+        # ray.shutdown()
+        if not ray.is_initialized():
+            ray.init(**ray_init_args)
         self.save_func = None
         self.read_object = None
 
@@ -107,13 +107,16 @@ class RayWorkflow(BaseWorkflow):
         ray.wait([new_workflow.remote()], fetch_local=False)
     
 
-    def run(self, return_results = False):
+    def run(self, return_results = False, max_pending_tasks=0):
         """
         Start execution of the workflow.
         :param return_results: A flag if results for input nodes are returned
         :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.
         """
         
+        if max_pending_tasks:
+            all_results_refs = []
+
         for name, exec_node in self.graph_traversal():
 
             args = list(exec_node.args)
@@ -139,6 +142,10 @@ class RayWorkflow(BaseWorkflow):
             remote_args = {}
             if "remote_args" in backend_info:
                 remote_args = backend_info["remote_args"]
+
+            if max_pending_tasks:
+                while len(all_results_refs) > max_pending_tasks:
+                    _, all_results_refs = ray.wait(all_results_refs, fetch_local=False)
             
             func_node = _test_func_node(exec_node)
 
@@ -154,6 +161,9 @@ class RayWorkflow(BaseWorkflow):
             else:
                 actor = exec_node.backend_info["_actor"]
                 result = actor.call_method.remote(exec_node.method_name, arg_index, karg_keys, args, kargs)
+
+            if max_pending_tasks:
+                all_results_refs.append(result)
             
             save_objects = []
             if self.save_func and func_node:
@@ -175,7 +185,7 @@ class RayWorkflow(BaseWorkflow):
                 if nodearg[1] == None:
                     result.append(ray.get(nodearg[0].result))
                 else:
-                    result.append(ray.get(nodearg[0].result)[nodearg[1]])                    
+                    result.append(ray.get(nodearg[0].result)[nodearg[1]])
             return result
         else:
             result = []
