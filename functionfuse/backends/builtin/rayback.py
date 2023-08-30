@@ -65,11 +65,11 @@ class Query:
 class Actor:
 
     def __init__(self, class_spec, arg_index, karg_keys, args, kargs):
-        arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
+        arg_index, karg_keys, args, kargs = substitute_args(arg_index, karg_keys, args, kargs)
         self.actor_obj = class_spec(*args, **kargs)
 
     def call_method(self, method_name, arg_index, karg_keys, args, kargs):
-        arg_index, karg_keys, args, kargs = substitue_args(arg_index, karg_keys, args, kargs)
+        arg_index, karg_keys, args, kargs = substitute_args(arg_index, karg_keys, args, kargs)
         func = getattr(self.actor_obj, method_name)
         return func(*args, **kargs)
 
