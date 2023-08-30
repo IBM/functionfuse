@@ -15,18 +15,15 @@ def generate_function(args: dict) -> callable:
     import inspect
 
     def exec_func(output_file: OutputBinaryFile(bytes),
-                    calling_file: str,
-                    args_sub_indices: dict,
-                    kargs_sub_indices: dict,
-                    *args,
-                    **kargs):
+                  calling_file: str,
+                  args_sub_indices: dict,
+                  kargs_sub_indices: dict,
+                  *args,
+                  **kargs):
         import os, pickle, io, sys
 
         HERE = os.path.dirname(os.path.abspath(calling_file))
         sys.path.insert(0, HERE)
-
-        print(args)
-        print(kargs)
 
         args = list(args)
         ffargs_keys = []
@@ -36,12 +33,6 @@ def generate_function(args: dict) -> callable:
                 args.append(val)
         
         [kargs.pop(k) for k in ffargs_keys]
-
-        print(args)
-        print(kargs)
-
-        print(args_sub_indices)
-        print(kargs_sub_indices)
 
         ffargs = []
         for i, arg in enumerate(args):
@@ -72,13 +63,6 @@ def generate_function(args: dict) -> callable:
         os.ffargs = ffargs
         os.ffkargs = ffkargs
 
-        print(ffargs)
-        print(ffkargs)
-
-        print(os.listdir())
-        print(os.getcwd())
-        print(os.getenv("FFFUNCTION"))
-
         # Run the function by importing the file with workflow.run original call
         from importlib import import_module
         import_module(calling_file)
@@ -106,11 +90,21 @@ def generate_function(args: dict) -> callable:
 
 class KFPWorkflow(BaseWorkflow):
     """
-    A Backend to run workflows on Kubeflow Pipelines. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.  
+    A Backend to run workflows on Kubeflow Pipelines. 
 
     :param nodes: A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.
     :param workflow_name: A name of the workflow that is used by storage classes.
+    :param baseimage: The container image to use as the base that the KFP component execution image will be built on top of.
+    :param registry_credentials: A dictionary of credential information for accessing a private container registry, if necessary.
+                                 
+    Available fields: 
+        
+    server: address to the registry server
+        
+    username: as would be used for docker login
     
+    password: as would be used for docker login
+    :param kfp_host: address to the Kubeflow Pipelines host API, to connect the KFP Client
     """
     def __init__(self, *nodes, workflow_name,
                  baseimage="python",
@@ -123,12 +117,39 @@ class KFPWorkflow(BaseWorkflow):
         self.kfp_host = kfp_host
 
     def set_registry_credentials(self, registry_credentials):
+        """
+        Set credentials to access a private container registry.
+
+        :param registry_credentials: A dictionary of credential information for accessing a private container registry, if necessary.
+                                 
+        Available fields: 
+            
+        server: address to the registry server
+            
+        username: as would be used for docker login
+        
+        password: as would be used for docker login
+        """
         self.registry_credentials = registry_credentials
 
     def set_baseimage(self, baseimage):
+        """
+        Set container image used as the base for the execution image.
+        The execution image will be built by placing the current directory on to the base image.
+        The base image should therefore contain a python environment with any necessary prerequisites for the current code that aren't passed to KFP using 'packages_to_install' or other methods.
+
+        :param baseimage: Container image that can be pulled with docker pull.
+
+        """
         self.baseimage = baseimage
 
     def set_kfp_host(self, kfp_host):
+        """
+        Set address to KFP Host.
+
+        :param kfp_host: Address of KFP Host.
+
+        """
         self.kfp_host = kfp_host
 
     def set_storage(self, object_storage):
@@ -148,8 +169,6 @@ class KFPWorkflow(BaseWorkflow):
     def run(self):
         """
         Start execution of the workflow
-
-        :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.
         """
 
         # Check environment to see if we should call a function, or build the 
@@ -170,19 +189,18 @@ class KFPWorkflow(BaseWorkflow):
 
             import inspect, os, subprocess
             calling_file = (inspect.stack()[1])[1]
-            print(f"KFP Workflow Run -- calling_file: {calling_file}")
+            # print(f"KFP Workflow Run -- calling_file: {calling_file}")
             calling_folder = os.path.dirname(calling_file)
-            print(f"KFP Workflow Run -- calling_folder: {calling_folder}")
+            # print(f"KFP Workflow Run -- calling_folder: {calling_folder}")
             calling_file_trim = calling_file.split('/')[-1].split('.')[0]
-            print(f"KFP Workflow Run -- calling_file_trim: {calling_file_trim}")
-
-            print(os.listdir())
+            # print(f"KFP Workflow Run -- calling_file_trim: {calling_file_trim}")
 
             # Create image from base + calling folder
             with open("Dockerfile", "w") as f:
                 f.write(f"FROM {self.baseimage}\n")
                 f.write("WORKDIR /ffrun\n")
                 # f.write(f"ADD {calling_folder} /ffrun/\n")
+                # Calling folder might be outside scope of docker build, so for now resort to cwd
                 f.write(f"ADD . /ffrun/\n")
 
             if "server" in self.registry_credentials:
@@ -234,19 +252,21 @@ class KFPWorkflow(BaseWorkflow):
                     kargs_types[key] = InputBinaryFile(bytes)
 
                 exec_func = generate_function(kargs_types)
+                # Can change name of execution function to the name of the Node, 
+                # but that might not work if a Node name that can't be used as 
+                # a python function name is set
                 # exec_func.__name__ = name
                 # exec_func.__qualname__ = name
-                # globals()[name] = globals()["exec_func"]
-                # print(name)
-                # print(exec_func.__name__)
-                # print(exec_func.__qualname__)
 
                 exec_node.set_backend_info('exec_func', exec_func)
-                print(exec_func.__signature__)
                 packages_to_install = ['kfp==1.8.21', 'kubernetes']
                 exec_op = create_component_from_func(exec_func,
                                                      base_image=image_name,
                                                      packages_to_install=packages_to_install)
+                exec_op.component_spec.name = name
+                # exec_string = exec_op.component_spec.implementation.container.command[-1]
+                # exec_string = exec_string.replace('exec_func', name)
+                # exec_op.component_spec.implementation.container.command[-1] = exec_string
                 exec_node.set_backend_info('op', exec_op)
 
             @dsl.pipeline(name=self.workflow_name)
@@ -271,7 +291,8 @@ class KFPWorkflow(BaseWorkflow):
                         if val_index is not None:
                             kargs_sub_indices.__setitem__(key, val_index)
 
-                    import pickle
+                    print(exec_node.backend_info['op'].component_spec)
+
                     exec_node.result = exec_node.backend_info['op'](
                         calling_file=calling_file_trim,
                         args_sub_indices=args_sub_indices,
@@ -281,8 +302,7 @@ class KFPWorkflow(BaseWorkflow):
                         ).add_env_variable(V1EnvVar(name="FFFUNCTION",
                                                     value=name))
                     
-                    # exec_node.free_memory()
-
+                # Need a different way of returning results
                 # if len(self.leaves) == 1:
                 #     return self.leaves[0].result
             
