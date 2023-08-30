@@ -143,7 +143,8 @@ class PrefectWorkflow(BaseWorkflow):
                         exec_node.free_memory()
                         exec_node.result = result
                         continue
-                    except (self.object_storage.invalid_exception, FileNotFoundError):
+                    # except (self.object_storage.invalid_exception, FileNotFoundError):
+                    except FileNotFoundError:
                         pass
 
                 args = list(exec_node.args)
