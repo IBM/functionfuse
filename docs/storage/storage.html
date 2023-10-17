@@ -13,17 +13,17 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FileStorage" href="filestorage.html" />
-    <link rel="prev" title="Backend Development" href="../backends/developers.html" /> 
+    <link rel="prev" title="Basic ML example (Prefect Workflow)" href="../examples/example4.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,7 +36,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/FunctionFuseRobotLogo.jpg" class="logo" alt="Logo"/>
+              <img src="../_static/RocketF.jpeg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -59,11 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#queries">Queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#serializers">Serializers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../background/background.html">Background Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../background/bigdata.html">Big Data Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#stateful-nodes">Stateful Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../backends/backends.html">Backends</a><ul>
@@ -106,29 +102,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#serializers">Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#storage-classes">Storage Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="filestorage.html">FileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rayfilestorage.html">RayFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="s3storage.html">S3storage</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/example1.html">Basic ML example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#The-workflow">The workflow</a></li>
@@ -149,6 +122,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#The-workflow">The workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Prefect-Server">Prefect Server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -210,7 +206,7 @@
            <div itemprop="articleBody">
              
   <section id="storage">
-<h1>Storage<a class="headerlink" href="#storage" title="Permalink to this heading"></a></h1>
+<h1>Storage<a class="headerlink" href="#storage" title="Link to this heading"></a></h1>
 <p><em>Function Fuse</em> Storage classes define how the results produced by Nodes
 are stored. All Workflows can have a Storage class attached using the
 <code class="docutils literal notranslate"><span class="pre">set_storage()</span></code> method. We use the <code class="docutils literal notranslate"><span class="pre">storage_factory</span></code> to instantiate
@@ -261,7 +257,7 @@ will provide access to list and read task results from storage:</p>
 </pre></div>
 </div>
 <section id="serializers">
-<h2>Serializers<a class="headerlink" href="#serializers" title="Permalink to this heading"></a></h2>
+<h2>Serializers<a class="headerlink" href="#serializers" title="Link to this heading"></a></h2>
 <p>Storage can utilize <a class="reference internal" href="../serializers/serializers.html#serializers"><span class="std std-ref">Serializers</span></a> attached
 to the storage object. The intention of serializers is to be able to flexibly
 assign custom serialization approaches for certain types of objects to any
@@ -283,7 +279,7 @@ hdf5 files (rather than using pickle to dump to file), register the
 </div>
 </section>
 <section id="protocols">
-<h2>Protocols<a class="headerlink" href="#protocols" title="Permalink to this heading"></a></h2>
+<h2>Protocols<a class="headerlink" href="#protocols" title="Link to this heading"></a></h2>
 <p>Different storage classes may use different <a class="reference internal" href="../serializers/serializers.html#protocols"><span class="std std-ref">Protocols</span></a>
 for opening, reading to, and writing from files. To make serializers, and other
 functions that might want to interface with a storage object, aware of the
@@ -294,7 +290,7 @@ serializers. Currently there are 2 default keys used by this dictionary
 for how to access the file protocols used by the storage class.</p>
 </section>
 <section id="storage-classes">
-<h2>Storage Classes<a class="headerlink" href="#storage-classes" title="Permalink to this heading"></a></h2>
+<h2>Storage Classes<a class="headerlink" href="#storage-classes" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="filestorage.html">FileStorage</a></li>
@@ -309,7 +305,7 @@ for how to access the file protocols used by the storage class.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../backends/developers.html" class="btn btn-neutral float-left" title="Backend Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples/example4.html" class="btn btn-neutral float-left" title="Basic ML example (Prefect Workflow)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="filestorage.html" class="btn btn-neutral float-right" title="FileStorage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

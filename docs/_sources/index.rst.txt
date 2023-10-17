@@ -12,14 +12,14 @@ Welcome to Function Fuse's documentation!
 
    usage/installation
    background/introduction
-   background/background
    backends/backends
+   examples/examples
    storage/storage
    serializers/serializers
-   examples/examples
    api/api
    deployment/deployment
    futuredirections/futuredirections
+   
 
 Indices and tables
 ==================

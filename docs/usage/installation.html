@@ -13,11 +13,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -36,7 +36,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/FunctionFuseRobotLogo.jpg" class="logo" alt="Logo"/>
+              <img src="../_static/RocketF.jpeg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -59,11 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#queries">Queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#serializers">Serializers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../background/background.html">Background Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../background/bigdata.html">Big Data Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#stateful-nodes">Stateful Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../backends/backends.html">Backends</a><ul>
@@ -106,29 +102,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/example1.html">Basic ML example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#The-workflow">The workflow</a></li>
@@ -149,6 +122,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#The-workflow">The workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Prefect-Server">Prefect Server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -210,8 +206,8 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
-<p>Clone repository from <a class="reference external" href="https://github.ibm.com/vgurev/functionfuse">https://github.ibm.com/vgurev/functionfuse</a>.
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>Clone repository from <a class="reference external" href="https://github.com/IBM/functionfuse">https://github.com/IBM/functionfuse</a>.
 Change the directory to the root folder of the package and run</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>%<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>

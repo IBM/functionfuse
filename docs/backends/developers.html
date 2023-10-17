@@ -13,16 +13,16 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Storage" href="../storage/storage.html" />
+    <link rel="next" title="Examples" href="../examples/examples.html" />
     <link rel="prev" title="Ray Workflow Workflow" href="addons/rayworkflow.html" /> 
 </head>
 
@@ -36,7 +36,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/FunctionFuseRobotLogo.jpg" class="logo" alt="Logo"/>
+              <img src="../_static/RocketF.jpeg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -59,11 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#queries">Queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#serializers">Serializers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../background/background.html">Background Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../background/bigdata.html">Big Data Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#stateful-nodes">Stateful Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="backends.html">Backends</a><ul class="current">
@@ -106,29 +102,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/example1.html">Basic ML example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#The-workflow">The workflow</a></li>
@@ -149,6 +122,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#The-workflow">The workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Prefect-Server">Prefect Server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -211,7 +207,7 @@
            <div itemprop="articleBody">
              
   <section id="backend-development">
-<h1>Backend Development<a class="headerlink" href="#backend-development" title="Permalink to this heading"></a></h1>
+<h1>Backend Development<a class="headerlink" href="#backend-development" title="Link to this heading"></a></h1>
 <p><em>Function Fuse</em> backends need to define how the DAG specified by the frontend
 will be executed. We recommend that developers of a new backend first
 familiarize themselves with the source code for the
@@ -223,7 +219,7 @@ for an example based on asynchronous processing with futures.</p>
 introduced below.</p>
 </section>
 <section id="basic-workflow-functionality">
-<h1>Basic Workflow Functionality<a class="headerlink" href="#basic-workflow-functionality" title="Permalink to this heading"></a></h1>
+<h1>Basic Workflow Functionality<a class="headerlink" href="#basic-workflow-functionality" title="Link to this heading"></a></h1>
 <p>The <em>BaseWorkflow</em> class is the parent class for all backends, and provides
 functions for backends to rely on:</p>
 <p><code class="docutils literal notranslate"><span class="pre">_find_roots()</span></code> – called when initializing a backend, given a set of <em>leaf</em>
@@ -237,7 +233,7 @@ the basis for executing each node using a backend.</p>
 matching the pattern provided.</p>
 </section>
 <section id="workflow-interface">
-<h1>Workflow Interface<a class="headerlink" href="#workflow-interface" title="Permalink to this heading"></a></h1>
+<h1>Workflow Interface<a class="headerlink" href="#workflow-interface" title="Link to this heading"></a></h1>
 <p>Backends can perform any operations on the nodes yielded by
 <code class="docutils literal notranslate"><span class="pre">BaseWorkflow.graph_traversal()</span></code>. Typically, an interface should implement
 at least two primary functions:</p>
@@ -246,7 +242,7 @@ Workflow instance to be referenced during workflow execution</p>
 <p><code class="docutils literal notranslate"><span class="pre">run()</span></code> – call <code class="docutils literal notranslate"><span class="pre">graph_traversal()</span></code> and perform an operation on each node
 in the DAG, usually executing the node’s <code class="docutils literal notranslate"><span class="pre">func()</span></code></p>
 <section id="queries">
-<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this heading"></a></h2>
+<h2>Queries<a class="headerlink" href="#queries" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Query()</span></code> – a backend may define a <code class="docutils literal notranslate"><span class="pre">Query</span></code> class that handles backend-specific
 assignment of information to the <code class="docutils literal notranslate"><span class="pre">.backend_info</span></code> field of individual Nodes.
 Typical implementation is that a <code class="docutils literal notranslate"><span class="pre">Workflow.query(&quot;pattern&quot;)</span></code> function is defined
@@ -256,7 +252,7 @@ of the <code class="docutils literal notranslate"><span class="pre">Query</span>
 field of the Nodes assigned to that <code class="docutils literal notranslate"><span class="pre">Query</span></code> object.</p>
 </section>
 <section id="plugins">
-<h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading"></a></h2>
+<h2>Plugins<a class="headerlink" href="#plugins" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://github.ibm.com/vgurev/functionfuse/blob/main/functionfuse/backends/plugins/baseplugins.py">Plugins</a>
 are additional functions that are executed for each node during DAG
 execution, prior to the node’s main function call. Typical use includes state
@@ -272,7 +268,7 @@ can access information in the main process and help synchronize state, and that
 information can be available to <code class="docutils literal notranslate"><span class="pre">remote_initialize</span></code> if required.</p>
 </section>
 <section id="storage">
-<h2>Storage<a class="headerlink" href="#storage" title="Permalink to this heading"></a></h2>
+<h2>Storage<a class="headerlink" href="#storage" title="Link to this heading"></a></h2>
 <p>Backends that interface with <a class="reference internal" href="../storage/storage.html#storage"><span class="std std-ref">Storage</span></a> should provide the
 option to add the Storage class to a Workflow instance using the
 <code class="docutils literal notranslate"><span class="pre">set_storage()</span></code> function. The backend can make use of functions in the
@@ -290,7 +286,7 @@ futures for asynchronous computation.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="addons/rayworkflow.html" class="btn btn-neutral float-left" title="Ray Workflow Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../storage/storage.html" class="btn btn-neutral float-right" title="Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../examples/examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

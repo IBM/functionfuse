@@ -12,11 +12,11 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-        <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -31,8 +31,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            Function Fuse
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/FunctionFuseRobotLogo.jpg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -55,20 +56,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#queries">Queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#serializers">Serializers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../background/background.html">Background Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../background/bigdata.html">Big Data Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/introduction.html#stateful-nodes">Stateful Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../backends/backends.html">Backends</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#workflow-interface">Workflow Interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../../backends/backends.html#queries">Queries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../backends/backends.html#plugins">Plugins</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#workflows">Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../backends/builtins/local.html">LocalWorkflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../backends/builtins/ray.html">RayWorkflow</a><ul>
@@ -95,25 +86,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../backends/addons/rayworkflow.html">Ray Workflow Workflow</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../storage/storage.html">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#serializers">Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#storage-classes">Storage Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../../storage/filestorage.html">FileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../storage/rayfilestorage.html">RayFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../storage/s3storage.html">S3storage</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../serializers/serializers.html">Serializers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../../serializers/daskarray.html">DaskArraySerializer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../backends/backends.html#for-backend-developers">For Backend Developers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/developers.html">Backend Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/developers.html#basic-workflow-functionality">Basic Workflow Functionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../backends/developers.html#workflow-interface">Workflow Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/developers.html#queries">Queries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/developers.html#plugins">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../backends/developers.html#storage">Storage</a></li>
 </ul>
 </li>
 </ul>
@@ -140,6 +119,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#The-workflow">The workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#Prefect-Server">Prefect Server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -173,6 +175,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../futuredirections/futuredirections.html">Future Directions</a></li>
 </ul>
 
         </div>
@@ -207,7 +210,9 @@
     <span class="k">return</span> <span class="s2">&quot;print&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">backend_info</span>
 
 
-<div class="viewcode-block" id="LocalWorkflow"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.builtin.localback.LocalWorkflow">[docs]</a><span class="k">class</span> <span class="nc">LocalWorkflow</span><span class="p">(</span><span class="n">BaseWorkflow</span><span class="p">):</span>
+<div class="viewcode-block" id="LocalWorkflow">
+<a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.builtin.localback.LocalWorkflow">[docs]</a>
+<span class="k">class</span> <span class="nc">LocalWorkflow</span><span class="p">(</span><span class="n">BaseWorkflow</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Backend to run workflows locally. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.  </span>
 
@@ -219,7 +224,9 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">LocalWorkflow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">nodes</span><span class="p">,</span> <span class="n">workflow_name</span> <span class="o">=</span> <span class="n">workflow_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="LocalWorkflow.set_storage"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage">[docs]</a>    <span class="k">def</span> <span class="nf">set_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_storage</span><span class="p">):</span>
+<div class="viewcode-block" id="LocalWorkflow.set_storage">
+<a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_storage</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set storage for the workflow.</span>
 
@@ -228,12 +235,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">object_storage</span> <span class="o">=</span> <span class="n">object_storage</span></div>
 
+
     <span class="k">def</span> <span class="nf">log_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_nodes</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">i</span><span class="o">.</span><span class="n">backend_info</span><span class="p">[</span><span class="s2">&quot;print&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="LocalWorkflow.run"><a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.builtin.localback.LocalWorkflow.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LocalWorkflow.run">
+<a class="viewcode-back" href="../../../../api/backends.html#functionfuse.backends.builtin.localback.LocalWorkflow.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start execution of the workflow</span>
 
@@ -281,7 +291,9 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span>
      
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">result</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span></div></div>
+        <span class="k">return</span> <span class="n">result</span></div>
+</div>
+
 </pre></div>
 
            </div>
@@ -291,7 +303,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Viatcheslav Gurev.</p>
+    <p>&#169; Copyright 2023, Viatcheslav Gurev, Tim Rumbell.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

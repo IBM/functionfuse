@@ -13,11 +13,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -36,7 +36,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/FunctionFuseRobotLogo.jpg" class="logo" alt="Logo"/>
+              <img src="../_static/RocketF.jpeg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -59,11 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#storage-and-analysis">Storage and Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#queries">Queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#serializers">Serializers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../background/background.html">Background Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../background/bigdata.html">Big Data Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../background/existingworkflows.html">Integration with existing workflow packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/introduction.html#stateful-nodes">Stateful Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../backends/backends.html">Backends</a><ul>
@@ -106,29 +102,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/example1.html">Basic ML example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#The-workflow">The workflow</a></li>
@@ -149,6 +122,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#The-workflow">The workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Prefect-Server">Prefect Server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -211,17 +207,17 @@
            <div itemprop="articleBody">
              
   <section id="backends">
-<h1>Backends<a class="headerlink" href="#backends" title="Permalink to this heading"></a></h1>
+<h1>Backends<a class="headerlink" href="#backends" title="Link to this heading"></a></h1>
 <section id="built-in">
-<h2>Built-in<a class="headerlink" href="#built-in" title="Permalink to this heading"></a></h2>
+<h2>Built-in<a class="headerlink" href="#built-in" title="Link to this heading"></a></h2>
 <section id="local-workflow">
-<h3>Local Workflow<a class="headerlink" href="#local-workflow" title="Permalink to this heading"></a></h3>
+<h3>Local Workflow<a class="headerlink" href="#local-workflow" title="Link to this heading"></a></h3>
 <p>The Local Workflow are implemented with a class and a function to create local storage (see below).
 During graph execution all node results are saved in the storage.
 In the second run, all saved nodes are not executed but their results are loaded from the storage.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.localback.LocalWorkflow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.localback.</span></span><span class="sig-name descname"><span class="pre">LocalWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.localback.</span></span><span class="sig-name descname"><span class="pre">LocalWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow" title="Link to this definition"></a></dt>
 <dd><p>A Backend to run workflows locally. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -233,7 +229,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.localback.LocalWorkflow.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow.run" title="Link to this definition"></a></dt>
 <dd><p>Start execution of the workflow</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -244,7 +240,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.localback.LocalWorkflow.set_storage">
-<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/localback.html#LocalWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage" title="Link to this definition"></a></dt>
 <dd><p>Set storage for the workflow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -257,7 +253,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py function">
 <dt class="sig sig-object py" id="functionfuse.storage.storage_factory">
-<span class="sig-prename descclassname"><span class="pre">functionfuse.storage.</span></span><span class="sig-name descname"><span class="pre">storage_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/storage_factory.html#storage_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.storage_factory" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">functionfuse.storage.</span></span><span class="sig-name descname"><span class="pre">storage_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/storage_factory.html#storage_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.storage_factory" title="Link to this definition"></a></dt>
 <dd><p>Factory that creates a storage class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -278,11 +274,11 @@ In the second run, all saved nodes are not executed but their results are loaded
 <p>The name of the storage folder is path/workflow_name. This options returns object of the next class that is passed to <a class="reference internal" href="#functionfuse.backends.builtin.localback.LocalWorkflow.set_storage" title="functionfuse.backends.builtin.localback.LocalWorkflow.set_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">functionfuse.backends.builtin.localback.LocalWorkflow.set_storage()</span></code></a>:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.storage.filestorage.</span></span><span class="sig-name descname"><span class="pre">FileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.storage.filestorage.</span></span><span class="sig-name descname"><span class="pre">FileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage" title="Link to this definition"></a></dt>
 <dd><p>Local file storage. Pickle is used to save results of the graph nodes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.list_tasks">
-<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.list_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.list_tasks" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.list_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.list_tasks" title="Link to this definition"></a></dt>
 <dd><p>List saved results of all saved nodes using glob pattern for workflow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -296,7 +292,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.read_task">
-<span class="sig-name descname"><span class="pre">read_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.read_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.read_task" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.read_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.read_task" title="Link to this definition"></a></dt>
 <dd><p>Read saved result of node execution from workflow storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -310,7 +306,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.remove_task">
-<span class="sig-name descname"><span class="pre">remove_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.remove_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.remove_task" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.remove_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.remove_task" title="Link to this definition"></a></dt>
 <dd><p>Remove results of selected nodes from the storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -325,7 +321,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.filestorage.FileStorage.remove_workflow">
-<span class="sig-name descname"><span class="pre">remove_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.remove_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.remove_workflow" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/filestorage.html#FileStorage.remove_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.filestorage.FileStorage.remove_workflow" title="Link to this definition"></a></dt>
 <dd><p>Remove the workflow from the storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -351,11 +347,11 @@ In the second run, all saved nodes are not executed but their results are loaded
 </div>
 </section>
 <section id="ray-workflow">
-<h3>Ray Workflow<a class="headerlink" href="#ray-workflow" title="Permalink to this heading"></a></h3>
+<h3>Ray Workflow<a class="headerlink" href="#ray-workflow" title="Link to this heading"></a></h3>
 <p>Ray Workflow interface is similar to <a class="reference internal" href="#local-workflow">Local Workflow</a> with an addition of multiple methods to set Ray resources.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.rayback.</span></span><span class="sig-name descname"><span class="pre">RayWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_init_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.rayback.</span></span><span class="sig-name descname"><span class="pre">RayWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_init_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow" title="Link to this definition"></a></dt>
 <dd><p>A Backend to run workflows on Ray engine. The storage for this class could be created by functionfuse.storage.storage_factory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -368,7 +364,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow.query">
-<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.query" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.query" title="Link to this definition"></a></dt>
 <dd><p>Query nodes of the graph by regexp pattern.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -382,7 +378,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pending_tasks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pending_tasks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.run" title="Link to this definition"></a></dt>
 <dd><p>Start execution of the workflow.
 :param return_results: A flag if results for input nodes are returned
 :return: A list of results for input nodes or a single result if a single node is used in initialization of the class object.</p>
@@ -390,7 +386,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.RayWorkflow.set_storage">
-<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.set_storage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#RayWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.RayWorkflow.set_storage" title="Link to this definition"></a></dt>
 <dd><p>Set storage for the workflow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -403,11 +399,11 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.Query">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.rayback.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.Query" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.builtin.rayback.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.Query" title="Link to this definition"></a></dt>
 <dd><p>The class allows to set attributes to sets of nodes. Contains list of nodes returned by query.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.builtin.rayback.Query.set_remote_args">
-<span class="sig-name descname"><span class="pre">set_remote_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#Query.set_remote_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.Query.set_remote_args" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_remote_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/builtin/rayback.html#Query.set_remote_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.builtin.rayback.Query.set_remote_args" title="Link to this definition"></a></dt>
 <dd><p>Set arguments for ‘remote’ function in Ray calls. Used to assign resources to remote functions calls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -420,7 +416,7 @@ In the second run, all saved nodes are not executed but their results are loaded
 
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.storage.rayfilestorage.</span></span><span class="sig-name descname"><span class="pre">FileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.storage.rayfilestorage.</span></span><span class="sig-name descname"><span class="pre">FileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage" title="Link to this definition"></a></dt>
 <dd><p>Remote file storage on a single designated Ray cluster node. 
 Create a single node with unique Ray resource (e.g., _disk: 1) and route all function calls to this node with remoteArgs (see below) setting the same resource (e.g., _disk: 0.001).
 Pickle is used to save results of the graph nodes.</p>
@@ -446,7 +442,7 @@ Pickle is used to save results of the graph nodes.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.list_tasks">
-<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.list_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.list_tasks" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.list_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.list_tasks" title="Link to this definition"></a></dt>
 <dd><p>List saved results of all saved nodes using glob pattern for workflow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -460,7 +456,7 @@ Pickle is used to save results of the graph nodes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.read_task">
-<span class="sig-name descname"><span class="pre">read_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.read_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.read_task" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.read_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.read_task" title="Link to this definition"></a></dt>
 <dd><p>Read saved result of node execution from workflow storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -474,7 +470,7 @@ Pickle is used to save results of the graph nodes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.remove_task">
-<span class="sig-name descname"><span class="pre">remove_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.remove_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.remove_task" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.remove_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.remove_task" title="Link to this definition"></a></dt>
 <dd><p>Remove results of selected nodes from the storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -489,7 +485,7 @@ Pickle is used to save results of the graph nodes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.storage.rayfilestorage.FileStorage.remove_workflow">
-<span class="sig-name descname"><span class="pre">remove_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.remove_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.remove_workflow" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/storage/rayfilestorage.html#FileStorage.remove_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.storage.rayfilestorage.FileStorage.remove_workflow" title="Link to this definition"></a></dt>
 <dd><p>Remove the workflow from the storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -531,9 +527,9 @@ Pickle is used to save results of the graph nodes.</p>
 </section>
 </section>
 <section id="add-ons">
-<h2>Add-ons<a class="headerlink" href="#add-ons" title="Permalink to this heading"></a></h2>
+<h2>Add-ons<a class="headerlink" href="#add-ons" title="Link to this heading"></a></h2>
 <section id="prefect-workflow">
-<h3>Prefect Workflow<a class="headerlink" href="#prefect-workflow" title="Permalink to this heading"></a></h3>
+<h3>Prefect Workflow<a class="headerlink" href="#prefect-workflow" title="Link to this heading"></a></h3>
 <p>The Prefect Workflow interface is similar to the <a class="reference internal" href="#ray-workflow">Ray Workflow</a>, providing
 options to query nodes to set Prefect Task specific options for each node, as
 well as ability to pass Prefect Flow options when creating the Prefect Flow from
@@ -542,7 +538,7 @@ of the run function, stored as PrefectWorkflow.flow, which could be used with
 Prefect Deployment options (not yet implemented).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.PrefectWorkflow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.addons.prefectback.</span></span><span class="sig-name descname"><span class="pre">PrefectWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.addons.prefectback.</span></span><span class="sig-name descname"><span class="pre">PrefectWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow" title="Link to this definition"></a></dt>
 <dd><p>A Backend to run workflows through Prefect. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -554,14 +550,14 @@ Prefect Deployment options (not yet implemented).</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.PrefectWorkflow.generate_flow">
-<span class="sig-name descname"><span class="pre">generate_flow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.generate_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.generate_flow" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_flow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.generate_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.generate_flow" title="Link to this definition"></a></dt>
 <dd><p>Create the flow from the nodes in the graph.
 Separating this from run allows deploy() option within Prefect server</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.PrefectWorkflow.query">
-<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.query" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.query" title="Link to this definition"></a></dt>
 <dd><p>Query nodes of the graph by regexp pattern.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -575,7 +571,7 @@ Separating this from run allows deploy() option within Prefect server</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.PrefectWorkflow.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.run" title="Link to this definition"></a></dt>
 <dd><p>Start execution of the workflow</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -586,7 +582,7 @@ Separating this from run allows deploy() option within Prefect server</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.PrefectWorkflow.set_storage">
-<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.set_storage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#PrefectWorkflow.set_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.PrefectWorkflow.set_storage" title="Link to this definition"></a></dt>
 <dd><p>Set storage for the workflow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -599,11 +595,11 @@ Separating this from run allows deploy() option within Prefect server</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.Query">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.addons.prefectback.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.Query" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.addons.prefectback.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.Query" title="Link to this definition"></a></dt>
 <dd><p>The class allows to set attributes to sets of nodes. Contains list of nodes returned by query.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.prefectback.Query.set_task_args">
-<span class="sig-name descname"><span class="pre">set_task_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#Query.set_task_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.Query.set_task_args" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_task_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/prefectback.html#Query.set_task_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.prefectback.Query.set_task_args" title="Link to this definition"></a></dt>
 <dd><p>Set arguments for task definition in Prefect.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -616,13 +612,13 @@ Separating this from run allows deploy() option within Prefect server</p>
 
 </section>
 <section id="kfp-workflow">
-<h3>KFP Workflow<a class="headerlink" href="#kfp-workflow" title="Permalink to this heading"></a></h3>
+<h3>KFP Workflow<a class="headerlink" href="#kfp-workflow" title="Link to this heading"></a></h3>
 <p>The KFP Workflow interface is currently in an alpha state. The main extensions
 over the LocalWorkflow interface are the requirement to pass information around
 where to push a container image that can be pulled by the Kubernetes cluster.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.kfpback.KFPWorkflow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.addons.kfpback.</span></span><span class="sig-name descname"><span class="pre">KFPWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseimage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'python'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registry_credentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kfp_host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://localhost:3000'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functionfuse.backends.addons.kfpback.</span></span><span class="sig-name descname"><span class="pre">KFPWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseimage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'python'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registry_credentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kfp_host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://localhost:3000'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow" title="Link to this definition"></a></dt>
 <dd><p>A Backend to run workflows on Kubeflow Pipelines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -641,13 +637,13 @@ where to push a container image that can be pulled by the Kubernetes cluster.</p
 :param kfp_host: address to the Kubeflow Pipelines host API, to connect the KFP Client</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.kfpback.KFPWorkflow.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.run" title="Link to this definition"></a></dt>
 <dd><p>Start execution of the workflow</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.kfpback.KFPWorkflow.set_baseimage">
-<span class="sig-name descname"><span class="pre">set_baseimage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseimage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.set_baseimage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.set_baseimage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_baseimage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseimage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.set_baseimage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.set_baseimage" title="Link to this definition"></a></dt>
 <dd><p>Set container image used as the base for the execution image.
 The execution image will be built by placing the current directory on to the base image.
 The base image should therefore contain a python environment with any necessary prerequisites for the current code that aren’t passed to KFP using ‘packages_to_install’ or other methods.</p>
@@ -660,7 +656,7 @@ The base image should therefore contain a python environment with any necessary 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.kfpback.KFPWorkflow.set_kfp_host">
-<span class="sig-name descname"><span class="pre">set_kfp_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kfp_host</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.set_kfp_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.set_kfp_host" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_kfp_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kfp_host</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.set_kfp_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.set_kfp_host" title="Link to this definition"></a></dt>
 <dd><p>Set address to KFP Host.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -671,7 +667,7 @@ The base image should therefore contain a python environment with any necessary 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="functionfuse.backends.addons.kfpback.KFPWorkflow.set_registry_credentials">
-<span class="sig-name descname"><span class="pre">set_registry_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registry_credentials</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.set_registry_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.set_registry_credentials" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_registry_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registry_credentials</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/functionfuse/backends/addons/kfpback.html#KFPWorkflow.set_registry_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functionfuse.backends.addons.kfpback.KFPWorkflow.set_registry_credentials" title="Link to this definition"></a></dt>
 <dd><p>Set credentials to access a private container registry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

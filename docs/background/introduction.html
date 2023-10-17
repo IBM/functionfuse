@@ -13,16 +13,16 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Background Concepts" href="background.html" />
+    <link rel="next" title="Backends" href="../backends/backends.html" />
     <link rel="prev" title="Installation" href="../usage/installation.html" /> 
 </head>
 
@@ -36,7 +36,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/FunctionFuseRobotLogo.jpg" class="logo" alt="Logo"/>
+              <img src="../_static/RocketF.jpeg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -59,11 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#storage-and-analysis">Storage and Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#queries">Queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#serializers">Serializers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="background.html">Background Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bigdata.html">Big Data Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="existingworkflows.html">Integration with existing workflow packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stateful-nodes">Stateful Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../backends/backends.html">Backends</a><ul>
@@ -106,29 +102,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/example1.html">Basic ML example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example1.html#The-workflow">The workflow</a></li>
@@ -149,6 +122,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#The-workflow">The workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Prefect-Server">Prefect Server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/example4.html#Model-Prediction">Model Prediction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#serializers">Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/storage.html#storage-classes">Storage Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage/filestorage.html">FileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/rayfilestorage.html">RayFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage/s3storage.html">S3storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../serializers/serializers.html">Serializers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serializers/serializers.html#serializer-classes">Serializer Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../serializers/daskarray.html">DaskArraySerializer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#file-protocol-interface">File protocol interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../serializers/daskarray.html#s3-protocol-interface">S3 protocol interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -210,32 +206,35 @@
            <div itemprop="articleBody">
              
   <section id="introduction-and-quick-start">
-<h1>Introduction and quick start<a class="headerlink" href="#introduction-and-quick-start" title="Permalink to this heading"></a></h1>
+<h1>Introduction and quick start<a class="headerlink" href="#introduction-and-quick-start" title="Link to this heading"></a></h1>
 <p>The package <em>Function Fuse</em> is designed to build
 programming workflows in the form of direct acyclic
 graphs (DAG). The nodes of the DAG are functions defined by a user.
 The programming model of <em>Function Fuse</em> is inspired by <a class="reference external" href="https://github.com/project-codeflare/codeflare">CodeFlare</a>,
 which is now a part of Ray.io (<a class="reference external" href="https://docs.ray.io/en/latest/workflows/index.html">Ray Workflows</a>).</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>It is strongly recommended to become familiar with Ray Workflows to accelerate the learning curve for <em>Function Fuse</em>.</p>
-</div>
 <section id="why-another-workflow-package">
-<h2>Why another workflow package<a class="headerlink" href="#why-another-workflow-package" title="Permalink to this heading"></a></h2>
+<h2>Why another workflow package<a class="headerlink" href="#why-another-workflow-package" title="Link to this heading"></a></h2>
 <p>There are hundreds of workflow packages out there (see
 <a class="reference external" href="https://github.com/meirwah/awesome-workflow-engines">this repo</a> for instance for a list).
-Our goal is to create the simplest workflow package that could be used by
+Our goal is to create a minimal workflow package usable by
 research scientists and machine learning engineers without a heavy background
-in software engineering.
-To make workflows simple, we follow these concepts:</p>
+in software engineering.</p>
+<p>We follow these concepts:</p>
 <ul class="simple">
 <li><p>Split workflow engines into seperated frontend and backend layers.</p></li>
-<li><p>The frontend layer: the workflow is defined with a single Python decorator
-and the capability to set DAG node names (the main code used in the workflow
-is developed by research scientists).</p></li>
-<li><p>Backend layers: query nodes by their names, edit the pipeline, assign resources
-to nodes, etc. (developed and deployed by Software Engineers (SWEs)).</p></li>
+<li><p>The frontend layer is developed by Research Scientists.</p></li>
+<li><p>In the frontend layer the workflow is defined with a single Python decorator,
+and a command to set DAG node names.</p></li>
+<li><p>The backend layer is developed by Software Engineers (SWEs).</p></li>
+<li><p>Backend layers can provide arbitrary functionality: query nodes by their names,
+edit the pipeline, assign resources to nodes, etc..</p></li>
 </ul>
+<p>The frontend-backend separation enables a researcher or scientist to write and
+maintain backend-agnostic code. Software engineers can write backends to run
+workflow DAGs on popular distributed libraries, e.g. Ray, Ray Workflow,
+Prefect, Kubeflow Pipelines, etc.. The separation allows exactly the same
+frontned code to run without changes on different distributed libraries and
+cloud environments.</p>
 <p>Benefits:</p>
 <ul class="simple">
 <li><p>Simple for development (separation of research-SWE code).</p></li>
@@ -244,11 +243,16 @@ to nodes, etc. (developed and deployed by Software Engineers (SWEs)).</p></li>
 <li><p>Plugins: intialization of environment before execution of DAG nodes by backends
 such as initialization of random number generator during parallel and distributed execution.</p></li>
 <li><p>Cloud engine backends.</p></li>
+<li><p>Resilience: the backend can provide storage options to save intermediate
+results and DAG execution restart.</p></li>
 </ul>
+<p>In practice, one more meta-layer is used for communication of required resources
+between researchers and engineers, e.g., in JSON format. However, we currently
+do not provide an example of this.</p>
 </section>
 <section id="the-frontend">
-<h2>The frontend<a class="headerlink" href="#the-frontend" title="Permalink to this heading"></a></h2>
-<p>Only two directives are implemented in the frontend:</p>
+<h2>The frontend<a class="headerlink" href="#the-frontend" title="Link to this heading"></a></h2>
+<p>Only two directives are implemented in the frontend layer:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&#64;workflow</span></code> decorator for user functions (alias <code class="docutils literal notranslate"><span class="pre">&#64;task</span></code> can also be used).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">set_name()</span></code> function that assigns a name to a node of the DAG.</p></li>
@@ -278,6 +282,129 @@ such as initialization of random number generator during parallel and distribute
    &quot;node1&quot; -&gt; &quot;node3&quot;
 }" class="graphviz" /></div>
 <p>The variables a_plus_b, a_plus_two_b, and result_of_mult contain references to the nodes.</p>
+<p>To run a DAG, we need one of the backends.</p>
+</section>
+<section id="backends">
+<h2>Backends<a class="headerlink" href="#backends" title="Link to this heading"></a></h2>
+<p>Backend layers take as an input one or several nodes of the graph and run the workflow.</p>
+<p>There are two types of backends, built-in and addons. Built-ins are implemented
+entirely in the Function Fuse package, whereas addons leverage other existing
+workflow libraries that might help manage or run workflows.</p>
+<p>Two built-in backends to Function Fuse package are designed to run workflow
+in-serial locally (<a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a>), or in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>
+(<a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>).</p>
+<p>There are currently 3 addon backends. <a class="reference internal" href="../api/backends.html#kfp-workflow"><span class="std std-ref">KFP Workflow</span></a> uses the
+<a class="reference external" href="https://www.kubeflow.org/docs/components/pipelines/v1/sdk/python-function-components/">KubeflowPipelines</a>
+SDK to deploy a Function Fuse DAG to run Nodes in containers on a
+Kubernetes/OpenShift cluster. <a class="reference internal" href="../api/backends.html#prefect-workflow"><span class="std std-ref">Prefect Workflow</span></a> uses the
+<a class="reference external" href="https://docs.prefect.io/2.10.18/">Prefect</a> python ecosystem to orchestrate
+running the workflow, and is an example
+of interfacing Function Fuse with a popular existing workflow package that
+provides a variety of different options out of the box that could be useful for
+users of Function Fuse. <a class="reference internal" href="../backends/addons/rayworkflow.html#ray-workflow-workflow"><span class="std std-ref">Ray Workflow Workflow</span></a>
+uses the Workflow components of the Ray (CodeFlare) package directly.
+These addon backends are all in an alpha stage of development and serve for
+demonstration purposes as an example for writing new backends based on existing
+libraries.</p>
+<p>Backends classes typically take workflow name to use in the data storage class.
+Here is an example of backend setup and run for the above workflow.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.localback</span> <span class="kn">import</span> <span class="n">LocalWorkflow</span>
+<span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
+
+<span class="n">local_workflow</span> <span class="o">=</span> <span class="n">LocalWorkflow</span><span class="p">(</span><span class="n">result_of_mult</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;operations&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;storage&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Addon backends can provide access to any features of existing packages, such as
+systems for tracking previous workflows and runs, and interactive dashboards -
+the images below show the same frontend run in the dashboards for Kubeflow
+(left) and Prefect (right):</p>
+<a class="reference internal image-reference" href="../_images/KFPDashboardRunResult.png"><img alt="KFPWorkflow Dashboard" src="../_images/KFPDashboardRunResult.png" style="width: 450px;" /></a>
+<a class="reference internal image-reference" href="../_images/PrefectBasicRun.png"><img alt="PrefectWorkflow Dashboard" src="../_images/PrefectBasicRun.png" style="width: 450px;" /></a>
+<section id="graph-visualization">
+<h3>Graph visualization<a class="headerlink" href="#graph-visualization" title="Link to this heading"></a></h3>
+<p>Backends can potentially be used for visualization and analysis - we have
+implemented one example of a backend for visualizing the Nodes in a DAG:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.graphback</span> <span class="kn">import</span> <span class="n">GraphWorkflow</span>
+
+<span class="n">graph_workflow</span> <span class="o">=</span> <span class="n">GraphWorkflow</span><span class="p">(</span><span class="n">result_of_mult</span><span class="p">,</span>
+                               <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;plot_graph&quot;</span><span class="p">,</span>
+                               <span class="n">doc_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">graph_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/GraphWorkflow.png"><img alt="Graph Workflow example" src="../_images/GraphWorkflow.png" style="width: 100px;" /></a>
+</section>
+</section>
+<section id="storage-and-analysis">
+<h2>Storage and Analysis<a class="headerlink" href="#storage-and-analysis" title="Link to this heading"></a></h2>
+<p>Intermediate execution of graph nodes can be saved to storage to restart
+execution, or for further analysis and visualization of results in e.g.
+Jupyter notebooks by loading workflow results.</p>
+<p>To read the data, we recreate the same storage object in a notebook:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
+
+<span class="n">the_workflow_name</span> <span class="o">=</span> <span class="s2">&quot;classifier&quot;</span>
+<span class="n">storage_path</span> <span class="o">=</span> <span class="s2">&quot;storage&quot;</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">storage_path</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To list existing saved node results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">all_tasks</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">list_tasks</span><span class="p">(</span><span class="n">workflow_name</span><span class="o">=</span><span class="n">the_workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All graph node names: &quot;</span><span class="p">,</span> <span class="n">all_tasks</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">list_tasks</span></code> returns the list of node names. To read specific saved node
+results (task) we use <code class="docutils literal notranslate"><span class="pre">read_task</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nodel_result</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">read_task</span><span class="p">(</span><span class="n">workflow_name</span><span class="o">=</span><span class="n">the_workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="o">=</span><span class="s2">&quot;node2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Link to this heading"></a></h2>
+<p>CodeFlare and other workflow packages assign different attributes to nodes of DAGs.
+For instance, CodeFlare sets Ray resources for execution of functions remotely.
+However, the frontend does not support such functionality. Instead, attributes
+of nodes are set in the backend.
+In the backend, we query nodes by their names, assign different attributes and
+perform operations on selected nodes.
+An example is setting resources for <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a> backend:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ray_workflow</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;^model$&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_remote_args</span><span class="p">({</span><span class="s2">&quot;num_cpus&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_model&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>Here, we query nodes using RegExp pattern and assing resources to all nodes
+that match the pattern. In many cases the frontend designer is aware that
+certain resources are required for node execution (e.g. GPUs), and may provide
+a map of node names to resource types to guide resource assignment in
+the backend.</p>
+</section>
+<section id="serializers">
+<h2>Serializers<a class="headerlink" href="#serializers" title="Link to this heading"></a></h2>
+<p>Backends can make use of different types of storage, including local file systems,
+storage assigned to specific remote machines in a Ray server using Ray custom
+resources, or we have implemented access to S3 storage. Certain types of object
+might require different methods of serialization and deserialization. For that,
+we have included the ability to add custom <a class="reference internal" href="../serializers/serializers.html#serializers"><span class="std std-ref">Serializers</span></a>
+to backend storage. For example, currently we have implemented a
+serializer for <a class="reference external" href="https://docs.dask.org/en/stable/array.html">Dask Arrays</a> that
+facilitates access to large arrays using distributed files such as HDF5 or Zarr.</p>
+</section>
+<section id="stateful-nodes">
+<h2>Stateful Nodes<a class="headerlink" href="#stateful-nodes" title="Link to this heading"></a></h2>
 <p>To make stateful nodes, we apply the <code class="docutils literal notranslate"><span class="pre">&#64;workflow</span></code> decorator to classes. Nodes
 can be arguments of constructors and methods of decorated clasess:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse</span> <span class="kn">import</span> <span class="n">workflow</span>
@@ -317,120 +444,6 @@ can be arguments of constructors and methods of decorated clasess:</p>
 }" class="graphviz" /></div>
 <p>Note that edges between methods of the same class instance are generated automatically
 to produce a chain of sequentially called methods.</p>
-<p>To run a DAG, we need one of the backends.</p>
-</section>
-<section id="backends">
-<h2>Backends<a class="headerlink" href="#backends" title="Permalink to this heading"></a></h2>
-<p>Backends take as an input one or several nodes of the graph and run the workflow.</p>
-<p>There are two types of backends, built-in and addons. Built-ins are implemented
-entirely in the Function Fuse package, whereas addons leverage other existing
-packages that might help manage or run workflows.</p>
-<p>Two built-in backends to Function Fuse package are designed to run workflow
-in-serial locally (<a class="reference internal" href="../api/backends.html#local-workflow"><span class="std std-ref">Local Workflow</span></a>), or in-parallel with <a class="reference external" href="https://www.ray.io/">Ray</a>
-(<a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a>).</p>
-<p>There are currently 3 addon backends. <a class="reference internal" href="../api/backends.html#kfp-workflow"><span class="std std-ref">KFP Workflow</span></a> uses the
-<a class="reference external" href="https://www.kubeflow.org/docs/components/pipelines/v1/sdk/python-function-components/">KubeflowPipelines</a>
-SDK to deploy a Function Fuse DAG to run Nodes in containers on a
-Kubernetes/OpenShift cluster. <a class="reference internal" href="../api/backends.html#prefect-workflow"><span class="std std-ref">Prefect Workflow</span></a> uses the
-<a class="reference external" href="https://docs.prefect.io/2.10.18/">Prefect</a> python ecosystem to orchestrate
-running the workflow, and is an example
-of interfacing Function Fuse with a popular existing workflow package that
-provides a variety of different options out of the box that could be useful for
-users of Function Fuse. <a class="reference internal" href="../backends/addons/rayworkflow.html#ray-workflow-workflow"><span class="std std-ref">Ray Workflow Workflow</span></a>
-uses the Workflow components of the Ray (CodeFlare) package directly.
-These addon backends are all in an alpha stage of development.</p>
-<p>Backends classes typically take workflow name to use in the data storage class.
-Here is an example of backend setup and run for the above workflow.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.localback</span> <span class="kn">import</span> <span class="n">LocalWorkflow</span>
-<span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
-
-<span class="n">local_workflow</span> <span class="o">=</span> <span class="n">LocalWorkflow</span><span class="p">(</span><span class="n">result_of_mult</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;operations&quot;</span><span class="p">)</span>
-<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;storage&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
-<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Addon backends can provide access to any features of existing packages, such as
-systems for tracking previous workflows and runs, and interactive dashboards -
-the images below show the same frontend run in the dashboards for Kubeflow
-(left) and Prefect (right):</p>
-<a class="reference internal image-reference" href="../_images/KFPDashboardRunResult.png"><img alt="KFPWorkflow Dashboard" src="../_images/KFPDashboardRunResult.png" style="width: 450px;" /></a>
-<a class="reference internal image-reference" href="../_images/PrefectBasicRun.png"><img alt="PrefectWorkflow Dashboard" src="../_images/PrefectBasicRun.png" style="width: 450px;" /></a>
-<section id="graph-visualization">
-<h3>Graph visualization<a class="headerlink" href="#graph-visualization" title="Permalink to this heading"></a></h3>
-<p>Backends can potentially be used for visualization and analysis - we have
-implemented one example of a backend for visualizing the Nodes in a DAG:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.backends.builtin.graphback</span> <span class="kn">import</span> <span class="n">GraphWorkflow</span>
-
-<span class="n">graph_workflow</span> <span class="o">=</span> <span class="n">GraphWorkflow</span><span class="p">(</span><span class="n">result_of_mult</span><span class="p">,</span>
-                               <span class="n">workflow_name</span><span class="o">=</span><span class="s2">&quot;plot_graph&quot;</span><span class="p">,</span>
-                               <span class="n">doc_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="n">graph_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-</div>
-<a class="reference internal image-reference" href="../_images/GraphWorkflow.png"><img alt="Graph Workflow example" src="../_images/GraphWorkflow.png" style="width: 100px;" /></a>
-</section>
-</section>
-<section id="storage-and-analysis">
-<h2>Storage and Analysis<a class="headerlink" href="#storage-and-analysis" title="Permalink to this heading"></a></h2>
-<p>The workflows are used to prepare data and to train ML models. Further analysis
-and visualization can be performed in Jupyter Notebooks by loading workflow results.
-We read results of node execution from the storage, and can run the trained models
-on testing data and create pictures.</p>
-<p>To read the data, we recreate the same storage object in a notebook:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functionfuse.storage</span> <span class="kn">import</span> <span class="n">storage_factory</span>
-
-<span class="n">the_workflow_name</span> <span class="o">=</span> <span class="s2">&quot;classifier&quot;</span>
-<span class="n">storage_path</span> <span class="o">=</span> <span class="s2">&quot;storage&quot;</span>
-<span class="n">opt</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">storage_path</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-<span class="n">storage</span> <span class="o">=</span> <span class="n">storage_factory</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>To list existing saved node results:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">all_tasks</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">list_tasks</span><span class="p">(</span><span class="n">workflow_name</span><span class="o">=</span><span class="n">the_workflow_name</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All graph node names: &quot;</span><span class="p">,</span> <span class="n">all_tasks</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">list_tasks</span></code> returns the list of node names. To read specific saved node results (task):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nodel_result</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">read_task</span><span class="p">(</span><span class="n">workflow_name</span><span class="o">=</span><span class="n">the_workflow_name</span><span class="p">,</span> <span class="n">task_name</span><span class="o">=</span><span class="s2">&quot;node2&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="queries">
-<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this heading"></a></h2>
-<p>CodeFlare and other workflow packages assign different attributes to nodes of DAGs.
-For instance, CodeFlare sets Ray resources for execution of functions remotely.
-However, the frontend does not support such functionality. Instead, attributes
-of nodes are set in the backend.
-In the backend, we query nodes by their names, assign different attributes and
-perform operations on selected nodes.
-An example is setting resources for <a class="reference internal" href="../api/backends.html#ray-workflow"><span class="std std-ref">Ray Workflow</span></a> backend:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ray_workflow</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;^model$&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_remote_args</span><span class="p">({</span><span class="s2">&quot;num_cpus&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;_model&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}})</span>
-</pre></div>
-</div>
-<p>Here, we query nodes using RegExp pattern and assing resources to all nodes that match the pattern.</p>
-</section>
-<section id="serializers">
-<h2>Serializers<a class="headerlink" href="#serializers" title="Permalink to this heading"></a></h2>
-<p>Backends can make use of different types of storage, including local file systems,
-storage assigned to specific remote machines in a Ray server using Ray custom
-resources, or we have implemented access to S3 storage. Certain types of object
-might require different methods of serialization and deserialization. For that,
-we have included the ability to add custom <a class="reference internal" href="../serializers/serializers.html#serializers"><span class="std std-ref">Serializers</span></a>
-to backend storage. For example, currently we have implemented a
-serializer for <a class="reference external" href="https://docs.dask.org/en/stable/array.html">Dask Arrays</a> that
-facilitates access to large arrays using distributed files such as HDF5 or Zarr.</p>
 </section>
 </section>
 
@@ -439,7 +452,7 @@ facilitates access to large arrays using distributed files such as HDF5 or Zarr.
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../usage/installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="background.html" class="btn btn-neutral float-right" title="Background Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../backends/backends.html" class="btn btn-neutral float-right" title="Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
