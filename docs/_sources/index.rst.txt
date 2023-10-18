@@ -17,8 +17,6 @@ Welcome to Function Fuse's documentation!
    storage/storage
    serializers/serializers
    api/api
-   deployment/deployment
-   futuredirections/futuredirections
    
 
 Indices and tables
