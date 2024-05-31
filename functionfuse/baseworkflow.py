@@ -1,5 +1,6 @@
-from .workflow import NodeItem 
+from .workflow import NodeItem
 import re
+
 
 def _find_roots(nodes):
     roots = set()
@@ -19,7 +20,6 @@ def _find_roots(nodes):
 
 
 class BaseWorkflow:
-
     def __init__(self, *nodes, workflow_name):
         self.workflow_name = workflow_name
         leaves = []
@@ -45,19 +45,16 @@ class BaseWorkflow:
                         node.reset_ready_parents()
             roots = new_roots
 
-    def find_nodes(self, pattern = None):
-        
+    def find_nodes(self, pattern=None):
         if pattern is None:
             return [node for _, node in self.graph_traversal()]
-        
-        pattern = re.compile(pattern) 
+
+        pattern = re.compile(pattern)
         res = []
         for name, node in self.graph_traversal():
             if pattern.fullmatch(name):
                 res.append(node)
         return res
-    
+
     def replace_func(self, node, new_func):
         node.func = new_func
-
-    

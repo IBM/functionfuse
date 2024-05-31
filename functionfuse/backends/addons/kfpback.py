@@ -1,5 +1,4 @@
 from ...baseworkflow import BaseWorkflow
-from ...workflow import _test_func_node
 
 from collections import OrderedDict
 
@@ -10,17 +9,22 @@ from kfp.components import create_component_from_func, InputBinaryFile, OutputBi
 from kubernetes.client.models import V1EnvVar
 from kubernetes.client import V1LocalObjectReference
 
-def generate_function(args: dict) -> callable:
 
+def generate_function(args: dict) -> callable:
     import inspect
 
-    def exec_func(output_file: OutputBinaryFile(bytes),
-                  calling_file: str,
-                  args_sub_indices: dict,
-                  kargs_sub_indices: dict,
-                  *args,
-                  **kargs):
-        import os, pickle, io, sys
+    def exec_func(
+        output_file: OutputBinaryFile(bytes),
+        calling_file: str,
+        args_sub_indices: dict,
+        kargs_sub_indices: dict,
+        *args,
+        **kargs,
+    ):
+        import os
+        import pickle
+        import io
+        import sys
 
         HERE = os.path.dirname(os.path.abspath(calling_file))
         sys.path.insert(0, HERE)
@@ -31,7 +35,7 @@ def generate_function(args: dict) -> callable:
             if key.startswith("ffarg"):
                 ffargs_keys.append(key)
                 args.append(val)
-        
+
         [kargs.pop(k) for k in ffargs_keys]
 
         ffargs = []
@@ -65,6 +69,7 @@ def generate_function(args: dict) -> callable:
 
         # Run the function by importing the file with workflow.run original call
         from importlib import import_module
+
         import_module(calling_file)
 
         # Get result from os module
@@ -72,45 +77,56 @@ def generate_function(args: dict) -> callable:
         print(result)
         pickle.dump(result, output_file)
 
-    args.update({'output_file': OutputBinaryFile(bytes),
-                 'calling_file': str,
-                 'args_sub_indices': dict,
-                 'kargs_sub_indices': dict})
-    
-    params = [inspect.Parameter(param,
-                                    inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                                    annotation=type_)
-                            for param, type_ in args.items()]
-    
+    args.update(
+        {
+            "output_file": OutputBinaryFile(bytes),
+            "calling_file": str,
+            "args_sub_indices": dict,
+            "kargs_sub_indices": dict,
+        }
+    )
+
+    params = [
+        inspect.Parameter(
+            param, inspect.Parameter.POSITIONAL_OR_KEYWORD, annotation=type_
+        )
+        for param, type_ in args.items()
+    ]
+
     exec_func.__signature__ = inspect.Signature(params)
     exec_func.__annotations__ = args
 
     return exec_func
-    
+
 
 class KFPWorkflow(BaseWorkflow):
     """
-    A Backend to run workflows on Kubeflow Pipelines. 
+    A Backend to run workflows on Kubeflow Pipelines.
 
     :param nodes: A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.
     :param workflow_name: A name of the workflow that is used by storage classes.
     :param baseimage: The container image to use as the base that the KFP component execution image will be built on top of.
     :param registry_credentials: A dictionary of credential information for accessing a private container registry, if necessary.
-                                 
-    Available fields: 
-        
+
+    Available fields:
+
     server: address to the registry server
-        
+
     username: as would be used for docker login
-    
+
     password: as would be used for docker login
     :param kfp_host: address to the Kubeflow Pipelines host API, to connect the KFP Client
     """
-    def __init__(self, *nodes, workflow_name,
-                 baseimage="python",
-                 registry_credentials={},
-                 kfp_host="http://localhost:3000"):
-        super(KFPWorkflow, self).__init__(*nodes, workflow_name = workflow_name)
+
+    def __init__(
+        self,
+        *nodes,
+        workflow_name,
+        baseimage="python",
+        registry_credentials={},
+        kfp_host="http://localhost:3000",
+    ):
+        super(KFPWorkflow, self).__init__(*nodes, workflow_name=workflow_name)
         self.object_storage = None
         self.baseimage = baseimage
         self.registry_credentials = registry_credentials
@@ -121,13 +137,13 @@ class KFPWorkflow(BaseWorkflow):
         Set credentials to access a private container registry.
 
         :param registry_credentials: A dictionary of credential information for accessing a private container registry, if necessary.
-                                 
-        Available fields: 
-            
+
+        Available fields:
+
         server: address to the registry server
-            
+
         username: as would be used for docker login
-        
+
         password: as would be used for docker login
         """
         self.registry_credentials = registry_credentials
@@ -171,9 +187,10 @@ class KFPWorkflow(BaseWorkflow):
         Start execution of the workflow
         """
 
-        # Check environment to see if we should call a function, or build the 
+        # Check environment to see if we should call a function, or build the
         # pipeline:
         import os
+
         fffunction = os.getenv("FFFUNCTION")
         if fffunction:
             ffargs = os.ffargs
@@ -186,13 +203,13 @@ class KFPWorkflow(BaseWorkflow):
                     os.ffresult = result
                     return result
         else:
-
             import inspect, os, subprocess
+
             calling_file = (inspect.stack()[1])[1]
             # print(f"KFP Workflow Run -- calling_file: {calling_file}")
-            calling_folder = os.path.dirname(calling_file)
+            os.path.dirname(calling_file)
             # print(f"KFP Workflow Run -- calling_folder: {calling_folder}")
-            calling_file_trim = calling_file.split('/')[-1].split('.')[0]
+            calling_file_trim = calling_file.split("/")[-1].split(".")[0]
             # print(f"KFP Workflow Run -- calling_file_trim: {calling_file_trim}")
 
             # Create image from base + calling folder
@@ -201,10 +218,12 @@ class KFPWorkflow(BaseWorkflow):
                 f.write("WORKDIR /ffrun\n")
                 # f.write(f"ADD {calling_folder} /ffrun/\n")
                 # Calling folder might be outside scope of docker build, so for now resort to cwd
-                f.write(f"ADD . /ffrun/\n")
+                f.write("ADD . /ffrun/\n")
 
             if "server" in self.registry_credentials:
-                image_name = f"{self.registry_credentials['server']}/{self.workflow_name}"
+                image_name = (
+                    f"{self.registry_credentials['server']}/{self.workflow_name}"
+                )
             else:
                 image_name = f"{self.workflow_name}"
             build_cmd = ["docker", "build", "-t", f"{image_name}", "."]
@@ -213,22 +232,29 @@ class KFPWorkflow(BaseWorkflow):
 
             # Login to docker registry
             if self.registry_credentials:
-                username = self.registry_credentials['username'] if 'username' in self.registry_credentials.keys() else None
-                password = self.registry_credentials['password'] if 'password' in self.registry_credentials.keys() else None
+                username = (
+                    self.registry_credentials["username"]
+                    if "username" in self.registry_credentials.keys()
+                    else None
+                )
+                password = (
+                    self.registry_credentials["password"]
+                    if "password" in self.registry_credentials.keys()
+                    else None
+                )
                 login_cmd = ["docker", "login"]
                 if username:
                     login_cmd.extend(["--username", username])
-                if (username and password):
+                if username and password:
                     login_cmd.extend(["--password", password])
-                login_cmd.extend([self.registry_credentials['server']])
+                login_cmd.extend([self.registry_credentials["server"]])
                 login_process = subprocess.Popen(login_cmd)
                 login_process.wait()
-            
+
             # push new image for retrieval by KFP
             push_cmd = ["docker", "push", f"{image_name}"]
             push_process = subprocess.Popen(push_cmd)
             push_process.wait()
-
 
             # Traverse the graph, creating ops from functions
             for name, exec_node in self.graph_traversal():
@@ -252,30 +278,31 @@ class KFPWorkflow(BaseWorkflow):
                     kargs_types[key] = InputBinaryFile(bytes)
 
                 exec_func = generate_function(kargs_types)
-                # Can change name of execution function to the name of the Node, 
-                # but that might not work if a Node name that can't be used as 
+                # Can change name of execution function to the name of the Node,
+                # but that might not work if a Node name that can't be used as
                 # a python function name is set
                 # exec_func.__name__ = name
                 # exec_func.__qualname__ = name
 
-                exec_node.set_backend_info('exec_func', exec_func)
-                packages_to_install = ['kfp==1.8.22', 'kubernetes']
-                exec_op = create_component_from_func(exec_func,
-                                                     base_image=image_name,
-                                                     packages_to_install=packages_to_install)
+                exec_node.set_backend_info("exec_func", exec_func)
+                packages_to_install = ["kfp==1.8.22", "kubernetes"]
+                exec_op = create_component_from_func(
+                    exec_func,
+                    base_image=image_name,
+                    packages_to_install=packages_to_install,
+                )
                 exec_op.component_spec.name = name
                 # exec_string = exec_op.component_spec.implementation.container.command[-1]
                 # exec_string = exec_string.replace('exec_func', name)
                 # exec_op.component_spec.implementation.container.command[-1] = exec_string
-                exec_node.set_backend_info('op', exec_op)
+                exec_node.set_backend_info("op", exec_op)
 
             @dsl.pipeline(name=self.workflow_name)
             def workflow_pipeline():
-                
                 dsl.get_pipeline_conf().set_image_pull_secrets(
                     [V1LocalObjectReference(name="regcred")]
-                    )
-                
+                )
+
                 for name, exec_node in self.graph_traversal():
                     args = list(exec_node.args)
                     kargs = exec_node.kargs.copy()
@@ -285,30 +312,28 @@ class KFPWorkflow(BaseWorkflow):
                         args[index] = node.result.output
                         if val_index is not None:
                             args_sub_indices.__setitem__(index, val_index)
-                            
+
                     for key, (node, val_index) in exec_node.karg_keys:
                         kargs[key] = node.result.output
                         if val_index is not None:
                             kargs_sub_indices.__setitem__(key, val_index)
 
-                    print(exec_node.backend_info['op'].component_spec)
+                    print(exec_node.backend_info["op"].component_spec)
 
-                    exec_node.result = exec_node.backend_info['op'](
+                    exec_node.result = exec_node.backend_info["op"](
                         calling_file=calling_file_trim,
                         args_sub_indices=args_sub_indices,
                         kargs_sub_indices=kargs_sub_indices,
                         *args,
-                        **kargs
-                        ).add_env_variable(V1EnvVar(name="FFFUNCTION",
-                                                    value=name))
-                    
+                        **kargs,
+                    ).add_env_variable(V1EnvVar(name="FFFUNCTION", value=name))
+
                 # Need a different way of returning results
                 # if len(self.leaves) == 1:
                 #     return self.leaves[0].result
-            
+
                 # result = [i.result for i in self.leaves]
                 # return result
 
         client = kfp.Client(host=self.kfp_host)
-        client.create_run_from_pipeline_func(workflow_pipeline,
-                                             arguments={})
+        client.create_run_from_pipeline_func(workflow_pipeline, arguments={})

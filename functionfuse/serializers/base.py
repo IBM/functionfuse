@@ -1,5 +1,6 @@
 import uuid
 
+
 def generate_name():
     filename = str(uuid.uuid4())
     return filename

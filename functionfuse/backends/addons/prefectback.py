@@ -3,6 +3,7 @@ from ...workflow import _test_arg, _test_func_node
 from prefect import task, flow, task_runners
 from prefect.futures import PrefectFuture
 
+
 def substitute_args(arg_index, karg_keys, args, kargs):
     for index, val_index in arg_index:
         if val_index is None:
@@ -18,15 +19,18 @@ def substitute_args(arg_index, karg_keys, args, kargs):
 
     return arg_index, karg_keys, args, kargs
 
+
 def exec_func(task_args, func, arg_index, karg_keys, args, kargs):
-    
     # if plugin_func is not None:
     #     plugin_func()
 
-    arg_index, karg_keys, args, kargs = substitute_args(arg_index, karg_keys, args, kargs)
+    arg_index, karg_keys, args, kargs = substitute_args(
+        arg_index, karg_keys, args, kargs
+    )
 
     func = task(func, **task_args)
     return func.submit(*args, **kargs)
+
 
 def _test_print_node(node):
     return "print" not in node.backend_info
@@ -35,7 +39,7 @@ def _test_print_node(node):
 class Query:
     """
     The class allows to set attributes to sets of nodes. Contains list of nodes returned by query.
-    
+
     """
 
     def __init__(self, nodes, workflow):
@@ -45,10 +49,10 @@ class Query:
     # def set_plugin(self, plugin):
     #     for i in self.nodes:
     #         i.backend_info["plugin"] = plugin
-    
+
     def set_task_args(self, args):
         """
-        Set arguments for task definition in Prefect. 
+        Set arguments for task definition in Prefect.
 
         :param args: Dictionary with arguments of a prefect.task call
         :type args: dict
@@ -62,19 +66,19 @@ class Query:
 
 class PrefectWorkflow(BaseWorkflow):
     """
-    A Backend to run workflows through Prefect. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.  
+    A Backend to run workflows through Prefect. To store node results, use local storage. The storage for this class could be created by functionfuse.storage.storage_factory.
 
     :param nodes: A list of DAG nodes. The backend finds all DAG roots that are ancestors of the nodes and executes graph starting from that roots traversing all descendend nodes.
     :param workflow_name: A name of the workflow that is used by storage classes.
-    
+
     """
 
     def __init__(self, *nodes, workflow_name):
-        super(PrefectWorkflow, self).__init__(*nodes, workflow_name = workflow_name)
+        super(PrefectWorkflow, self).__init__(*nodes, workflow_name=workflow_name)
         self.object_storage = None
         self.prefect_flow_options = {}
         self.flow = None
-    
+
     def set_storage(self, object_storage):
         """
         Set storage for the workflow.
@@ -111,7 +115,7 @@ class PrefectWorkflow(BaseWorkflow):
 
         return self.flow()
 
-    def query(self, pattern = None):
+    def query(self, pattern=None):
         """
         Query nodes of the graph by regexp pattern.
 
@@ -127,8 +131,10 @@ class PrefectWorkflow(BaseWorkflow):
         Create the flow from the nodes in the graph.
         Separating this from run allows deploy() option within Prefect server
         """
-        prefect_flow_options = {"name": self.workflow_name,
-                                "task_runner": task_runners.SequentialTaskRunner()}
+        prefect_flow_options = {
+            "name": self.workflow_name,
+            "task_runner": task_runners.SequentialTaskRunner(),
+        }
         prefect_flow_options.update(self.prefect_flow_options)
 
         @flow(**prefect_flow_options)
@@ -165,15 +171,18 @@ class PrefectWorkflow(BaseWorkflow):
                 if "task_args" in backend_info:
                     task_args = backend_info["task_args"]
 
-                result = exec_func(task_args, exec_node.func, 
-                                   arg_index, karg_keys, args, kargs)
+                result = exec_func(
+                    task_args, exec_node.func, arg_index, karg_keys, args, kargs
+                )
                 exec_node.result = result
                 exec_node.free_memory()
 
                 if self.object_storage and func_node and _test_print_node(exec_node):
                     save_objects.append((name, result))
                     if self.object_storage.always_read:
-                        exec_node.result = self.object_storage.read_task(self.workflow_name, name)
+                        exec_node.result = self.object_storage.read_task(
+                            self.workflow_name, name
+                        )
 
             for so in save_objects:
                 if isinstance(so[1], PrefectFuture):
@@ -187,12 +196,12 @@ class PrefectWorkflow(BaseWorkflow):
                             to_save.append(i)
                 else:
                     to_save = so[1]
-                    
+
                 self.object_storage.save(self.workflow_name, so[0], to_save)
 
             if len(self.leaves) == 1:
                 nodearg = _test_arg(self.leaves[0])
-                if nodearg[1] == None:
+                if nodearg[1] is None:
                     if isinstance(nodearg[0].result, PrefectFuture):
                         result = nodearg[0].result.result()
                     else:
@@ -203,11 +212,11 @@ class PrefectWorkflow(BaseWorkflow):
                     else:
                         result = nodearg[0].result[nodearg[1]]
                 return result
-            
+
             result = []
             for i in self.leaves:
                 nodearg = _test_arg(i)
-                if nodearg[1] == None:
+                if nodearg[1] is None:
                     if isinstance(nodearg[0].result, PrefectFuture):
                         result.append(nodearg[0].result.result())
                     else:
@@ -219,5 +228,5 @@ class PrefectWorkflow(BaseWorkflow):
                         result.append(nodearg[0].result[nodearg[1]])
 
             return result
-        
+
         self.flow = prefect_flow
